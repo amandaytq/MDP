@@ -1,7 +1,12 @@
 package com.mdp;
 
+import android.app.Activity;
 import android.app.Application;
+import android.bluetooth.BluetoothDevice;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.util.Log;
 
 /**
@@ -10,6 +15,11 @@ import android.util.Log;
 
 public class MainApplication extends Application {
     private static final String TAG = MainApplication.class.getSimpleName();;
+    public static final String receiveCommand = "com.mdp.RECEIVECOMMAND";
+    public static final String connectionSuccessCommand = "com.mdp.CONNECTIONSUCCESSFUL";
+    public static final String connectionFailCommand = "com.mdp.CONNECTIONFAIL";
+    public static final String disconnectedCommand = "com.mdp.DISCONNECTED";
+    public static final String reconnectedCommand = "com.mdp.RECONNECTED";
     private static MainApplication sInstance;
 
     private static BluetoothConnectionService mBluetoothConnection = null;
@@ -28,7 +38,15 @@ public class MainApplication extends Application {
         mBluetoothConnection = new BluetoothConnectionService(mContext);
     }
 
+    public static void setCurrentActivity(Activity a){
+        mBluetoothConnection.setCurrentActivity(a);
+    }
+
     public static BluetoothConnectionService getBTConnection(){
         return mBluetoothConnection;
     }
+
+    public static void handleDisconnect(){
+        mBluetoothConnection.handleDisconnection();
+    };
 }

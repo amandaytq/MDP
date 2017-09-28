@@ -27,7 +27,7 @@
         <activity android:name=".BluetoothActivity"
             android:label="Bluetooth"
             android:parentActivityName="com.mdp.MainActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="landscape">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data

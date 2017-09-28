@@ -289,4 +289,8 @@ public class MapHandler {
         }
     }
 
+    public boolean botSet(){
+        return robotPos.length > 1;
+    }
+
 }
