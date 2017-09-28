@@ -2,139 +2,22 @@
 <items version="2" >
 
     <item
-        is-multidex="false"
-        jar="/Users/Amandaaa/.android/build-cache/c0422d9a965c8a5860c5e66932cd8915047f6ac2/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="052f5f840f21174a3ecf6544130194e2652cbb73">
-        <dex dex="/Users/Amandaaa/Desktop/MDP_Android/MDP/app/build/intermediates/pre-dexed/debug/classes_92e36a5fc7baf7a4edb76e91d36f13c5b92f69d6.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/Amandaaa/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/25.3.1/support-annotations-25.3.1.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="bf8841d29fa39e077730e7a91222c2ce269fa7c9">
-        <dex dex="/Users/Amandaaa/Desktop/MDP_Android/MDP/app/build/intermediates/pre-dexed/debug/support-annotations-25.3.1_b9c0d17b9f55b8e173d8af8b71d0ca2f91edec7f.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/Amandaaa/.android/build-cache/c997f8baec4ff65fa58556d6163d0d015f6c2091/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="914f5d3e3ace66080e59613708f06d129a222e25">
-        <dex dex="/Users/Amandaaa/Desktop/MDP_Android/MDP/app/build/intermediates/pre-dexed/debug/classes_a429dd4f2dedf4b519b40302a7f790efcc8ed8c0.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/Amandaaa/.android/build-cache/7a385e50b01446d801c599473a20a02f75a5928e/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="efb8cb62d47d157c29d1521daac7eefd4cb881ee">
-        <dex dex="/Users/Amandaaa/Desktop/MDP_Android/MDP/app/build/intermediates/pre-dexed/debug/classes_39476b9782f7a4175da4e85e0e432973d27ad755.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/Amandaaa/.android/build-cache/4320a1ff8dba19c06f8f88a68ee5fafaa6bc71d5/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="150252b33b00274cc868578ade018fda0d43a3eb">
-        <dex dex="/Users/Amandaaa/Desktop/MDP_Android/MDP/app/build/intermediates/pre-dexed/debug/classes_fad7b90b8c694a14f8014624696cb4b81d16d4f7.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/Amandaaa/.android/build-cache/8a056470089c9569182f9d1c2b72d03912eaa00e/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="da27a32db6af8954ee8061537c7d476fcb1df46f">
-        <dex dex="/Users/Amandaaa/Desktop/MDP_Android/MDP/app/build/intermediates/pre-dexed/debug/classes_83e9359a8ab1af9215aab148030a7200f98db31a.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/Amandaaa/.android/build-cache/c9dbb51e8e6129ada60800c6890a9d6555babbdf/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="47635644d0d5c103c1dd8360549eb9ba3225c7d3">
-        <dex dex="/Users/Amandaaa/Desktop/MDP_Android/MDP/app/build/intermediates/pre-dexed/debug/classes_6ec21766476ebe4eb91992f800e565f40ea8c1b3.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/Amandaaa/.android/build-cache/536668225637858a3b6911bac9e15ed6589b26f1/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="45f697922e6f072daa12f8a2995dc77ab03c11da">
-        <dex dex="/Users/Amandaaa/Desktop/MDP_Android/MDP/app/build/intermediates/pre-dexed/debug/classes_5f52297edd1724dccd562d8b1934c080bf413224.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/Amandaaa/.android/build-cache/09cb985ee701b88fff02bd6c42b40035af9e31da/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="6ef31f1555bb4cc513ec8d52711365a8b89f3600">
-        <dex dex="/Users/Amandaaa/Desktop/MDP_Android/MDP/app/build/intermediates/pre-dexed/debug/classes_74cb43def6a57925eeb9bde10fd6ae5fe3ebb483.jar" />
-    </item>
-    <item
         is-multidex="true"
-        jar="/Users/Amandaaa/Desktop/MDP_Android/MDP/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jar="D:\AndroidGitProject\MDP\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
-        <dex dex="/Users/Amandaaa/Desktop/MDP_Android/MDP/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_77473ba8dc971c0cb691b681ee8d3ac5b66ae07c/classes.dex" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/Amandaaa/.android/build-cache/20879db4930a38ded7465e84a7b0e4ce276f6ed2/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="4a26a1154d053ab11aaf4c3967c42a4d66390991">
-        <dex dex="/Users/Amandaaa/Desktop/MDP_Android/MDP/app/build/intermediates/pre-dexed/debug/classes_e2f5cc796a7007c4a3437043a4875fec981ecd35.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/Amandaaa/Library/Android/sdk/extras/m2repository/com/android/support/constraint/constraint-layout-solver/1.0.2/constraint-layout-solver-1.0.2.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="b9cd8fc6bd15cb915735d34535db30ece0c44603">
-        <dex dex="/Users/Amandaaa/Desktop/MDP_Android/MDP/app/build/intermediates/pre-dexed/debug/constraint-layout-solver-1.0.2_ac07f3807d9e50811a9b4d39148d88fa343f9259.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/Amandaaa/.android/build-cache/5c1f16a87c2023b097c998ed3b0a9452274587df/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
-        <dex dex="/Users/Amandaaa/Desktop/MDP_Android/MDP/app/build/intermediates/pre-dexed/debug/classes_4c082f4de87c711708ea4cdd9c52704550e411f4.jar" />
+        sha1="d061f922aadec1052aad2aece893ec0765a79667">
+        <dex dex="D:\AndroidGitProject\MDP\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_223649db88e6810430b7f0f781b4cedb29ced96d\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="/Users/Amandaaa/Desktop/MDP_Android/MDP/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jar="D:\AndroidGitProject\MDP\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="2872744c8fa624a6eb5f3f9ffaf198d2bb6cd324">
-        <dex dex="/Users/Amandaaa/Desktop/MDP_Android/MDP/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_7a73371e11e97fa34c62445221caab9cb8b18cbc/classes.dex" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/Amandaaa/.android/build-cache/c559b3a213544248e9116367d67168bd5ab72103/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="44ee06abb66da30f5855e6bf54574e64cdcd982a">
-        <dex dex="/Users/Amandaaa/Desktop/MDP_Android/MDP/app/build/intermediates/pre-dexed/debug/classes_0630aa096758a01de1772bf00575729b6ae379c6.jar" />
+        sha1="c82741bc129dd5f99f11a4ab8666ae24262053b6">
+        <dex dex="D:\AndroidGitProject\MDP\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_c396a56431477e904a8a4b41d12fd89e2811292a\classes.dex" />
     </item>
 
 </items>

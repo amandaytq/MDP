@@ -1,11 +1,15 @@
 package com.mdp;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.util.Log;
 
 import java.io.IOException;
@@ -28,6 +32,8 @@ public class BluetoothConnectionService {
     private final BluetoothAdapter mBluetoothAdapter;
     Context mContext;
 
+    private Activity currentActivity;
+
     private String deviceName = "";
 
     private AcceptThread mInsecureAcceptThread;
@@ -41,7 +47,13 @@ public class BluetoothConnectionService {
     public BluetoothConnectionService(Context context){
         mContext = context;
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        mConnectThread = null;
+        mInsecureAcceptThread = null;
         start();
+    }
+
+    public void setCurrentActivity(Activity activity){
+        currentActivity = activity;
     }
 
     public boolean isConnected(){
@@ -142,6 +154,14 @@ public class BluetoothConnectionService {
                 //This is a locking call and will only return on a
                 //successful connection or an exception
                 mmSocket.connect();
+
+                //send intent to current Activity that connection is successful
+                Log.d(TAG, "Sending Intent");
+                Intent intent = new Intent();
+                intent.setAction(MainApplication.connectionSuccessCommand);
+                intent.putExtra("deviceId", mmDevice.getName() + "\n" + mmDevice.getAddress());
+                currentActivity.sendBroadcast(intent);
+
                 Log.d(TAG, "run: ConnectThread connected.");
             }catch(IOException e){
                 //close the socket
@@ -152,6 +172,13 @@ public class BluetoothConnectionService {
                     Log.d(TAG, "mConnectThread: run: Unable to close connection in socket "+ e1.getMessage());
                 }
                 Log.d(TAG, "run: ConnectThread: Could not connect to UUID: " + uuid);
+
+                //send intent to current Activity that connection is unsuccessful
+                Log.d(TAG, "Sending Intent");
+                Intent intent = new Intent();
+                intent.setAction(MainApplication.connectionFailCommand);
+                intent.putExtra("address", mmDevice.getAddress());
+                currentActivity.sendBroadcast(intent);
             }
 
             connected(mmSocket, mmDevice);
@@ -175,10 +202,10 @@ public class BluetoothConnectionService {
             mConnectThread.cancel();
             mConnectThread = null;
         }
-        if(mInsecureAcceptThread == null){
+        /*if(mInsecureAcceptThread == null){
             mInsecureAcceptThread = new AcceptThread();
             mInsecureAcceptThread.start();
-        }
+        }*/
     }
 
     /*
@@ -189,13 +216,15 @@ public class BluetoothConnectionService {
         Log.d(TAG, "startClient: Started");
 
         //if it is connected, close the previous connection
-        if(mConnectedThread.isConnected()){
-            mConnectThread.cancel();
-            mConnectedThread.cancel();
+        if(mConnectedThread != null){
+            if(mConnectedThread.isConnected()){
+                mConnectThread.cancel();
+                mConnectedThread.cancel();
+            }
         }
 
         //initProgress dialog
-        mProgressDialog = ProgressDialog.show(mContext, "Connecting Bluetooth", "Please Wait......", true);
+        mProgressDialog = ProgressDialog.show(currentActivity, "Connecting Bluetooth", "Please Wait......", true);
 
         mConnectThread = new ConnectThread(device, uuid);
         mConnectThread.start();
@@ -244,6 +273,13 @@ public class BluetoothConnectionService {
                     bytes = mmInStream.read(buffer);
                     String incomingMessage = new String(buffer, 0, bytes);
                     Log.d(TAG, "InputStream: " + incomingMessage);
+
+                    //send command
+                    Intent intent = new Intent();
+                    intent.setAction(MainApplication.receiveCommand);
+                    intent.putExtra("command", incomingMessage);
+                    currentActivity.sendBroadcast(intent);
+
                 } catch (IOException e) {
                     Log.e(TAG, "read: Error Reading InputStream");
                     break;
@@ -270,6 +306,8 @@ public class BluetoothConnectionService {
         //Call this from the main activity to shutdown the connection
         public void cancel(){
             try{
+                mmInStream.close();
+                mmOutStream.close();
                 mmSocket.close();
             }catch(IOException e){
                 e.printStackTrace();
@@ -285,6 +323,10 @@ public class BluetoothConnectionService {
         mConnectedThread.start();
     }
 
+    public void closeConnection(){
+        mConnectedThread.cancel();
+    }
+
     /*
         Write to the ConnectedThread in an unsynchornized manner
      */
@@ -296,5 +338,16 @@ public class BluetoothConnectionService {
         Log.d(TAG, "write: write called");
         //perform the write
         mConnectedThread.write(out);
+    }
+
+    public void handleDisconnection(){
+        Log.d(TAG, "mBluetoothConnection: handle disconnection");
+        mConnectedThread.cancel();
+        //rerun connectThread
+        mConnectThread.cancel();
+        mConnectThread = null;
+        mConnectThread = new ConnectThread(mmDevice, uuid);
+        mConnectThread.run();
+
     }
 }

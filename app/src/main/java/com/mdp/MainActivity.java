@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -25,8 +27,6 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private TextView connect_text;
-
-    private boolean hasBT = false;
 
     private Button forward_btn;
     private Button left_btn;
@@ -41,16 +41,71 @@ public class MainActivity extends AppCompatActivity {
     private BroadcastReceiver bluetoothReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+        String action = intent.getAction();
+
+        if (action.equals(BluetoothAdapter.ACTION_STATE_CHANGED)) {
+            final int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE,
+                    BluetoothAdapter.ERROR);
+            switch (state) {
+                case BluetoothAdapter.STATE_TURNING_OFF:
+                    handleBluetooth();
+                    break;
+            }
+        }
+        }
+    };
+
+    //broadcast receiver to handle command receiving
+    private BroadcastReceiver commandReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
 
-            if (action.equals(BluetoothAdapter.ACTION_STATE_CHANGED)) {
-                final int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE,
-                        BluetoothAdapter.ERROR);
-                switch (state) {
-                    case BluetoothAdapter.STATE_TURNING_OFF:
-                        handleBluetooth();
+            if (action.equals(MainApplication.receiveCommand)) {
+                String command = intent.getStringExtra("command");
+                Log.d(TAG, "commandReceiver: Command " + command + " received.");
+                switch(command){
+                    default:
                         break;
                 }
+            }
+        }
+    };
+
+    //broadcast receiver to handle disconnection
+    /*private BroadcastReceiver disconnectReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+        }
+    };*/
+
+    private BroadcastReceiver disconnectReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            final String action = intent.getAction();
+
+            if (action.equals(BluetoothDevice.ACTION_ACL_DISCONNECTED)) {
+                Log.d(TAG, "disconnectReceiver: Received Disconnect Notice");
+                Toast.makeText(getBaseContext(), "Device disconnected, attempting to reconnect....", Toast.LENGTH_SHORT).show();
+                MainApplication.handleDisconnect();
+                handleBluetooth();
+                //register receiver to listen when reconnection is made
+                registerReceiver(reconnectedReceiver, new IntentFilter(MainApplication.reconnectedCommand));
+            }
+        }
+    };
+
+    //broadcast receiver to handle when reconnection is done
+    private BroadcastReceiver reconnectedReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (action.equals(MainApplication.reconnectedCommand)) {
+                Log.d(TAG, "reconnectedReceiver: Reconnected");
+
+                //unregister receiver
+                unregisterReceiver(reconnectedReceiver);
             }
         }
     };
@@ -64,7 +119,6 @@ public class MainActivity extends AppCompatActivity {
         //define variables
         final GridView gridview = (GridView) findViewById(R.id.gridview);
         gridview.setAdapter(new ImageAdapter(this));
-
 
         final GridView mapgridview = (GridView) findViewById(R.id.mapgridview);
         mapgridview.setAdapter(new MapImageAdapter(this));
@@ -84,19 +138,37 @@ public class MainActivity extends AppCompatActivity {
         forward_btn = (Button) findViewById(R.id.btn_top);
         forward_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                mapHandler.moveFront();
+
+                sendCommand(command_forward);
+                if(mapHandler.botSet()){
+                    mapHandler.moveFront();
+                }
             }
         });
         left_btn = (Button) findViewById(R.id.btn_left);
         left_btn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {mapHandler.setDirection(mapHandler.LEFT);
+            public void onClick(View v) {
+                sendCommand(command_left);
+                if(mapHandler.botSet()){
+                    mapHandler.setDirection(mapHandler.LEFT);
+                }
             }
         });
         right_btn = (Button) findViewById(R.id.btn_right);
         right_btn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) { mapHandler.setDirection(mapHandler.RIGHT);
+            public void onClick(View v) {
+                sendCommand(command_right);
+                if(mapHandler.botSet()){
+                    mapHandler.setDirection(mapHandler.RIGHT);
+                }
+
             }
         });
+
+        //init BTConnection from MainApplication
+        if(MainApplication.getBTConnection() == null){
+            MainApplication.initializeBTConnection(MainActivity.this);
+        }
 
         Button set_obs = (Button) findViewById(R.id.set_obs);
         set_obs.setOnClickListener(new View.OnClickListener() {
@@ -162,11 +234,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        registerReceiver(commandReceiver, new IntentFilter(MainApplication.receiveCommand));
+        registerReceiver(bluetoothReceiver, new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED));
+
+        registerReceiver(disconnectReceiver, new IntentFilter(BluetoothDevice.ACTION_ACL_DISCONNECTED));
     }
 
     public void sendCommand(String s){
-        byte[] bytes = s.getBytes(Charset.defaultCharset());
-        MainApplication.getBTConnection().write(bytes);
+        if(MainApplication.getBTConnection().isConnected()){
+            byte[] bytes = s.getBytes(Charset.defaultCharset());
+            MainApplication.getBTConnection().write(bytes);
+        }
+        else{
+            Toast.makeText(getBaseContext(), "Bluetooth Connection not established", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -175,6 +256,28 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d(TAG, "start: MainActivity");
         handleBluetooth();
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+
+        Log.d(TAG, "resume: MainActivity");
+        //reregister receivers
+        registerReceiver(commandReceiver, new IntentFilter(MainApplication.receiveCommand));
+        registerReceiver(bluetoothReceiver, new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED));
+
+        if(MainApplication.getBTConnection() != null){
+            MainApplication.setCurrentActivity(MainActivity.this);
+        }
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+
+        unregisterReceiver(commandReceiver);
+        unregisterReceiver(bluetoothReceiver);
     }
 
     @Override
@@ -187,17 +290,14 @@ public class MainActivity extends AppCompatActivity {
     public void handleBluetooth(){
         if(MainApplication.getBTConnection() != null){
             if(MainApplication.getBTConnection().isConnected() != false) {
-                hasBT = true;
-                connect_text.setText("Connected to: " + MainApplication.getBTConnection().getDeviceName());
+                connect_text.setText(MainApplication.getBTConnection().getDeviceName());
             }
             else{
-                hasBT = false;
                 Log.d(TAG, "BTConnection: Not Connected");
                 connect_text.setText("Not Connected");
             }
         }
         else{
-            hasBT = false;
             Log.d(TAG, "BTConnection: null");
             connect_text.setText("Not Connected");
         }
