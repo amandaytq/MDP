@@ -76,6 +76,36 @@
                         android:onClick="setStartPoint"
                         android:text="Set Start" />
 
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/f1_text" />
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/f1_save"
+                        android:text="Save F1"/>
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/f1_call"
+                        android:text="Call F1"/>
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/f2_text" />
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/f2_save"
+                        android:text="Save F2"/>
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/f2_call"
+                        android:text="Call F2"/>
+
                 </LinearLayout>
                 <Switch
                     android:id="@+id/switchbtn"
