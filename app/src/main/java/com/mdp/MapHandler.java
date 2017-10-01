@@ -169,11 +169,11 @@ public class MapHandler {
                 changeColor(v,YELLOW);
             }
         }else if(newstartpoint[0] != startpoint[0]){
-            for (int i=0; i<startpoint.length;i++) {
-                ImageView v2 = (ImageView) gv.getChildAt(startpoint[i]);
-                ImageView botv = (ImageView) mgv.getChildAt(robotPos[i]);
-                botv.setImageResource(0);
-                changeColor(v2, BLUE);
+            for (int i=0; i<gv.getChildCount();i++){
+                ImageView v1= (ImageView)gv.getChildAt(i);
+                ImageView v2= (ImageView)mgv.getChildAt(i);
+                v2.setImageResource(0);
+                changeColor(v1,BLUE);
             }
 
             for (int i=0; i<newstartpoint.length;i++){
@@ -199,6 +199,34 @@ public class MapHandler {
         v.setImageResource(0);
         if(index >=0)
             obsArrayList.remove(index);
+    }
+
+    public void setObsArr(int[][] arr) {
+        for (int y = 0; y < arr.length; y++) {
+            for (int x = 0; x < arr[y].length; x++) {
+                if(arr[y][x] == 1) {
+                    ImageView v = (ImageView) mgv.getChildAt(getPos(x, y));
+                    v.setImageResource(R.drawable.blue);
+                    changeColor(v, BLACK);
+                    obsArrayList.add(getPos(x, y));
+                }
+            }
+        }
+    }
+
+    public void removeObsArr (int[][] arr){
+        for (int y = 0; y < arr.length; y++) {
+            for (int x = 0; x < arr[x].length; x++) {
+                if(arr[x][y] == 1) {
+                    int index = obsArrayList.indexOf(getPos(x, y));
+                    ImageView v = (ImageView) mgv.getChildAt(getPos(x, y));
+                    v.setImageResource(0);
+                    if (index >= 0)
+                        obsArrayList.remove(index);
+                }
+            }
+        }
+
     }
 
     public void alertView(final Button btn, String title, String message, boolean choice, final int mode) {

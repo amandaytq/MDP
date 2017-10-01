@@ -36,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
     private static String command_right = "tr";
     private static String command_left = "tl";
 
+    private static int[][] arr = {{1,0}, {1,0}, {1,0}};
+
     private MapHandler mapHandler;
 
     private BroadcastReceiver bluetoothReceiver = new BroadcastReceiver() {
