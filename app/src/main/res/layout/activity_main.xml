@@ -28,7 +28,8 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:id="@+id/linearLayout">
                     <LinearLayout
                         android:paddingTop="5dp"
                         android:layout_width="match_parent"
@@ -106,6 +107,13 @@
                         android:text="Call F2"/>
 
                 </LinearLayout>
+                <Switch
+                    android:id="@+id/switchbtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/btn_top"
+                    android:layout_alignEnd="@+id/linearLayout"
+                    android:text="Auto" />
 
                 <Button
                     style="@style/Widget.AppCompat.Button.Borderless"
@@ -119,6 +127,8 @@
                     android:background="@drawable/ic_keyboard_arrow_up_black_24dp"
 
                     />
+
+
             </RelativeLayout>
 
             <LinearLayout

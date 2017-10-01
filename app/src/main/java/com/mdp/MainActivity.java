@@ -37,6 +37,9 @@ public class MainActivity extends AppCompatActivity {
     private static String command_right = "tr";
     private static String command_left = "tl";
 
+
+
+
     private SharedPreferences mPref;
     private SharedPreferences.Editor mEditor;
     private String f1Command = "";
@@ -47,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private Button f2_call;
     private Button f1_save;
     private Button f2_save;
+
 
     private MapHandler mapHandler;
 
