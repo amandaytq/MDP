@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -35,6 +36,17 @@ public class MainActivity extends AppCompatActivity {
     private static String command_forward = "f";
     private static String command_right = "tr";
     private static String command_left = "tl";
+
+    private SharedPreferences mPref;
+    private SharedPreferences.Editor mEditor;
+    private String f1Command = "";
+    private String f2Command = "";
+    private EditText f1_text;
+    private EditText f2_text;
+    private Button f1_call;
+    private Button f2_call;
+    private Button f1_save;
+    private Button f2_save;
 
     private MapHandler mapHandler;
 
@@ -234,6 +246,58 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //setup function buttons
+        mPref = getSharedPreferences("storedCommand", 0);
+        mEditor = mPref.edit();
+
+        f1_text = (EditText) findViewById(R.id.f1_text);
+        f1_save = (Button)findViewById(R.id.f1_save);
+        f1_save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String newCommand = f1_text.getText().toString();
+
+                Log.d(TAG, "onClick: Saving new Command F1: " + newCommand);
+
+                mEditor.putString("f1", newCommand).commit();
+                f1Command = newCommand;
+                Toast.makeText(getBaseContext(), "Save Successful", Toast.LENGTH_SHORT).show();
+            }
+        });
+        f1_call = (Button) findViewById(R.id.f1_call);
+        f1_call.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: Sending Command F1: " + f1Command);
+
+                sendCommand(f1Command);
+            }
+        });
+
+        f2_text = (EditText) findViewById(R.id.f2_text);
+        f2_save = (Button)findViewById(R.id.f2_save);
+        f2_save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String newCommand = f2_text.getText().toString();
+
+                Log.d(TAG, "onClick: Saving new Command F2: " + newCommand);
+
+                mEditor.putString("f2", newCommand).commit();
+                f1Command = newCommand;
+                Toast.makeText(getBaseContext(), "Save Successful", Toast.LENGTH_SHORT).show();
+            }
+        });
+        f2_call = (Button) findViewById(R.id.f2_call);
+        f2_call.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: Sending Command F2: " + f2Command);
+
+                sendCommand(f2Command);
+            }
+        });
+
         registerReceiver(commandReceiver, new IntentFilter(MainApplication.receiveCommand));
         registerReceiver(bluetoothReceiver, new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED));
 
@@ -263,9 +327,16 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
 
         Log.d(TAG, "resume: MainActivity");
+
+        f1Command = mPref.getString("f1", "");
+        f2Command = mPref.getString("f2", "");
+
+        f1_text.setText(f1Command);
+
         //reregister receivers
         registerReceiver(commandReceiver, new IntentFilter(MainApplication.receiveCommand));
         registerReceiver(bluetoothReceiver, new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED));
+        registerReceiver(disconnectReceiver, new IntentFilter(BluetoothDevice.ACTION_ACL_DISCONNECTED));
 
         if(MainApplication.getBTConnection() != null){
             MainApplication.setCurrentActivity(MainActivity.this);
@@ -278,6 +349,12 @@ public class MainActivity extends AppCompatActivity {
 
         unregisterReceiver(commandReceiver);
         unregisterReceiver(bluetoothReceiver);
+        unregisterReceiver(disconnectReceiver);
+        try{
+            unregisterReceiver(reconnectedReceiver);
+        }catch(Exception e){
+            Log.d(TAG, "There is no reconnectedReceiver registered");
+        }
     }
 
     @Override

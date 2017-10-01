@@ -44,6 +44,8 @@ public class BluetoothConnectionService {
 
     private ConnectedThread mConnectedThread;
 
+    private boolean selfClosed = false;
+
     public BluetoothConnectionService(Context context){
         mContext = context;
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -249,7 +251,6 @@ public class BluetoothConnectionService {
                 e.printStackTrace();
             }
 
-
             try{
                 tmpIn = mmSocket.getInputStream();
                 tmpOut = mmSocket.getOutputStream();
@@ -325,6 +326,11 @@ public class BluetoothConnectionService {
 
     public void closeConnection(){
         mConnectedThread.cancel();
+        mConnectedThread = null;
+        mConnectThread.cancel();
+        mConnectThread = null;
+
+        selfClosed = true;
     }
 
     /*
@@ -341,13 +347,17 @@ public class BluetoothConnectionService {
     }
 
     public void handleDisconnection(){
-        Log.d(TAG, "mBluetoothConnection: handle disconnection");
-        mConnectedThread.cancel();
-        //rerun connectThread
-        mConnectThread.cancel();
-        mConnectThread = null;
-        mConnectThread = new ConnectThread(mmDevice, uuid);
-        mConnectThread.run();
-
+        if (!selfClosed){
+            Log.d(TAG, "mBluetoothConnection: handle disconnection");
+            mConnectedThread.cancel();
+            //rerun connectThread
+            mConnectThread.cancel();
+            mConnectThread = null;
+            mConnectThread = new ConnectThread(mmDevice, uuid);
+            mConnectThread.run();
+        }
+        else{
+            return;
+        }
     }
 }

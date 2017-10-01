@@ -165,7 +165,6 @@ public class BluetoothActivity extends AppCompatActivity {
                 }
             }
         }
-
     };
 
     //BroadcastReceiver to catch when a bluetooth connection broadcasts
@@ -195,6 +194,40 @@ public class BluetoothActivity extends AppCompatActivity {
             }
         }
 
+    };
+
+    private BroadcastReceiver disconnectReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            final String action = intent.getAction();
+
+            if (action.equals(BluetoothDevice.ACTION_ACL_DISCONNECTED)) {
+                Log.d(TAG, "disconnectReceiver: Received Disconnect Notice");
+                Toast.makeText(getBaseContext(), "Device disconnected, attempting to reconnect....", Toast.LENGTH_SHORT).show();
+                MainApplication.handleDisconnect();
+
+                //remove current connected device from the connected_list
+
+                //register receiver to listen when reconnection is made
+                registerReceiver(reconnectedReceiver, new IntentFilter(MainApplication.reconnectedCommand));
+            }
+        }
+    };
+
+    //broadcast receiver to handle when reconnection is done
+    private BroadcastReceiver reconnectedReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (action.equals(MainApplication.reconnectedCommand)) {
+                Log.d(TAG, "reconnectedReceiver: Reconnected");
+
+                connected_list.setEnabled(true);
+
+                //unregister receiver
+                unregisterReceiver(reconnectedReceiver);
+            }
+        }
     };
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -293,13 +326,15 @@ public class BluetoothActivity extends AppCompatActivity {
         registerReceiver(bluetoothReceiver, new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED));
         //discoverReceiver - Handles when an unpaired device is found
         registerReceiver(discoverReceiver, new IntentFilter(BluetoothDevice.ACTION_FOUND));
-        //discoverReceiver - Handles when discovering unpaired devices has completed/stopped
+        //discoverFinishReceiver - Handles when discover finished
         registerReceiver(discoverFinishReceiver, new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED));
-        //connectSuccessReceiver - Handles when connection is successfully made
+        //BTConnectReceiver - Handle events related to connecting to an already paired bluetooth device
         IntentFilter BTConnectFilter = new IntentFilter();
         BTConnectFilter.addAction(MainApplication.connectionSuccessCommand);
         BTConnectFilter.addAction(MainApplication.connectionFailCommand);
         registerReceiver(BTConnectReceiver, BTConnectFilter);
+        //disconnectReceiver - Handles when device disconnects
+        registerReceiver(disconnectReceiver, new IntentFilter(BluetoothDevice.ACTION_ACL_DISCONNECTED));
 
         //setup unpaired device list (device_list)
         device_list = (ListView) findViewById(R.id.device_list);
