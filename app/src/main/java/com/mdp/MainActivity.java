@@ -37,9 +37,6 @@ public class MainActivity extends AppCompatActivity {
     private static String command_right = "tr";
     private static String command_left = "tl";
 
-
-
-
     private SharedPreferences mPref;
     private SharedPreferences.Editor mEditor;
     private String f1Command = "";
@@ -52,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     private Button f2_save;
 
 
-    private MapHandler mapHandler;
+    public static MapHandler mapHandler;
 
     private BroadcastReceiver bluetoothReceiver = new BroadcastReceiver() {
         @Override
@@ -140,15 +137,6 @@ public class MainActivity extends AppCompatActivity {
         mapgridview.setAdapter(new MapImageAdapter(this));
         mapHandler = new MapHandler(gridview, mapgridview, this);
 
-        Button test = (Button) findViewById(R.id.btn2);
-        test.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                int x = Integer.parseInt(((EditText)findViewById(R.id.et1)).getText().toString());
-                int y = Integer.parseInt(((EditText)findViewById(R.id.et2)).getText().toString());
-                mapHandler.setStartPoint(x, y);
-            }
-        });
-
         connect_text = (TextView) findViewById(R.id.connect_text);
 
         forward_btn = (Button) findViewById(R.id.btn_top);
@@ -166,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 sendCommand(command_left);
                 if(mapHandler.botSet()){
-                    mapHandler.setDirection(mapHandler.LEFT);
+                    mapHandler.setRotatedDirection(mapHandler.LEFT);
                 }
             }
         });
@@ -175,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 sendCommand(command_right);
                 if(mapHandler.botSet()){
-                    mapHandler.setDirection(mapHandler.RIGHT);
+                    mapHandler.setRotatedDirection(mapHandler.RIGHT);
                 }
 
             }
