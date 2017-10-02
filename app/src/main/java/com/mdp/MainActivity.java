@@ -392,10 +392,17 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+
     public void updateStatusText(String s){
         String substring = s.substring(1);
         String status = s.substring(0, 1) + substring;
         Log.d(TAG, status);
         status_text.setText(status);
     }
+
+    public void enterSettings(View v){
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+    }
+
 }
