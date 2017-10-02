@@ -27,7 +27,7 @@ public class ReceiveHandler {
         String [] s = r.split("::");
         String protocol = s[0];
         String parameters = s[1];
-        switch(protocol){
+        /*switch(protocol){
             case status_protocol:
                 //update status and perform the required actions
                 String [] s2 = parameters.split("/");
@@ -63,6 +63,6 @@ public class ReceiveHandler {
 
             default:
                 break;
-        }
+        }*/
     }
 }
