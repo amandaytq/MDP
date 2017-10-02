@@ -389,5 +389,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void enterSettings(View v){
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+    }
+
 
 }
