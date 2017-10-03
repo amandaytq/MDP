@@ -29,7 +29,7 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        listArr.add("BlueTooth");
+        listArr.add("Bluetooth");
         listArr.add("Coordinates");
         listArr.add("Functions");
 

@@ -44,7 +44,7 @@ public class MapImageAdapter extends BaseAdapter {
             imageView = (ImageView) convertView;
         }
 
-      //  imageView.setImageResource(R.drawable.yellow);
+        imageView.setImageResource(R.drawable.blue);
         return imageView;
     }
 
