@@ -44,10 +44,10 @@ public class MapHandler {
     public static final int SETSP = 2;
     public static final int ALERT = 3;
 
-    private static final int NORTH = 1;
-    private static final int SOUTH= 7;
-    private static final int EAST = 5;
-    private static final int WEST = 3;
+    public static final int NORTH = 1;
+    public static final int SOUTH = 7;
+    public static final int EAST = 5;
+    public static final int WEST = 3;
 
     public static final int LEFT = 1;
     public static final int RIGHT = 2;
@@ -122,6 +122,18 @@ public class MapHandler {
                 break;
         }
 
+        setBot();
+    }
+
+    public void setDirection(int position){
+        int index = 0;
+        for(int i = 0; i < dirArray.length; i++){
+            if(dirArray[i] == position){
+                index = i;
+                break;
+            }
+        }
+        direction = dirArray[index];
         setBot();
     }
 
@@ -360,4 +372,31 @@ public class MapHandler {
         return robotPos.length > 1;
     }
 
+    public int determineTurn(int request_direction){
+
+        //compare direction with requested direction
+        int arrayDir = 0;
+        int arrayNewDir = 0;
+        for(int i = 0; i < dirArray.length; i++){
+            if(dirArray[i] == request_direction){
+                arrayNewDir = i;
+            }
+            if(dirArray[i] == direction){
+                arrayDir = i;
+            }
+        }
+        Log.d("MapHandler", "arrayPos - initial: " + arrayDir);
+        Log.d("MapHandler", "arrayPos - new: " + arrayNewDir);
+
+        int difference = arrayNewDir - arrayDir;
+
+        if(difference <= -3){
+            difference = 1;
+        }
+        else if(difference >= 3){
+            difference = -1;
+        }
+
+        return difference*90;
+    }
 }

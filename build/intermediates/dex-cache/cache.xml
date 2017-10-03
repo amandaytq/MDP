@@ -3,26 +3,11 @@
 
     <item
         is-multidex="true"
-        jar="/Users/Amandaaa/Desktop/MDP_Android/MDP/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="c82741bc129dd5f99f11a4ab8666ae24262053b6">
-        <dex dex="/Users/Amandaaa/Desktop/MDP_Android/MDP/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_77473ba8dc971c0cb691b681ee8d3ac5b66ae07c/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/Amandaaa/Desktop/MDP_Android/MDP/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="dfce67f9160abb8e1e49e833d7ca80dc82d3bdf3">
-        <dex dex="/Users/Amandaaa/Desktop/MDP_Android/MDP/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_7a73371e11e97fa34c62445221caab9cb8b18cbc/classes.dex" />
         jar="D:\AndroidGitProject\MDP\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="620453ad37b81c7d57be0920d6cf23f7a97903c0">
+        sha1="0f77c71d846e462755bd3ff82b0830090592b4e1">
         <dex dex="D:\AndroidGitProject\MDP\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_223649db88e6810430b7f0f781b4cedb29ced96d\classes.dex" />
     </item>
     <item
