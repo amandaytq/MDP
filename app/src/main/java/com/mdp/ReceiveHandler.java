@@ -71,13 +71,13 @@ public class ReceiveHandler {
                         String direction = s2[1];
                         switch(direction){
                             case turning_left:
-                                mh.setDirection(1);
+                                mh.setRotatedDirection(1);
                                 break;
                             case turning_right:
-                                mh.setDirection(2);
+                                mh.setRotatedDirection(2);
                                 break;
                             case turning_back:
-                                mh.setDirection(3);
+                                mh.setRotatedDirection(3);
                                 break;
                             default:
                                 break;

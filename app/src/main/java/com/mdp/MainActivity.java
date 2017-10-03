@@ -42,16 +42,10 @@ public class MainActivity extends AppCompatActivity {
     private static String command_right = "tr";
     private static String command_left = "tl";
 
-    private SharedPreferences mPref;
-    private SharedPreferences.Editor mEditor;
     private String f1Command = "";
     private String f2Command = "";
-    private EditText f1_text;
-    private EditText f2_text;
     private Button f1_call;
     private Button f2_call;
-    private Button f1_save;
-    private Button f2_save;
 
     private Switch auto_switch;
     public static MapHandler mapHandler;
@@ -244,23 +238,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //setup function buttons
-        mPref = getSharedPreferences("storedCommand", 0);
-        mEditor = mPref.edit();
 
-        f1_text = (EditText) findViewById(R.id.f1_text);
-        f1_save = (Button)findViewById(R.id.f1_save);
-        f1_save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String newCommand = f1_text.getText().toString();
-
-                Log.d(TAG, "onClick: Saving new Command F1: " + newCommand);
-
-                mEditor.putString("f1", newCommand).commit();
-                f1Command = newCommand;
-                Toast.makeText(getBaseContext(), "Save Successful", Toast.LENGTH_SHORT).show();
-            }
-        });
         f1_call = (Button) findViewById(R.id.f1_call);
         f1_call.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -271,20 +249,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        f2_text = (EditText) findViewById(R.id.f2_text);
-        f2_save = (Button)findViewById(R.id.f2_save);
-        f2_save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String newCommand = f2_text.getText().toString();
 
-                Log.d(TAG, "onClick: Saving new Command F2: " + newCommand);
-
-                mEditor.putString("f2", newCommand).commit();
-                f2Command = newCommand;
-                Toast.makeText(getBaseContext(), "Save Successful", Toast.LENGTH_SHORT).show();
-            }
-        });
         f2_call = (Button) findViewById(R.id.f2_call);
         f2_call.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -328,14 +293,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
-
-        Log.d(TAG, "resume: MainActivity");
-
-        f1Command = mPref.getString("f1", "");
-        f2Command = mPref.getString("f2", "");
-
-        f1_text.setText(f1Command);
-        f2_text.setText(f2Command);
 
         //reregister receivers
         registerReceiver(commandReceiver, new IntentFilter(MainApplication.receiveCommand));
