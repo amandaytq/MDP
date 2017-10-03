@@ -12,6 +12,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:id="@+id/linearLayout2"
             android:padding="20dp">
 
             <LinearLayout
@@ -35,6 +36,7 @@
                     android:textColor="@android:color/black"/>
 
                 <Switch
+                    android:id="@+id/bt_switch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"/>
@@ -105,14 +107,13 @@
                     android:layout_height="wrap_content"
                     android:text="Unpaired Devices"/>
                 <Button
-                    android:id="@+id/btn_discover"
+                    android:id="@+id/btn_discover1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:onClick="searchDevices"
                     android:text="Discover Devices" />
 
                 <com.mdp.NonScrollListView
-                    android:id="@+id/device_list"
+                    android:id="@+id/device_list1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     ></com.mdp.NonScrollListView>

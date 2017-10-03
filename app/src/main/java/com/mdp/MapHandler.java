@@ -23,17 +23,22 @@ public class MapHandler {
     private GridView gv;
     private GridView mgv;
 
+    private GridView mapgv;
+    private GridView pathgv;
+    private GridView obsgv;
+    private GridView robotgv;
+
     public int poswp;
     public int possp;
+    public int direction = EAST;
+
+    public  int[] robotPos = {-1};
+
     int lastwp = -1;
-    int direction = EAST;
 
     int[] startpoint = {-1};
     int[] endpoint = {-1};
-    int[] robotPos = {-1};
 
-    boolean response = false;
-    boolean withinBound = true;
     Context context;
 
     private static final int BLUE = 1;
@@ -54,10 +59,17 @@ public class MapHandler {
 
     private static final int[] dirArray = {EAST, SOUTH, WEST, NORTH};
     private static final ArrayList<Integer> obsArrayList = new ArrayList<Integer>();
+    private static final ArrayList<Integer> pathArrayList = new ArrayList<Integer>();
 
-    public MapHandler(GridView gridView, GridView mapGridView, Context con){
-        gv = gridView;
-        mgv = mapGridView;
+    public MapHandler(GridView omapgv, GridView opathgv, GridView oobsgv, GridView orobotgv, Context con){
+        //mapgv to store items that are static such as start point, way point and end point.
+        //pathgv to store path that are explored
+        //obsgv to store the number obstacles
+        //robotgv to store the position of robot
+        mapgv = omapgv;
+        pathgv = opathgv;
+        obsgv = oobsgv;
+        robotgv = orobotgv;
         context = con;
     }
 
@@ -84,7 +96,7 @@ public class MapHandler {
             Toast.makeText(context, "Boundary reached!",Toast.LENGTH_SHORT).show();
         }else{
             for (int i=0; i<robotPos.length;i++){
-                ImageView oldv = (ImageView)mgv.getChildAt(robotPos[i]);
+                ImageView oldv = (ImageView)robotgv.getChildAt(robotPos[i]);
                 oldv.setImageResource(0);
                 robotPos[i] += distance;
             }
@@ -138,16 +150,16 @@ public class MapHandler {
     }
 
     public void setBot(){
-        ImageView riv1 = (ImageView) mgv.getChildAt(robotPos[0]);
-        ImageView riv2 = (ImageView) mgv.getChildAt(robotPos[1]);
-        ImageView riv3 = (ImageView) mgv.getChildAt(robotPos[2]);
-        ImageView riv4 = (ImageView) mgv.getChildAt(robotPos[3]);
-        ImageView riv5 = (ImageView) mgv.getChildAt(robotPos[4]);
-        ImageView riv6 = (ImageView) mgv.getChildAt(robotPos[5]);
-        ImageView riv7 = (ImageView) mgv.getChildAt(robotPos[6]);
-        ImageView riv8 = (ImageView) mgv.getChildAt(robotPos[7]);
-        ImageView riv9 = (ImageView) mgv.getChildAt(robotPos[8]);
-        ImageView arr = (ImageView) mgv.getChildAt(robotPos[direction]);
+        ImageView riv1 = (ImageView) robotgv.getChildAt(robotPos[0]);
+        ImageView riv2 = (ImageView) robotgv.getChildAt(robotPos[1]);
+        ImageView riv3 = (ImageView) robotgv.getChildAt(robotPos[2]);
+        ImageView riv4 = (ImageView) robotgv.getChildAt(robotPos[3]);
+        ImageView riv5 = (ImageView) robotgv.getChildAt(robotPos[4]);
+        ImageView riv6 = (ImageView) robotgv.getChildAt(robotPos[5]);
+        ImageView riv7 = (ImageView) robotgv.getChildAt(robotPos[6]);
+        ImageView riv8 = (ImageView) robotgv.getChildAt(robotPos[7]);
+        ImageView riv9 = (ImageView) robotgv.getChildAt(robotPos[8]);
+        ImageView arr = (ImageView) robotgv.getChildAt(robotPos[direction]);
 
         if(riv1 != null && riv2 != null && riv3 != null && riv4 != null && riv5 != null && riv6 != null && riv7 != null && riv8 != null && riv9 != null) {
             riv1.setImageResource(R.drawable.circle);
@@ -183,26 +195,25 @@ public class MapHandler {
         }
     }
 
-
     public void setStartPoint(int x, int y){
         int pos = getPos(x,y);
         int[] newstartpoint = {pos-21,pos-20,pos-19,pos-1,pos,pos+1,pos+19,pos+20,pos+21};
 
         if (startpoint.length<9){
             for (int i=0; i<newstartpoint.length;i++){
-                ImageView v= (ImageView)gv.getChildAt(newstartpoint[i]);
+                ImageView v= (ImageView)mapgv.getChildAt(newstartpoint[i]);
                 changeColor(v,YELLOW);
             }
         }else if(newstartpoint[0] != startpoint[0]){
-            for (int i=0; i<gv.getChildCount();i++){
-                ImageView v1= (ImageView)gv.getChildAt(i);
-                ImageView v2= (ImageView)mgv.getChildAt(i);
+            for (int i=0; i<mapgv.getChildCount();i++){
+                ImageView v1= (ImageView)mapgv.getChildAt(i);
+                ImageView v2= (ImageView)robotgv.getChildAt(i);
                 v2.setImageResource(0);
                 changeColor(v1,BLUE);
             }
 
             for (int i=0; i<newstartpoint.length;i++){
-                ImageView v= (ImageView)gv.getChildAt(newstartpoint[i]);
+                ImageView v= (ImageView)mapgv.getChildAt(newstartpoint[i]);
                 changeColor(v,YELLOW);
             }
         }
@@ -218,19 +229,17 @@ public class MapHandler {
 
         if (startpoint.length<9){
             for (int i=0; i<newendpoint.length;i++){
-                ImageView v= (ImageView)gv.getChildAt(newendpoint[i]);
+                ImageView v= (ImageView)mapgv.getChildAt(newendpoint[i]);
                 changeColor(v,YELLOW);
             }
         }else if(newendpoint[0] != startpoint[0]){
             for (int i=0; i<endpoint.length;i++){
-                ImageView v1= (ImageView)gv.getChildAt(i);
-                ImageView v2= (ImageView)mgv.getChildAt(i);
-                v2.setImageResource(0);
+                ImageView v1= (ImageView)mapgv.getChildAt(i);
                 changeColor(v1,BLUE);
             }
 
             for (int i=0; i<newendpoint.length;i++){
-                ImageView v= (ImageView)gv.getChildAt(newendpoint[i]);
+                ImageView v= (ImageView)mapgv.getChildAt(newendpoint[i]);
                 changeColor(v,YELLOW);
             }
         }
@@ -238,7 +247,7 @@ public class MapHandler {
     }
 
     public void setObs(int x, int y){
-        ImageView v = (ImageView)mgv.getChildAt(getPos(x,y));
+        ImageView v = (ImageView)obsgv.getChildAt(getPos(x,y));
         v.setImageResource(R.drawable.blue);
         changeColor(v, BLACK);
         obsArrayList.add(getPos(x,y));
@@ -246,7 +255,7 @@ public class MapHandler {
 
     public void removeObs(int x, int y){
         int index = obsArrayList.indexOf(getPos(x, y));
-        ImageView v = (ImageView)mgv.getChildAt(getPos(x,y));
+        ImageView v = (ImageView)obsgv.getChildAt(getPos(x,y));
         v.setImageResource(0);
         if(index >=0)
             obsArrayList.remove(index);
@@ -256,7 +265,7 @@ public class MapHandler {
         for (int y = 0; y < arr.length; y++) {
             for (int x = 0; x < arr[y].length; x++) {
                 if(arr[y][x] == 1) {
-                    ImageView v = (ImageView) mgv.getChildAt(getPos(x, y));
+                    ImageView v = (ImageView) obsgv.getChildAt(getPos(x, y));
                     v.setImageResource(R.drawable.blue);
                     changeColor(v, BLACK);
                     obsArrayList.add(getPos(x, y));
@@ -270,7 +279,7 @@ public class MapHandler {
             for (int x = 0; x < arr[x].length; x++) {
                 if(arr[x][y] == 1) {
                     int index = obsArrayList.indexOf(getPos(x, y));
-                    ImageView v = (ImageView) mgv.getChildAt(getPos(x, y));
+                    ImageView v = (ImageView) obsgv.getChildAt(getPos(x, y));
                     v.setImageResource(0);
                     if (index >= 0)
                         obsArrayList.remove(index);
@@ -280,7 +289,69 @@ public class MapHandler {
 
     }
 
-    public void alertView(final Button btn, String title, String message, boolean choice, final int mode) {
+    public void setPath(int[][] arr) {
+        for (int y = 0; y < arr.length; y++) {
+            for (int x = 0; x < arr[y].length; x++) {
+                if(arr[y][x] == 1) {
+                    ImageView v = (ImageView) pathgv.getChildAt(getPos(x, y));
+                    v.setImageResource(R.drawable.blue);
+                    changeColor(v, BLACK);
+                    pathArrayList.add(getPos(x, y));
+                }
+            }
+        }
+    }
+
+    public void removePath (int[][] arr){
+        for (int y = 0; y < arr.length; y++) {
+            for (int x = 0; x < arr[x].length; x++) {
+                if(arr[x][y] == 1) {
+                    int index = pathArrayList.indexOf(getPos(x, y));
+                    ImageView v = (ImageView) pathgv.getChildAt(getPos(x, y));
+                    v.setImageResource(0);
+                    if (index >= 0)
+                        pathArrayList.remove(index);
+                }
+            }
+        }
+    }
+
+    public boolean isObstructed(){
+        ArrayList<Integer> range = new ArrayList<>();
+        switch (direction){
+            case NORTH:
+                range.add(robotPos[0]-20);
+                range.add(robotPos[1]-20);
+                range.add(robotPos[2]-20);
+                break;
+
+            case SOUTH:
+                range.add(robotPos[6]+20);
+                range.add(robotPos[7]+20);
+                range.add(robotPos[8]+20);
+                break;
+
+            case EAST:
+                range.add(robotPos[2]+1);
+                range.add(robotPos[5]+1);
+                range.add(robotPos[8]+1);
+                break;
+
+            case WEST:
+                range.add(robotPos[0]-1);
+                range.add(robotPos[4]-1);
+                range.add(robotPos[6]-1);
+                break;
+        }
+
+        if(obsArrayList.containsAll(range)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public void alertView(final Button btn1,final Button btn2, String title, String message, boolean choice, final int mode) {
         AlertDialog.Builder dialog = new AlertDialog.Builder(context);
         dialog.setTitle(title)
                 .setMessage(message)
@@ -288,14 +359,18 @@ public class MapHandler {
                     public void onClick(DialogInterface dialoginterface, int i) {
                         switch (mode){
                             case SETWP:
-                                setWayPoint(btn);
+                                setWayPoint(btn1, btn2);
+                                btn1.setEnabled(true);
+                                btn2.setEnabled(true);
+                                robotgv.setOnItemClickListener(null);
                                 break;
 
                             case SETSP:
                                 setStartPoint(getCoordinates(possp)[0],getCoordinates(possp)[1]);
-                                btn.setText("Set Start");
-                                btn.setActivated(false);
-                                mgv.setOnItemClickListener(null);
+                                btn1.setText("Set Start");
+                                btn1.setActivated(false);
+                                btn2.setEnabled(true);
+                                robotgv.setOnItemClickListener(null);
                                 break;
 
                             case ALERT:
@@ -314,8 +389,8 @@ public class MapHandler {
 
     }
 
-    public void setWayPoint(Button setwp_btn){
-        ImageView newWPv= (ImageView)gv.getChildAt(poswp);
+    public void setWayPoint(Button setwp_btn, Button setsp_btn){
+        ImageView newWPv= (ImageView)mapgv.getChildAt(poswp);
         boolean overlapped = false;
 
         for (int i=0; i<startpoint.length;i++){
@@ -327,30 +402,30 @@ public class MapHandler {
 
         if(!overlapped) {
             if (lastwp != -1) {
-                ImageView lastWPv= (ImageView)gv.getChildAt(lastwp);
+                ImageView lastWPv= (ImageView)mapgv.getChildAt(lastwp);
                 changeColor(lastWPv, BLUE);
             }
 
             setwp_btn.setText("Set WP");
             setwp_btn.setActivated(false);
-            mgv.setOnItemClickListener(null);
+            setwp_btn.setEnabled(false);
             changeColor(newWPv, YELLOW);
             lastwp = poswp;
 
         }else{
             Log.i("res", "yes");
-            alertView(null, "Opps!", "You have selected an invalid point.", false, ALERT);
+            alertView(null, null, "Opps!", "You have selected an invalid point.", false, ALERT);
         }
     }
 
     public int getPos(int x, int y){
-        return gv.getNumColumns()*x + y;
+        return mapgv.getNumColumns()*x + y;
     }
 
     public int[] getCoordinates(int pos){
         int[] coords = {0,0};
-        coords[1] = pos%gv.getNumColumns();
-        coords[0] = (pos-coords[1])/gv.getNumColumns();
+        coords[1] = pos%mapgv.getNumColumns();
+        coords[0] = (pos-coords[1])/mapgv.getNumColumns();
         return coords;
     }
 
