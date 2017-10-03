@@ -47,7 +47,7 @@ public class FunctionsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         //setup function buttons
-        mPref = getContext().getSharedPreferences("storedCommand", 0);
+        mPref = getContext().getSharedPreferences("sendCommand", 0);
         mEditor = mPref.edit();
 
         f1_text = (EditText) view.findViewById(R.id.f1_text);
@@ -86,13 +86,7 @@ public class FunctionsFragment extends Fragment {
         super.onResume();
         Log.d("Functions", "resume: MainActivity");
 
-        f1Command = mPref.getString("f1", "");
-        f2Command = mPref.getString("f2", "");
-
-        mPref = getContext().getSharedPreferences("storedCommand", 0);
-
-
-        f1_text.setText(f1Command);
-        f2_text.setText(f2Command);
+        f1_text.setText(mPref.getString("f1", ""));
+        f2_text.setText(mPref.getString("f2", ""));
     }
 }

@@ -27,18 +27,20 @@ public class MainActivity extends AppCompatActivity {
     private TextView connect_text;
 
     private Button forward_btn;
+    private Button back_btn;
+    private Button top_btn;
+    private Button bottom_btn;
     private Button left_btn;
     private Button right_btn;
+
+    private Button turn_left_btn;
+    private Button turn_right_btn;
+
+
 
     private TextView status_text;
     private boolean isExploring = false;
 
-    private static String command_forward = "f";
-    private static String command_right = "tr";
-    private static String command_left = "tl";
-
-    private String f1Command = "";
-    private String f2Command = "";
     private Button f1_call;
     private Button f2_call;
 
@@ -139,33 +141,47 @@ public class MainActivity extends AppCompatActivity {
 
         connect_text = (TextView) findViewById(R.id.connect_text);
 
-        forward_btn = (Button) findViewById(R.id.btn_top);
+        //init control buttons
+        forward_btn = (Button) findViewById(R.id.btn_forward);
         forward_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
-                sendCommand(command_forward);
-                if(mapHandler.botSet()){
-                    mapHandler.moveFront();
-                }
+                sendHandler.move("forward");
+            }
+        });
+        turn_left_btn = (Button) findViewById(R.id.btn_turn_left);
+        turn_left_btn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                sendHandler.turn("left");
+            }
+        });
+        turn_right_btn = (Button) findViewById(R.id.btn_turn_right);
+        turn_right_btn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                sendHandler.turn("right");
             }
         });
         left_btn = (Button) findViewById(R.id.btn_left);
         left_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                sendCommand(command_left);
-                if(mapHandler.botSet()){
-                    mapHandler.setRotatedDirection(mapHandler.LEFT);
-                }
+                sendHandler.position(mapHandler.WEST);
             }
         });
         right_btn = (Button) findViewById(R.id.btn_right);
         right_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                sendCommand(command_right);
-                if(mapHandler.botSet()){
-                    mapHandler.setRotatedDirection(mapHandler.RIGHT);
-                }
-
+                sendHandler.position(mapHandler.EAST);
+            }
+        });
+        top_btn = (Button) findViewById(R.id.btn_top);
+        top_btn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                sendHandler.position(mapHandler.NORTH);
+            }
+        });
+        bottom_btn = (Button) findViewById(R.id.btn_btm);
+        bottom_btn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                sendHandler.position(mapHandler.SOUTH);
             }
         });
 
@@ -251,20 +267,15 @@ public class MainActivity extends AppCompatActivity {
         f1_call.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "onClick: Sending Command F1: " + f1Command);
-
-                sendCommand(f1Command);
+                sendHandler.sendFunction(1);
             }
         });
-
 
         f2_call = (Button) findViewById(R.id.f2_call);
         f2_call.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "onClick: Sending Command F2: " + f2Command);
-
-                sendCommand(f2Command);
+                sendHandler.sendFunction(2);
             }
         });
 
@@ -279,16 +290,6 @@ public class MainActivity extends AppCompatActivity {
         registerReceiver(bluetoothReceiver, new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED));
 
         registerReceiver(disconnectReceiver, new IntentFilter(BluetoothDevice.ACTION_ACL_DISCONNECTED));
-    }
-
-    public void sendCommand(String s){
-        if(MainApplication.getBTConnection().isConnected()){
-            byte[] bytes = s.getBytes(Charset.defaultCharset());
-            MainApplication.getBTConnection().write(bytes);
-        }
-        else{
-            Toast.makeText(getBaseContext(), "Bluetooth Connection not established", Toast.LENGTH_SHORT).show();
-        }
     }
 
     @Override

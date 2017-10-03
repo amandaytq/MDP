@@ -48,9 +48,17 @@
                     android:id="@+id/auto_switch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_above="@+id/btn_top"
+                    android:layout_above="@+id/text_movement"
                     android:layout_alignEnd="@+id/linearLayout"
                     android:text="Auto" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Movement"
+                    android:layout_above="@+id/btn_forward"
+                    android:layout_alignEnd="@+id/linearLayout"
+                    android:id="@+id/text_movement"/>
 
                 <Button
                     style="@style/Widget.AppCompat.Button.Borderless"
@@ -58,10 +66,23 @@
                     android:layout_height="64dp"
                     android:layout_alignParentBottom="true"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    android:id="@+id/btn_top"
+                    android:id="@+id/btn_forward"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginBottom="88dp"
+                    android:background="@drawable/ic_keyboard_arrow_up_black_24dp"
+
+                    />
+
+                <Button
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_alignParentBottom="true"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:id="@+id/btn_back"
                     android:layout_marginLeft="16dp"
                     android:layout_marginBottom="16dp"
-                    android:background="@drawable/ic_keyboard_arrow_up_black_24dp"
+                    android:background="@drawable/ic_keyboard_arrow_down_black_24dp"
 
                     />
 
@@ -252,9 +273,47 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_alignParentBottom="true"
-                    android:id="@+id/btn_left"
+                    android:id="@+id/btn_turn_left"
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginBottom="96dp"
+                    android:background="@drawable/ic_rotate_left_black_24dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Direction"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="32dp"
+                    android:layout_marginBottom="156dp"
+                    />
+                <Button
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:id="@+id/btn_turn_right"
                     android:layout_marginLeft="16dp"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginBottom="96dp"
+                    android:background="@drawable/ic_rotate_right_black_24dp" />
+
+                <Button
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentBottom="true"
+                    android:id="@+id/btn_top"
+                    android:layout_marginLeft="36dp"
+                    android:layout_marginBottom="64dp"
+                    android:background="@drawable/ic_keyboard_arrow_up_black_24dp" />
+
+                <Button
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentBottom="true"
+                    android:id="@+id/btn_left"
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginBottom="32dp"
                     android:background="@drawable/ic_keyboard_arrow_left_black_24dp" />
 
                 <Button
@@ -265,8 +324,18 @@
                     android:layout_alignParentRight="true"
                     android:id="@+id/btn_right"
                     android:layout_marginLeft="16dp"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginBottom="32dp"
                     android:background="@drawable/ic_keyboard_arrow_right_black_24dp" />
+
+                <Button
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentBottom="true"
+                    android:id="@+id/btn_btm"
+                    android:layout_marginLeft="36dp"
+                    android:layout_marginBottom="0dp"
+                    android:background="@drawable/ic_keyboard_arrow_down_black_24dp" />
 
             </RelativeLayout>
         </LinearLayout>

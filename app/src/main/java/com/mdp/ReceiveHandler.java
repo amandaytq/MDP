@@ -7,20 +7,10 @@ import java.math.BigInteger;
 public class ReceiveHandler {
     private static final String TAG = ReceiveHandler.class.getSimpleName();
 
-    private static final String command_forward = "f";
-    private static final String command_right = "tr";
-    private static final String command_left = "tl";
-
     private static final String status_protocol = "STATUS";
     private static final String status_idle = "IDLE";
-    private static final String status_moving = "MOVING";
-    private static final String status_exploring = "EXPLORING";
-    private static final String status_exploring_end = "EXPLORINGEND";
-    private static final String status_turning = "TURNING";
 
-    private static final String turning_left = "LEFT";
-    private static final String turning_right = "RIGHT";
-    private static final String turning_back = "BACK";
+    private static final String command_completed = "-2";
 
     private static final String map_protocol = "MAP";
 
@@ -50,42 +40,14 @@ public class ReceiveHandler {
                         //enable controls
                         ma.enableControls();
                         break;
-                    case status_moving:
-                        //update map of robot movement
-                        ma.mapHandler.moveFront();
-                        //update map status
-                        //updateMap(s2[1]);
-                        break;
-                    case status_exploring:
-                        //set exploring so as to not enable controls
-                        ma.setExploring(true);
-                        break;
-                    case status_exploring_end:
-                        //exploration ended
-                        ma.setExploring(false);
-                        break;
-                    case status_turning:
-                        //update map on robot turning
-                        String direction = s2[1];
-                        switch(direction){
-                            case turning_left:
-                                ma.mapHandler.setRotatedDirection(1);
-                                break;
-                            case turning_right:
-                                ma.mapHandler.setRotatedDirection(2);
-                                break;
-                            case turning_back:
-                                ma.mapHandler.setRotatedDirection(3);
-                                break;
-                            default:
-                                break;
-                        }
-                        //updateMap(s2[1]);
-                        break;
                     default:
                         //update status text only
                         break;
                 }
+                break;
+            case command_completed:
+                ma.enableControls();
+                ma.updateStatusText("Idle");
                 break;
             case map_protocol:
                 updateMap(s[1]);
@@ -114,14 +76,6 @@ public class ReceiveHandler {
         int yPos = 0;
         int map2_pos = 0;
 
-        Log.d(TAG, "No. of map1 char: " + map1_s.length());
-        int count = 0;
-        for(int i = 2; i < map1_s.length() - 2; i++){
-            if(map1_s.charAt(i) == '1'){
-                count++;
-            }
-        }
-
         for(int i = 2; i < map1_s.length() - 2; i++){
             if(map1_s.charAt(i) == '1'){
                 //area is scouted, put into scouted array
@@ -132,7 +86,7 @@ public class ReceiveHandler {
                 else{
                     obs_arr[yPos][xPos] = 0;
                 }
-                //prevents app from crahing in the case where map2 loaded poorly
+                //prevents app from crashing in the case where map2 loaded poorly
                 if(map2_pos < map2_s.length()){
                     map2_pos++;
                 }
@@ -151,7 +105,7 @@ public class ReceiveHandler {
         }
 
         ma.mapHandler.setObsArr(obs_arr);
-        //mh.setScoutedArr(scouted_arr);
+        //ma.mapHandler.setPath(scouted_arr);
     }
 
     //converts hexadecimal string into a binary string

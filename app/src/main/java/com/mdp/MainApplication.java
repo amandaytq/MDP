@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 /**
@@ -20,6 +21,7 @@ public class MainApplication extends Application {
     public static final String connectionFailCommand = "com.mdp.CONNECTIONFAIL";
     public static final String disconnectedCommand = "com.mdp.DISCONNECTED";
     public static final String reconnectedCommand = "com.mdp.RECONNECTED";
+
     private static MainApplication sInstance;
 
     private static BluetoothConnectionService mBluetoothConnection = null;
