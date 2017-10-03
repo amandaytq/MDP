@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ReceiverCallNotAllowedException;
 import android.content.SharedPreferences;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -33,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
     private Button left_btn;
     private Button right_btn;
 
+    private TextView status_text;
+
     private static String command_forward = "f";
     private static String command_right = "tr";
     private static String command_left = "tl";
@@ -48,8 +51,8 @@ public class MainActivity extends AppCompatActivity {
     private Button f1_save;
     private Button f2_save;
 
-
     public static MapHandler mapHandler;
+    private ReceiveHandler receiveHandler;
 
     private BroadcastReceiver bluetoothReceiver = new BroadcastReceiver() {
         @Override
@@ -77,10 +80,7 @@ public class MainActivity extends AppCompatActivity {
             if (action.equals(MainApplication.receiveCommand)) {
                 String command = intent.getStringExtra("command");
                 Log.d(TAG, "commandReceiver: Command " + command + " received.");
-                switch(command){
-                    default:
-                        break;
-                }
+                receiveHandler.received(command);
             }
         }
     };
@@ -168,6 +168,8 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        status_text = (TextView) findViewById(R.id.status_text);
 
         //init BTConnection from MainApplication
         if(MainApplication.getBTConnection() == null){
@@ -276,7 +278,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "onClick: Saving new Command F2: " + newCommand);
 
                 mEditor.putString("f2", newCommand).commit();
-                f1Command = newCommand;
+                f2Command = newCommand;
                 Toast.makeText(getBaseContext(), "Save Successful", Toast.LENGTH_SHORT).show();
             }
         });
@@ -289,6 +291,9 @@ public class MainActivity extends AppCompatActivity {
                 sendCommand(f2Command);
             }
         });
+
+        //init receiveHandler & sendHandler
+        receiveHandler = new ReceiveHandler(mapHandler, MainActivity.this);
 
         registerReceiver(commandReceiver, new IntentFilter(MainApplication.receiveCommand));
         registerReceiver(bluetoothReceiver, new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED));
@@ -324,6 +329,7 @@ public class MainActivity extends AppCompatActivity {
         f2Command = mPref.getString("f2", "");
 
         f1_text.setText(f1Command);
+        f2_text.setText(f2Command);
 
         //reregister receivers
         registerReceiver(commandReceiver, new IntentFilter(MainApplication.receiveCommand));
@@ -377,10 +383,17 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+
+    public void updateStatusText(String s){
+        String substring = s.substring(1);
+        String status = s.substring(0, 1) + substring;
+        Log.d(TAG, status);
+        status_text.setText(status);
+    }
+
     public void enterSettings(View v){
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
     }
-
 
 }

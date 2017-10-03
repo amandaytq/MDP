@@ -225,7 +225,12 @@ public class BluetoothActivity extends AppCompatActivity {
                 connected_list.setEnabled(true);
 
                 //unregister receiver
-                unregisterReceiver(reconnectedReceiver);
+                try{
+                    unregisterReceiver(reconnectedReceiver);
+                }catch(Exception e){
+                    Log.d(TAG, "There is no reconnectedReceiver registered");
+                }
+
             }
         }
     };
@@ -409,6 +414,16 @@ public class BluetoothActivity extends AppCompatActivity {
             unregisterReceiver(BTConnectReceiver);
         }catch(Exception e){
             Log.d(TAG, "There is no bluetoothReceiver registered");
+        }
+        try{
+            unregisterReceiver(disconnectReceiver);
+        }catch(Exception e){
+            Log.d(TAG, "There is no disconnectReceiver registered");
+        }
+        try{
+            unregisterReceiver(reconnectedReceiver);
+        }catch(Exception e){
+            Log.d(TAG, "There is no reconnectedReceiver registered");
         }
     }
 

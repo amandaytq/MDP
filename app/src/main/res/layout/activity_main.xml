@@ -112,7 +112,8 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Moving"/>
+                            android:id="@+id/status_text"
+                            android:text="None"/>
                     </LinearLayout>
 
                     <LinearLayout
