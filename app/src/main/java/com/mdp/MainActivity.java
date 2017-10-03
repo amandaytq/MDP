@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
     private Switch auto_switch;
     public static MapHandler mapHandler;
     private ReceiveHandler receiveHandler;
+    private SendHandler sendHandler;
 
     private BroadcastReceiver bluetoothReceiver = new BroadcastReceiver() {
         @Override
@@ -299,7 +300,8 @@ public class MainActivity extends AppCompatActivity {
         auto_switch = (Switch) findViewById(R.id.auto_switch);
 
         //init receiveHandler & sendHandler
-        receiveHandler = new ReceiveHandler(mapHandler, MainActivity.this);
+        receiveHandler = new ReceiveHandler(MainActivity.this);
+        sendHandler = new SendHandler(MainActivity.this);
 
         registerReceiver(commandReceiver, new IntentFilter(MainApplication.receiveCommand));
         registerReceiver(bluetoothReceiver, new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED));
