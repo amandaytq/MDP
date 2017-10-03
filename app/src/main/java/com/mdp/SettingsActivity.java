@@ -41,7 +41,20 @@ public class SettingsActivity extends AppCompatActivity {
     private void selectFrag(int pos){
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction ft = manager.beginTransaction();
-        ft.replace(R.id.fragment, new FunctionsFragment());
+
+        switch (pos){
+            case 0:
+                ft.replace(R.id.fragment, new BluetoothFragment());
+                break;
+            case 1:
+                ft.replace(R.id.fragment, new CoordinatesFragment());
+                break;
+            case 2:
+                ft.replace(R.id.fragment, new FunctionsFragment());
+                break;
+        }
+
+        ft.commit();
     }
 
 
