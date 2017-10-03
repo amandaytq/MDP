@@ -26,7 +26,6 @@
         </activity>
         <activity
             android:name=".BluetoothActivity"
-            android:label="Bluetooth"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="landscape">
 
@@ -36,7 +35,13 @@
                 android:value="com.mdp.MainActivity" />
             >
         </activity>
-        <activity android:name=".SettingsActivity"></activity>
+        <activity android:name=".SettingsActivity"
+            android:label="Settings">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.mdp.MainActivity" />
+            >
+        </activity>
     </application>
 
 </manifest>

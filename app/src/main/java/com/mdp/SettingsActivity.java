@@ -2,18 +2,27 @@ package com.mdp;
 
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.ListView;
+import android.widget.Switch;
 
 import java.util.ArrayList;
 
 public class SettingsActivity extends AppCompatActivity {
 
     private ArrayList<String> listArr = new ArrayList<String>();
+
+    private Switch bluetooth_toggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +43,15 @@ public class SettingsActivity extends AppCompatActivity {
                 selectFrag(position);
             }
         });
+
+        Toolbar bluetooth_toolbar = (Toolbar) findViewById(R.id.settings_bar);
+        setSupportActionBar(bluetooth_toolbar);
+
+        // Get a support ActionBar corresponding to this toolbar
+        ActionBar ab = getSupportActionBar();
+
+        // Enable the Up button
+        ab.setDisplayHomeAsUpEnabled(true);
 
 
     }

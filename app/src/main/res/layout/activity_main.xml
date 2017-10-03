@@ -31,31 +31,12 @@
                     android:orientation="vertical"
                     android:id="@+id/linearLayout">
 
-
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/f1_text" />
-                    <Button
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/f1_save"
-                        android:text="Save F1"/>
                     <Button
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/f1_call"
                         android:text="Call F1"/>
 
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/f2_text" />
-                    <Button
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/f2_save"
-                        android:text="Save F2"/>
                     <Button
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
