@@ -24,11 +24,9 @@ public class ReceiveHandler {
 
     private static final String map_protocol = "MAP";
 
-    private MapHandler mh;
     private MainActivity ma;
 
-    public ReceiveHandler(MapHandler h, MainActivity a){
-        mh = h;
+    public ReceiveHandler(MainActivity a){
         ma = a;
     }
 
@@ -54,7 +52,7 @@ public class ReceiveHandler {
                         break;
                     case status_moving:
                         //update map of robot movement
-                        mh.moveFront();
+                        ma.mapHandler.moveFront();
                         //update map status
                         //updateMap(s2[1]);
                         break;
@@ -71,13 +69,13 @@ public class ReceiveHandler {
                         String direction = s2[1];
                         switch(direction){
                             case turning_left:
-                                mh.setRotatedDirection(1);
+                                ma.mapHandler.setRotatedDirection(1);
                                 break;
                             case turning_right:
-                                mh.setRotatedDirection(2);
+                                ma.mapHandler.setRotatedDirection(2);
                                 break;
                             case turning_back:
-                                mh.setRotatedDirection(3);
+                                ma.mapHandler.setRotatedDirection(3);
                                 break;
                             default:
                                 break;
@@ -88,7 +86,6 @@ public class ReceiveHandler {
                         //update status text only
                         break;
                 }
-
                 break;
             case map_protocol:
                 updateMap(s[1]);
@@ -104,15 +101,26 @@ public class ReceiveHandler {
         String map1 = s[0];
         String map2 = s[1];
 
-        String map1_s = new BigInteger(map1, 16).toString(2);
-        String map2_s = new BigInteger(map2, 16).toString(2);
+        String map1_s = hexToBinaryString(map1);
+        String map2_s = hexToBinaryString(map2);
 
-        int [][] scouted_arr = {};
-        int [][] obs_arr = {};
+        Log.d(TAG, "map1_s: " + map1_s);
+        Log.d(TAG, "map2_s: " + map2_s);
+
+        int [][] scouted_arr = new int[20][15];
+        int [][] obs_arr = new int[20][15];
 
         int xPos = 0;
         int yPos = 0;
         int map2_pos = 0;
+
+        Log.d(TAG, "No. of map1 char: " + map1_s.length());
+        int count = 0;
+        for(int i = 2; i < map1_s.length() - 2; i++){
+            if(map1_s.charAt(i) == '1'){
+                count++;
+            }
+        }
 
         for(int i = 2; i < map1_s.length() - 2; i++){
             if(map1_s.charAt(i) == '1'){
@@ -124,15 +132,85 @@ public class ReceiveHandler {
                 else{
                     obs_arr[yPos][xPos] = 0;
                 }
-                map2_pos++;
+                //prevents app from crahing in the case where map2 loaded poorly
+                if(map2_pos < map2_s.length()){
+                    map2_pos++;
+                }
             }
             else{
                 scouted_arr[yPos][xPos] = 0;
                 obs_arr[yPos][xPos] = 0;
             }
+            if(xPos >= 14){
+                xPos = 0;
+                yPos++;
+            }
+            else{
+                xPos++;
+            }
         }
 
-        mh.setObsArr(obs_arr);
+        ma.mapHandler.setObsArr(obs_arr);
         //mh.setScoutedArr(scouted_arr);
+    }
+
+    //converts hexadecimal string into a binary string
+    private static String hexToBinaryString(String data) {
+        String returnString = "";
+        for(int i = 0; i < data.length(); i++){
+            switch(data.charAt(i)){
+                case '0':
+                    returnString += "0000";
+                    break;
+                case '1':
+                    returnString += "0001";
+                    break;
+                case '2':
+                    returnString += "0010";
+                    break;
+                case '3':
+                    returnString += "0011";
+                    break;
+                case '4':
+                    returnString += "0100";
+                    break;
+                case '5':
+                    returnString += "0101";
+                    break;
+                case '6':
+                    returnString += "0110";
+                    break;
+                case '7':
+                    returnString += "0111";
+                    break;
+                case '8':
+                    returnString += "1000";
+                    break;
+                case '9':
+                    returnString += "1001";
+                    break;
+                case 'A':
+                    returnString += "1010";
+                    break;
+                case 'B':
+                    returnString += "1011";
+                    break;
+                case 'C':
+                    returnString += "1100";
+                    break;
+                case 'D':
+                    returnString += "1101";
+                    break;
+                case 'E':
+                    returnString += "1110";
+                    break;
+                case 'F':
+                    returnString += "1111";
+                    break;
+
+            }
+        }
+
+        return returnString;
     }
 }
