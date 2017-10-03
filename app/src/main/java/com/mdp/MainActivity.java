@@ -6,9 +6,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.ReceiverCallNotAllowedException;
-import android.content.SharedPreferences;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,8 +17,6 @@ import android.widget.GridView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.nio.charset.Charset;
 
@@ -128,12 +123,19 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "create: MainActivity");
 
         //define variables
-        final GridView gridview = (GridView) findViewById(R.id.gridview);
-        gridview.setAdapter(new ImageAdapter(this));
+        final GridView mapgv = (GridView) findViewById(R.id.mapgv);
+        mapgv.setAdapter(new MapImageAdapter(this));
 
-        final GridView mapgridview = (GridView) findViewById(R.id.mapgridview);
-        mapgridview.setAdapter(new MapImageAdapter(this));
-        mapHandler = new MapHandler(gridview, mapgridview, this);
+        final GridView pathgv = (GridView) findViewById(R.id.pathgv);
+        pathgv.setAdapter(new ImageAdapter(this));
+
+        final GridView obsgv = (GridView) findViewById(R.id.obsgv);
+        obsgv.setAdapter(new ImageAdapter(this));
+
+        final GridView robotgv = (GridView) findViewById(R.id.robotgv);
+        robotgv.setAdapter(new ImageAdapter(this));
+
+        mapHandler = new MapHandler(mapgv, pathgv, obsgv, robotgv, this);
 
         connect_text = (TextView) findViewById(R.id.connect_text);
 
@@ -193,20 +195,24 @@ public class MainActivity extends AppCompatActivity {
         });
 
         final Button setwp_btn = (Button)findViewById(R.id.set_wp);
+        final Button setsp_btn = (Button)findViewById(R.id.set_sp);
+
         setwp_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(setwp_btn.isActivated()){
                     setwp_btn.setText("Set WP");
                     setwp_btn.setActivated(false);
-                    mapgridview.setOnItemClickListener(null);
+                    setsp_btn.setEnabled(true);
+                    robotgv.setOnItemClickListener(null);
                 }else{
                     setwp_btn.setText("cancel");
                     setwp_btn.setActivated(true);
-                    mapgridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    setsp_btn.setEnabled(false);
+                    robotgv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                             int[] coord = mapHandler.getCoordinates(position);
-                            mapHandler.alertView(setwp_btn, "Confirm set way point?", "Are you sure that you want to set \n " +
+                            mapHandler.alertView(setwp_btn,setsp_btn, "Confirm set way point?", "Are you sure that you want to set \n " +
                                     "the point ("+coord[0]+", "+coord[1]+") as your way point?",true,mapHandler.SETWP);
                             mapHandler.poswp = position;
                         }
@@ -215,21 +221,22 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        final Button setsp_btn = (Button)findViewById(R.id.set_sp);
         setsp_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(setsp_btn.isActivated()){
                     setsp_btn.setText("Set Start");
                     setsp_btn.setActivated(false);
-                    mapgridview.setOnItemClickListener(null);
+                    setwp_btn.setEnabled(true);
+                    robotgv.setOnItemClickListener(null);
                 }else{
                     setsp_btn.setText("cancel");
+                    setwp_btn.setEnabled(false);
                     setsp_btn.setActivated(true);
-                    mapgridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    robotgv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                             int[] coord = mapHandler.getCoordinates(position);
-                            mapHandler.alertView(setsp_btn, "Confirm set start point?", "Are you sure that you want to set \n " +
+                            mapHandler.alertView(setsp_btn, setwp_btn, "Confirm set start point?", "Are you sure that you want to set \n " +
                                     "the point ("+coord[0]+", "+coord[1]+") as your start point?",true,mapHandler.SETSP);
                             mapHandler.possp = position;
                         }
