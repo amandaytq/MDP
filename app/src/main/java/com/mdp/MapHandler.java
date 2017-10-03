@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,9 +29,11 @@ public class MapHandler {
     int direction = EAST;
 
     int[] startpoint = {-1};
+    int[] endpoint = {-1};
     int[] robotPos = {-1};
 
     boolean response = false;
+    boolean withinBound = true;
     Context context;
 
     private static final int BLUE = 1;
@@ -74,15 +77,23 @@ public class MapHandler {
                 distance = -1;
                 break;
         }
-        for (int i=0; i<robotPos.length;i++){
-            ImageView oldv= (ImageView)mgv.getChildAt(robotPos[i]);
-            oldv.setImageResource(0);
-            robotPos[i] += distance;
+
+        int[] point1 = getCoordinates(robotPos[0]+distance);
+
+        if(point1[0] < 0 || point1[0] > 12 || point1[1] < 0 || point1[1] > 17){
+            Toast.makeText(context, "Boundary reached!",Toast.LENGTH_SHORT).show();
+        }else{
+            for (int i=0; i<robotPos.length;i++){
+                ImageView oldv = (ImageView)mgv.getChildAt(robotPos[i]);
+                oldv.setImageResource(0);
+                robotPos[i] += distance;
+            }
+            setBot();
         }
-        setBot();
+
     }
 
-    public void setDirection(int dir){
+    public void setRotatedDirection(int dir){
 
         int currDirection = -1;
 
@@ -115,49 +126,51 @@ public class MapHandler {
     }
 
     public void setBot(){
-        ImageView riv1 = (ImageView)mgv.getChildAt(robotPos[0]);
-        ImageView riv2 = (ImageView)mgv.getChildAt(robotPos[1]);
-        ImageView riv3 = (ImageView)mgv.getChildAt(robotPos[2]);
-        ImageView riv4 = (ImageView)mgv.getChildAt(robotPos[3]);
-        ImageView riv5 = (ImageView)mgv.getChildAt(robotPos[4]);
-        ImageView riv6 = (ImageView)mgv.getChildAt(robotPos[5]);
-        ImageView riv7 = (ImageView)mgv.getChildAt(robotPos[6]);
-        ImageView riv8 = (ImageView)mgv.getChildAt(robotPos[7]);
-        ImageView riv9 = (ImageView)mgv.getChildAt(robotPos[8]);
-        ImageView arr = (ImageView)mgv.getChildAt(robotPos[direction]);
+        ImageView riv1 = (ImageView) mgv.getChildAt(robotPos[0]);
+        ImageView riv2 = (ImageView) mgv.getChildAt(robotPos[1]);
+        ImageView riv3 = (ImageView) mgv.getChildAt(robotPos[2]);
+        ImageView riv4 = (ImageView) mgv.getChildAt(robotPos[3]);
+        ImageView riv5 = (ImageView) mgv.getChildAt(robotPos[4]);
+        ImageView riv6 = (ImageView) mgv.getChildAt(robotPos[5]);
+        ImageView riv7 = (ImageView) mgv.getChildAt(robotPos[6]);
+        ImageView riv8 = (ImageView) mgv.getChildAt(robotPos[7]);
+        ImageView riv9 = (ImageView) mgv.getChildAt(robotPos[8]);
+        ImageView arr = (ImageView) mgv.getChildAt(robotPos[direction]);
 
-        riv1.setImageResource(R.drawable.circle);
-        riv1.setRotation(-90);
-        riv3.setImageResource(R.drawable.circle);
-        riv3.setRotation(0);
-        riv7.setImageResource(R.drawable.circle);
-        riv7.setRotation(-180);
-        riv9.setImageResource(R.drawable.circle);
-        riv9.setRotation(90);
+        if(riv1 != null && riv2 != null && riv3 != null && riv4 != null && riv5 != null && riv6 != null && riv7 != null && riv8 != null && riv9 != null) {
+            riv1.setImageResource(R.drawable.circle);
+            riv1.setRotation(-90);
+            riv3.setImageResource(R.drawable.circle);
+            riv3.setRotation(0);
+            riv7.setImageResource(R.drawable.circle);
+            riv7.setRotation(-180);
+            riv9.setImageResource(R.drawable.circle);
+            riv9.setRotation(90);
 
-        riv2.setImageResource(R.drawable.grey);
-        riv4.setImageResource(R.drawable.grey);
-        riv5.setImageResource(R.drawable.grey);
-        riv6.setImageResource(R.drawable.grey);
-        riv8.setImageResource(R.drawable.grey);
+            riv2.setImageResource(R.drawable.grey);
+            riv4.setImageResource(R.drawable.grey);
+            riv5.setImageResource(R.drawable.grey);
+            riv6.setImageResource(R.drawable.grey);
+            riv8.setImageResource(R.drawable.grey);
 
-        arr.setImageResource(R.drawable.arrow);
-        switch (direction){
-            case NORTH:
-                arr.setRotation(-90);
-                break;
-            case SOUTH:
-                arr.setRotation(90);
-                break;
-            case EAST:
-                arr.setRotation(0);
-                break;
-            case WEST:
-                arr.setRotation(-180);
-                break;
+            arr.setImageResource(R.drawable.arrow);
+            switch (direction) {
+                case NORTH:
+                    arr.setRotation(-90);
+                    break;
+                case SOUTH:
+                    arr.setRotation(90);
+                    break;
+                case EAST:
+                    arr.setRotation(0);
+                    break;
+                case WEST:
+                    arr.setRotation(-180);
+                    break;
+            }
         }
-
     }
+
 
     public void setStartPoint(int x, int y){
         int pos = getPos(x,y);
@@ -183,7 +196,33 @@ public class MapHandler {
         }
         startpoint = newstartpoint;
         robotPos = newstartpoint;
+        direction = EAST;
         setBot();
+    }
+
+    public void setEndPoint(int x, int y){
+        int pos = getPos(x,y);
+        int[] newendpoint = {pos-21,pos-20,pos-19,pos-1,pos,pos+1,pos+19,pos+20,pos+21};
+
+        if (startpoint.length<9){
+            for (int i=0; i<newendpoint.length;i++){
+                ImageView v= (ImageView)gv.getChildAt(newendpoint[i]);
+                changeColor(v,YELLOW);
+            }
+        }else if(newendpoint[0] != startpoint[0]){
+            for (int i=0; i<endpoint.length;i++){
+                ImageView v1= (ImageView)gv.getChildAt(i);
+                ImageView v2= (ImageView)mgv.getChildAt(i);
+                v2.setImageResource(0);
+                changeColor(v1,BLUE);
+            }
+
+            for (int i=0; i<newendpoint.length;i++){
+                ImageView v= (ImageView)gv.getChildAt(newendpoint[i]);
+                changeColor(v,YELLOW);
+            }
+        }
+        endpoint = newendpoint;
     }
 
     public void setObs(int x, int y){

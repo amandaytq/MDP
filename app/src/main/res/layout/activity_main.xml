@@ -30,51 +30,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:id="@+id/linearLayout">
-                    <LinearLayout
-                        android:paddingTop="5dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_weight=".40"
-                            android:layout_height="wrap_content"
-                            android:labelFor="@+id/et1"
-                            android:text="X :"/>
 
-                        <EditText
-                            android:paddingLeft="5dp"
-                            android:id="@+id/et1"
-                            android:layout_width="0dp"
-                            android:layout_weight=".80"
-                            android:text="1"
-                            android:layout_height="wrap_content"
-                            android:inputType="number"
-                            android:textAlignment="center"/>
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_weight=".40"
-                            android:layout_height="wrap_content"
-                            android:labelFor="@+id/et2"
-                            android:text="Y:"/>
-
-                        <EditText
-                            android:paddingLeft="5dp"
-                            android:id="@+id/et2"
-                            android:layout_width="0dp"
-                            android:layout_weight=".80"
-                            android:text="1"
-                            android:layout_height="wrap_content"
-                            android:inputType="number"
-                            android:textAlignment="center"/>
-                    </LinearLayout>
-                    <Button
-                        android:id="@+id/btn2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:onClick="setStartPoint"
-                        android:text="Set Start" />
 
                     <EditText
                         android:layout_width="match_parent"
