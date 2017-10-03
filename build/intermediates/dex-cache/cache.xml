@@ -139,7 +139,7 @@
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="d5168cf9cc81d2d5f29d81d218aa83d89774a21c">
+        sha1="90e71317bc2a75c3cab715772640a8c21d7177e1">
         <dex dex="D:\AndroidGitProject\MDP\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_223649db88e6810430b7f0f781b4cedb29ced96d\classes.dex" />
     </item>
     <item
