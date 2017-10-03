@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private Button right_btn;
 
     private TextView status_text;
+    private boolean isExploring = false;
 
     private static String command_forward = "f";
     private static String command_right = "tr";
@@ -50,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
     private Button f2_call;
     private Button f1_save;
     private Button f2_save;
+
+    private Switch auto_switch;
 
     private MapHandler mapHandler;
     private ReceiveHandler receiveHandler;
@@ -301,6 +305,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //init auto switch
+        auto_switch = (Switch) findViewById(R.id.auto_switch);
+
         //init receiveHandler & sendHandler
         receiveHandler = new ReceiveHandler(mapHandler, MainActivity.this);
 
@@ -394,7 +401,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void updateStatusText(String s){
-        String substring = s.substring(1);
+        String substring = s.substring(1).toLowerCase();
         String status = s.substring(0, 1) + substring;
         Log.d(TAG, status);
         status_text.setText(status);
@@ -405,4 +412,31 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public boolean isAuto(){
+        return auto_switch.isChecked();
+    }
+
+    public void enableControls(){
+        Log.d(TAG, "enableControls: called");
+        //enable only if it is not exploring
+        if(!isExploring){
+
+        }
+    }
+    public void disableControls(){
+        Log.d(TAG, "disableControls: called");
+    }
+
+    public void setExploring(Boolean b){
+        isExploring = b;
+        if (!b){
+            enableControls();
+        }
+    }
+
+    public void overrideControl(){
+        //force back control of controls
+        isExploring = false;
+        enableControls();
+    }
 }
