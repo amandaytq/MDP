@@ -30,8 +30,9 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
 
         listArr.add("Bluetooth");
-        listArr.add("Coordinates");
+        listArr.add("Start and End points"); //coordinateFragment
         listArr.add("Functions");
+        listArr.add("Obstacles");
 
         ListView list = (ListView) findViewById(R.id.settings_lv);
         ArrayAdapter<String> listArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listArr);
@@ -69,6 +70,9 @@ public class SettingsActivity extends AppCompatActivity {
                 break;
             case 2:
                 ft.replace(R.id.fragment, new FunctionsFragment());
+                break;
+            case 3:
+                ft.replace(R.id.fragment, new ObstaclesFragment());
                 break;
         }
 

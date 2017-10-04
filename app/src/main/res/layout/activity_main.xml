@@ -29,20 +29,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_marginTop="50dp"
                     android:id="@+id/linearLayout">
-
-                    <Button
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/f1_call"
-                        android:text="Call F1"/>
-
-                    <Button
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/f2_call"
-                        android:text="Call F2"/>
-
 
                     <Button
                         android:layout_width="match_parent"
@@ -56,61 +45,33 @@
                         android:id="@+id/shortest_path"
                         android:text="Start SP"/>
 
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_above="@+id/auto_switch"
+                        android:layout_alignEnd="@+id/linearLayout"
+                        android:id="@+id/btn_request_map"
+                        android:layout_marginBottom="16dp"
+                        android:text="Update Map"
+                        android:layout_marginTop="50dp"
+                        />
+                    <Switch
+                        android:id="@+id/auto_switch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:text="Auto" />
+
+
+                    <RelativeLayout
+                        android:id="@+id/layout_joystick"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:gravity="center_horizontal"
+                        android:layout_marginTop="50dp"
+                        android:background="@drawable/image_button_bg" >
+                    </RelativeLayout>
                 </LinearLayout>
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_above="@+id/auto_switch"
-                    android:layout_alignEnd="@+id/linearLayout"
-                    android:id="@+id/btn_request_map"
-                    android:layout_marginBottom="16dp"
-                    android:text="Update Map"
-                    />
-
-                <Switch
-                    android:id="@+id/auto_switch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_above="@+id/text_movement"
-                    android:layout_marginLeft="16dp"
-
-                    android:text="Auto" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Movement"
-                    android:layout_above="@+id/btn_forward"
-                    android:layout_marginLeft="16dp"
-                    android:id="@+id/text_movement"/>
-
-                <Button
-                    style="@style/Widget.AppCompat.Button.Borderless"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:layout_alignParentBottom="true"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    android:id="@+id/btn_forward"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginBottom="88dp"
-                    android:background="@drawable/ic_keyboard_arrow_up_black_24dp"
-
-                    />
-
-                <Button
-                    style="@style/Widget.AppCompat.Button.Borderless"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:layout_alignParentBottom="true"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    android:id="@+id/btn_back"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginBottom="16dp"
-                    android:background="@drawable/ic_keyboard_arrow_down_black_24dp"
-
-                    />
-
-
             </RelativeLayout>
 
             <LinearLayout
@@ -164,7 +125,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <GridView xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:id="@+id/mapgv"
+                    android:id="@+id/pathgv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -172,7 +133,7 @@
                     android:stretchMode="columnWidth"/>
 
                 <GridView xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:id="@+id/pathgv"
+                    android:id="@+id/mapgv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -216,17 +177,17 @@
                         android:layout_height="wrap_content"
                         android:src="@drawable/settings"
                         android:onClick="enterSettings"/>
-                    <ImageButton
-                        android:id="@+id/btn_Settings"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/blue_tooth_icon"
-                        android:onClick="enterBluetooth"/>
+                    <!--<ImageButton-->
+                        <!--android:id="@+id/btn_Settings"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:src="@drawable/blue_tooth_icon"-->
+                        <!--android:onClick="enterBluetooth"/>-->
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_marginTop="50dp">
@@ -241,55 +202,18 @@
                         android:layout_height="wrap_content"
                         android:text="Set WP" />
 
-                    <LinearLayout
-                        android:paddingTop="5dp"
+                    <Button
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_weight=".40"
-                            android:layout_height="wrap_content"
-                            android:labelFor="@+id/et1"
-                            android:text="X :"/>
+                        android:id="@+id/f1_call"
+                        android:text="Call F1"
+                        android:layout_marginTop="50dp"/>
 
-                        <EditText
-                            android:paddingLeft="5dp"
-                            android:id="@+id/obsx"
-                            android:layout_width="0dp"
-                            android:layout_weight=".80"
-                            android:text="0"
-                            android:layout_height="wrap_content"
-                            android:inputType="number"
-                            android:textAlignment="center"/>
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_weight=".40"
-                            android:layout_height="wrap_content"
-                            android:labelFor="@+id/et2"
-                            android:text="Y:"/>
-
-                        <EditText
-                            android:paddingLeft="5dp"
-                            android:id="@+id/obsy"
-                            android:layout_width="0dp"
-                            android:layout_weight=".80"
-                            android:text="0"
-                            android:layout_height="wrap_content"
-                            android:inputType="number"
-                            android:textAlignment="center"/>
-                    </LinearLayout>
-                <Button
-                    android:id="@+id/set_obs"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Set Obs" />
-                <Button
-                    android:id="@+id/rmv_obs"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Remove Obs" />
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/f2_call"
+                        android:text="Call F2"/>
                 </LinearLayout>
 
                 <Button
