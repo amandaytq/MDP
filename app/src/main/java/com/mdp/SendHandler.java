@@ -19,7 +19,11 @@ public class SendHandler {
 
     private static final String command_request_map = "map";
 
-    private static final String command_explore = "explore";
+    private static final String command_explore = "exploration";
+    private static final String command_stop_explore = "stopexploration";
+
+    private static final String command_shortest_path = "shortestpath";
+    private static final String command_stop_shortest_path = "stopshortestpath";
 
     private static final String command_send_waypoint = "waypoint";
     private static final String command_send_startpoint = "startpoint";
@@ -38,18 +42,10 @@ public class SendHandler {
             case "forward":
                 //move forward
                 sendCommand(ard_protocol, command_forward);
-                //move bot on android device
-                if(ma.mapHandler.botSet()){
-                    ma.mapHandler.moveFront();
-                }
                 break;
             case "back":
                 //move backwards
                 sendCommand(ard_protocol, command_back);
-                //move bot on android device
-                if(ma.mapHandler.botSet()){
-                    //ma.mapHandler.moveBack();
-                }
                 break;
             default:
                 break;
@@ -61,18 +57,10 @@ public class SendHandler {
             case "left":
                 //turn left
                 sendCommand(ard_protocol, command_turn_left);
-                //move bot on android device
-                if(ma.mapHandler.botSet()){
-                    ma.mapHandler.setRotatedDirection(ma.mapHandler.LEFT);
-                }
                 break;
             case "right":
                 //turn right
                 sendCommand(ard_protocol, command_turn_right);
-                //move bot on android device
-                if(ma.mapHandler.botSet()){
-                    ma.mapHandler.setRotatedDirection(ma.mapHandler.RIGHT);
-                }
                 break;
             default:
                 break;
@@ -82,9 +70,7 @@ public class SendHandler {
     public void position(int position){
         //determine direction to turn
         int turn = ma.mapHandler.determineTurn(position);
-        if(ma.mapHandler.botSet()){
-            ma.mapHandler.setDirection(position);
-        }
+
         int wise = 1;
         if(turn < 0){
             wise = 0;
@@ -94,12 +80,22 @@ public class SendHandler {
         sendCommand(ard_protocol, command_turn_angle + "," + turn + "," + wise);
     }
 
-    public void requstMapData(){
+    public void requestMapData(){
         sendCommand(alg_protocol, command_request_map);
     }
 
     public void beginExplore(){
         sendCommand(alg_protocol, command_explore);
+    }
+    public void stopExplore(){
+        sendCommand(alg_protocol, command_stop_explore);
+    }
+
+    public void beginShortestPath(){
+        sendCommand(alg_protocol, command_shortest_path);
+    }
+    public void stopShortestPath(){
+        sendCommand(alg_protocol, command_stop_shortest_path);
     }
 
     public void sendWayPoint(int x, int y) {

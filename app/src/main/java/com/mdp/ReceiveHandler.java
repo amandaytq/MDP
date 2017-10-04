@@ -7,12 +7,14 @@ import java.math.BigInteger;
 public class ReceiveHandler {
     private static final String TAG = ReceiveHandler.class.getSimpleName();
 
-    private static final String status_protocol = "STATUS";
-    private static final String status_idle = "IDLE";
+    private static final String status_protocol = "status";
+    private static final String explore_protocol = "explore";
+    private static final String move_protocol = "1";
+    private static final String turn_protocol = "2";
 
     private static final String command_completed = "-2";
 
-    private static final String map_protocol = "MAP";
+    private static final String map_protocol = "map";
 
     private MainActivity ma;
 
@@ -27,6 +29,33 @@ public class ReceiveHandler {
         if(s.length > 1){
             parameters = s[1];
         }
+        //Arduino Protocol handling
+        if(Character.isDigit(protocol.charAt(0))){
+            String [] ard = protocol.split(",");
+            String ard_protocol = ard[0];
+            switch(ard_protocol){
+                case move_protocol:
+                    //move forward
+                    if(ma.mapHandler.botSet()){
+                        ma.mapHandler.moveFront();
+                    }
+                    break;
+                case turn_protocol:
+                    //turn robot
+                    if(ma.mapHandler.botSet()){
+                        int angle = Integer.parseInt(ard[1]);
+                        int wise = Integer.parseInt(ard[2]);
+                        if(ma.mapHandler.botSet()){
+                            int direction = ma.mapHandler.determineDirection(angle, wise);
+                            ma.mapHandler.setDirection(direction);
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
         switch(protocol){
             case status_protocol:
                 //update status and perform the required actions
@@ -36,10 +65,6 @@ public class ReceiveHandler {
 
                 ma.updateStatusText(status);
                 switch(status){
-                    case status_idle:
-                        //enable controls
-                        ma.enableControls();
-                        break;
                     default:
                         //update status text only
                         break;
@@ -105,7 +130,7 @@ public class ReceiveHandler {
         }
 
         ma.mapHandler.setObsArr(obs_arr);
-        //ma.mapHandler.setPath(scouted_arr);
+        ma.mapHandler.setPath(scouted_arr);
     }
 
     //converts hexadecimal string into a binary string
