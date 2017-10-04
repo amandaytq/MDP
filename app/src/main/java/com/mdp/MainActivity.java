@@ -9,11 +9,14 @@ import android.content.IntentFilter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,6 +55,12 @@ public class MainActivity extends AppCompatActivity {
     public static MapHandler mapHandler;
     public ReceiveHandler receiveHandler;
     public SendHandler sendHandler;
+
+    private int test = 0;
+
+    //for Joy stick
+    RelativeLayout layout_joystick;
+    JoyStickClass js;
 
     private BroadcastReceiver bluetoothReceiver = new BroadcastReceiver() {
         @Override
@@ -146,26 +155,26 @@ public class MainActivity extends AppCompatActivity {
         connect_text = (TextView) findViewById(R.id.connect_text);
 
         //init control buttons
-        forward_btn = (Button) findViewById(R.id.btn_forward);
-        forward_btn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                sendHandler.move("forward");
-                //move bot on android device
-                if(mapHandler.botSet()){
-                    mapHandler.moveFront();
-                }
-            }
-        });
-        back_btn = (Button) findViewById(R.id.btn_back);
-        back_btn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                sendHandler.move("back");
-                //move bot on android device
-                if(mapHandler.botSet()){
-                    //mapHandler.moveBack();
-                }
-            }
-        });
+//        forward_btn = (Button) findViewById(R.id.btn_forward);
+//        forward_btn.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View v) {
+//                sendHandler.move("forward");
+//                //move bot on android device
+//                if(mapHandler.botSet()){
+//                    mapHandler.moveFront();
+//                }
+//            }
+//        });
+//        back_btn = (Button) findViewById(R.id.btn_back);
+//        back_btn.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View v) {
+//                sendHandler.move("back");
+//                //move bot on android device
+//                if(mapHandler.botSet()){
+//                    //mapHandler.moveBack();
+//                }
+//            }
+//        });
 
         turn_left_btn = (Button) findViewById(R.id.btn_turn_left);
         turn_left_btn.setOnClickListener(new View.OnClickListener() {
@@ -343,6 +352,50 @@ public class MainActivity extends AppCompatActivity {
         registerReceiver(bluetoothReceiver, new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED));
 
         registerReceiver(disconnectReceiver, new IntentFilter(BluetoothDevice.ACTION_ACL_DISCONNECTED));
+
+        //Joystick
+        layout_joystick = (RelativeLayout)findViewById(R.id.layout_joystick);
+
+        js = new JoyStickClass(getApplicationContext(), layout_joystick, R.drawable.image_button);
+        js.setStickSize(80, 80);
+        js.setLayoutSize(210, 210);
+        js.setLayoutAlpha(150);
+        js.setStickAlpha(130);
+        js.setOffset(45);
+        js.setMinimumDistance(20);
+        js.stickOriginalPos();
+        js.draw();
+
+        layout_joystick.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View arg0, MotionEvent arg1) {
+                js.drawStick(arg1);
+                if(arg1.getAction() == MotionEvent.ACTION_DOWN
+                        || arg1.getAction() == MotionEvent.ACTION_MOVE) {
+                    test++;
+                    int direction = js.get4Direction();
+                    if(direction == JoyStickClass.STICK_UP) {
+                        //upwards
+                        //sendHandler.move("forward");
+                        if(test%5 == 0)
+                            mapHandler.move(mapHandler.UP);
+
+                    } else if(direction == JoyStickClass.STICK_DOWN) {
+                       //downwards
+                       // sendHandler.move("back");
+                        if(test%5 == 0)
+                            mapHandler.move(mapHandler.DOWN);
+                    }
+
+                } else if(arg1.getAction() == MotionEvent.ACTION_UP) {
+                    //when it leaves up
+                    js.stickOriginalPos();
+                    test = 0;
+
+
+                }
+                return true;
+            }
+        });
     }
 
     @Override

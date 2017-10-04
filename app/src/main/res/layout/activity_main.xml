@@ -29,6 +29,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
+                    android:gravity="center"
                     android:id="@+id/linearLayout">
 
                     <Button
@@ -56,61 +57,33 @@
                         android:id="@+id/shortest_path"
                         android:text="Start SP"/>
 
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_above="@+id/auto_switch"
+                        android:layout_alignEnd="@+id/linearLayout"
+                        android:id="@+id/btn_request_map"
+                        android:layout_marginBottom="16dp"
+                        android:text="Update Map"
+                        />
+                    <Switch
+                        android:id="@+id/auto_switch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:text="Auto" />
+
+
+
+                    <RelativeLayout
+                        android:id="@+id/layout_joystick"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:gravity="center_horizontal"
+                        android:layout_marginTop="50dp"
+                        android:background="@drawable/image_button_bg" >
+                    </RelativeLayout>
                 </LinearLayout>
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_above="@+id/auto_switch"
-                    android:layout_alignEnd="@+id/linearLayout"
-                    android:id="@+id/btn_request_map"
-                    android:layout_marginBottom="16dp"
-                    android:text="Update Map"
-                    />
-
-                <Switch
-                    android:id="@+id/auto_switch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_above="@+id/text_movement"
-                    android:layout_marginLeft="16dp"
-
-                    android:text="Auto" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Movement"
-                    android:layout_above="@+id/btn_forward"
-                    android:layout_marginLeft="16dp"
-                    android:id="@+id/text_movement"/>
-
-                <Button
-                    style="@style/Widget.AppCompat.Button.Borderless"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:layout_alignParentBottom="true"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    android:id="@+id/btn_forward"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginBottom="88dp"
-                    android:background="@drawable/ic_keyboard_arrow_up_black_24dp"
-
-                    />
-
-                <Button
-                    style="@style/Widget.AppCompat.Button.Borderless"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:layout_alignParentBottom="true"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    android:id="@+id/btn_back"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginBottom="16dp"
-                    android:background="@drawable/ic_keyboard_arrow_down_black_24dp"
-
-                    />
-
-
             </RelativeLayout>
 
             <LinearLayout

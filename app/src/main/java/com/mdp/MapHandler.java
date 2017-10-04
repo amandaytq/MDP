@@ -58,6 +58,9 @@ public class MapHandler {
     public static final int LEFT = 1;
     public static final int RIGHT = 2;
 
+    public static final int UP = 1;
+    public static final int DOWN = 2;
+
     private static final int[] dirArray = {EAST, SOUTH, WEST, NORTH};
     private static final ArrayList<Integer> obsArrayList = new ArrayList<Integer>();
     private static final ArrayList<Integer> pathArrayList = new ArrayList<Integer>();
@@ -74,34 +77,44 @@ public class MapHandler {
         context = con;
     }
 
-    public void moveFront(){
-        int distance = 0;
-        switch (direction){
-            case NORTH:
-                distance = -20;
-                break;
-            case SOUTH:
-                distance = 20;
-                break;
-            case EAST:
-                distance = 1;
-                break;
-            case WEST:
-                distance = -1;
-                break;
-        }
-
-        int[] point1 = getCoordinates(robotPos[0]+distance);
-
-        if(point1[0] < 0 || point1[0] > 12 || point1[1] < 0 || point1[1] > 17){
-            Toast.makeText(context, "Boundary reached!",Toast.LENGTH_SHORT).show();
-        }else{
-            for (int i=0; i<robotPos.length;i++){
-                ImageView oldv = (ImageView)robotgv.getChildAt(robotPos[i]);
-                oldv.setImageResource(0);
-                robotPos[i] += distance;
+    public void move(int dir){
+        if(botSet()){
+            int val = 1;
+            if (dir == UP){
+                val = 1;
+            }else if(dir == DOWN){
+                val = -1;
             }
-            setBot();
+            int distance = 0;
+            switch (direction) {
+                case NORTH:
+                    distance = -20*val;
+                    break;
+                case SOUTH:
+                    distance = 20*val;
+                    break;
+                case EAST:
+                    distance = 1*val;
+                    break;
+                case WEST:
+                    distance = -1*val;
+                    break;
+            }
+
+            int[] point1 = getCoordinates(robotPos[0] + distance);
+
+            if (point1[0] < 0 || point1[0] > 12 || point1[1] < 0 || point1[1] > 17) {
+                Toast.makeText(context, "Boundary reached!", Toast.LENGTH_SHORT).show();
+            } else {
+                for (int i = 0; i < robotPos.length; i++) {
+                    ImageView oldv = (ImageView) robotgv.getChildAt(robotPos[i]);
+                    oldv.setImageResource(0);
+                    robotPos[i] += distance;
+                }
+                setBot();
+            }
+        }else{
+            Toast.makeText(context, "Start point not defined yet", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -326,39 +339,50 @@ public class MapHandler {
         }
     }
 
-    public boolean isObstructed(){
-        ArrayList<Integer> range = new ArrayList<>();
-        switch (direction){
-            case NORTH:
-                range.add(robotPos[0]-20);
-                range.add(robotPos[1]-20);
-                range.add(robotPos[2]-20);
-                break;
+    public boolean isObstructed(int dir){
+        if(botSet()){
+            int val= 1;
+            if (dir == UP){
+                val = 1;
+            }else if(dir == DOWN){
+                val = -1;
+            }
+            ArrayList<Integer> range = new ArrayList<>();
+            switch (direction){
+                case NORTH:
+                    range.add(robotPos[0]-20*val);
+                    range.add(robotPos[1]-20*val);
+                    range.add(robotPos[2]-20*val);
+                    break;
 
-            case SOUTH:
-                range.add(robotPos[6]+20);
-                range.add(robotPos[7]+20);
-                range.add(robotPos[8]+20);
-                break;
+                case SOUTH:
+                    range.add(robotPos[6]+20*val);
+                    range.add(robotPos[7]+20*val);
+                    range.add(robotPos[8]+20*val);
+                    break;
 
-            case EAST:
-                range.add(robotPos[2]+1);
-                range.add(robotPos[5]+1);
-                range.add(robotPos[8]+1);
-                break;
+                case EAST:
+                    range.add(robotPos[2]+1*val);
+                    range.add(robotPos[5]+1*val);
+                    range.add(robotPos[8]+1*val);
+                    break;
 
-            case WEST:
-                range.add(robotPos[0]-1);
-                range.add(robotPos[4]-1);
-                range.add(robotPos[6]-1);
-                break;
-        }
+                case WEST:
+                    range.add(robotPos[0]-1*val);
+                    range.add(robotPos[4]-1*val);
+                    range.add(robotPos[6]-1*val);
+                    break;
+            }
 
-        if(obsArrayList.containsAll(range)){
-            return true;
+            if(obsArrayList.containsAll(range)){
+                return true;
+            }else{
+                return false;
+            }
         }else{
-            return false;
+            Toast.makeText(context, "Start point not defined yet", Toast.LENGTH_SHORT).show();
         }
+        return false;
     }
 
     public void alertView(final Button btn1,final Button btn2, String title, String message, boolean choice, final int mode) {
