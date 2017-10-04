@@ -44,7 +44,7 @@ public class MapHandler {
     private static final int BLUE = 1;
     private static final int YELLOW = 2;
     private static final int BLACK = 3;
-    private static final int RED = 4;
+    private static final int GREEN = 4;
 
     public static final int SETWP = 1;
     public static final int SETSP = 2;
@@ -57,6 +57,9 @@ public class MapHandler {
 
     public static final int LEFT = 1;
     public static final int RIGHT = 2;
+
+    public static final int UP = 1;
+    public static final int DOWN = 2;
 
     private static final int[] dirArray = {EAST, SOUTH, WEST, NORTH};
     private static final ArrayList<Integer> obsArrayList = new ArrayList<Integer>();
@@ -305,7 +308,7 @@ public class MapHandler {
                 if(arr[y][x] == 1) {
                     ImageView v = (ImageView) pathgv.getChildAt(getPos(x, y));
                     v.setImageResource(R.drawable.blue);
-                    changeColor(v, RED);
+                    changeColor(v, GREEN);
                     pathArrayList.add(getPos(x, y));
                 }
             }
@@ -456,8 +459,8 @@ public class MapHandler {
             case BLACK:
                 v.setColorFilter(Color.BLACK);
                 break;
-            case RED:
-                v.setColorFilter(Color.RED);
+            case GREEN:
+                v.setColorFilter(Color.GREEN);
                 break;
         }
     }

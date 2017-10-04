@@ -1,5 +1,6 @@
 package com.mdp;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
@@ -38,6 +39,7 @@ public class SendHandler {
     }
 
     public void move(String movement){
+
         switch(movement){
             case "forward":
                 //move forward
@@ -99,21 +101,23 @@ public class SendHandler {
     }
 
     public void sendWayPoint(int x, int y) {
-        sendCommand(alg_protocol, command_send_waypoint + "x:y");
+        sendCommand(alg_protocol, command_send_waypoint + ":x:y");
     }
 
     public void sendStartPoint(int x, int y) {
-        sendCommand(alg_protocol, command_send_startpoint + "x:y");
+        sendCommand(alg_protocol, command_send_startpoint + ":x:y");
     }
 
     public void sendEndPoint(int x, int y) {
-        sendCommand(alg_protocol, command_send_endpoint + "x:y");
+        sendCommand(alg_protocol, command_send_endpoint + ":x:y");
     }
 
     public void sendFunction(int function){
         //get function text
         SharedPreferences mPref = ma.getSharedPreferences("sendCommand", 0);
         String functionText = mPref.getString("f" + function, "");
+
+        //Toast.makeText(getBaseContext(), "Sending F"+function+" Command: "+ functionText).show();
 
         sendCommand("", functionText);
     }

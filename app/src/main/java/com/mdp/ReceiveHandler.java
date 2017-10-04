@@ -72,7 +72,7 @@ public class ReceiveHandler {
                 break;
             case command_completed:
                 ma.enableControls();
-                ma.updateStatusText("Idle");
+                ma.updateStatusText(ma.status_idle);
                 break;
             case map_protocol:
                 updateMap(s[1]);
@@ -83,8 +83,13 @@ public class ReceiveHandler {
     }
 
     private void updateMap(String hexa){
+        if(!ma.auto_enabled) {
+            if (!ma.map_requested) {
+                return;
+            }
+        }
         //split map string into 2 required values
-        String [] s = hexa.split(";;");
+        String[] s = hexa.split(";;");
         String map1 = s[0];
         String map2 = s[1];
 
@@ -94,43 +99,42 @@ public class ReceiveHandler {
         Log.d(TAG, "map1_s: " + map1_s);
         Log.d(TAG, "map2_s: " + map2_s);
 
-        int [][] scouted_arr = new int[20][15];
-        int [][] obs_arr = new int[20][15];
+        int[][] scouted_arr = new int[20][15];
+        int[][] obs_arr = new int[20][15];
 
         int xPos = 0;
         int yPos = 0;
         int map2_pos = 0;
 
-        for(int i = 2; i < map1_s.length() - 2; i++){
-            if(map1_s.charAt(i) == '1'){
+        for (int i = 2; i < map1_s.length() - 2; i++) {
+            if (map1_s.charAt(i) == '1') {
                 //area is scouted, put into scouted array
                 scouted_arr[yPos][xPos] = 1;
-                if(map2_s.charAt(map2_pos) == '1'){
+                if (map2_s.charAt(map2_pos) == '1') {
                     obs_arr[yPos][xPos] = 1;
-                }
-                else{
+                } else {
                     obs_arr[yPos][xPos] = 0;
                 }
                 //prevents app from crashing in the case where map2 loaded poorly
-                if(map2_pos < map2_s.length()){
+                if (map2_pos < map2_s.length()) {
                     map2_pos++;
                 }
-            }
-            else{
+            } else {
                 scouted_arr[yPos][xPos] = 0;
                 obs_arr[yPos][xPos] = 0;
             }
-            if(xPos >= 14){
+            if (xPos >= 14) {
                 xPos = 0;
                 yPos++;
-            }
-            else{
+            } else {
                 xPos++;
             }
         }
 
         ma.mapHandler.setObsArr(obs_arr);
         ma.mapHandler.setPath(scouted_arr);
+
+        ma.map_requested = false;
     }
 
     //converts hexadecimal string into a binary string
