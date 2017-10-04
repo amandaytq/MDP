@@ -41,9 +41,9 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView status_text;
     //ROBOT STATUS
-    public static final String status_idle = "idle";
-    public static final String status_moving = "moving";
-    public static final String status_turning = "turning";
+    public static final String status_idle = "Idle";
+    public static final String status_moving = "Moving";
+    public static final String status_turning = "Turning";
 
     private Button f1_call;
     private Button f2_call;
@@ -52,6 +52,10 @@ public class MainActivity extends AppCompatActivity {
     private Button shortest_path_btn;
 
     private Switch auto_switch;
+    private Button update_map_btn;
+    public boolean auto_enabled = false;
+    public boolean map_requested = false;
+
     public static MapHandler mapHandler;
     public ReceiveHandler receiveHandler;
     public SendHandler sendHandler;
@@ -179,9 +183,9 @@ public class MainActivity extends AppCompatActivity {
         turn_left_btn = (Button) findViewById(R.id.btn_turn_left);
         turn_left_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                sendHandler.turn("left");
-                //move bot on android device
                 if(mapHandler.botSet()){
+                    sendHandler.turn("left");
+                    updateStatusText(status_turning);
                     mapHandler.setRotatedDirection(mapHandler.LEFT);
                 }
             }
@@ -189,9 +193,9 @@ public class MainActivity extends AppCompatActivity {
         turn_right_btn = (Button) findViewById(R.id.btn_turn_right);
         turn_right_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                sendHandler.turn("right");
-                //move bot on android device
                 if(mapHandler.botSet()){
+                    sendHandler.turn("right");
+                    updateStatusText(status_turning);
                     mapHandler.setRotatedDirection(mapHandler.RIGHT);
                 }
             }
@@ -199,8 +203,10 @@ public class MainActivity extends AppCompatActivity {
         left_btn = (Button) findViewById(R.id.btn_left);
         left_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                sendHandler.position(mapHandler.WEST);
+
                 if(mapHandler.botSet()){
+                    sendHandler.position(mapHandler.WEST);
+                    updateStatusText(status_turning);
                     mapHandler.setDirection(mapHandler.WEST);
                 }
             }
@@ -208,8 +214,10 @@ public class MainActivity extends AppCompatActivity {
         right_btn = (Button) findViewById(R.id.btn_right);
         right_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                sendHandler.position(mapHandler.EAST);
+
                 if(mapHandler.botSet()){
+                    sendHandler.position(mapHandler.EAST);
+                    updateStatusText(status_turning);
                     mapHandler.setDirection(mapHandler.EAST);
                 }
 
@@ -218,8 +226,9 @@ public class MainActivity extends AppCompatActivity {
         top_btn = (Button) findViewById(R.id.btn_top);
         top_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                sendHandler.position(mapHandler.NORTH);
+
                 if(mapHandler.botSet()){
+                    sendHandler.position(mapHandler.NORTH);
                     mapHandler.setDirection(mapHandler.NORTH);
                 }
             }
@@ -227,8 +236,9 @@ public class MainActivity extends AppCompatActivity {
         bottom_btn = (Button) findViewById(R.id.btn_btm);
         bottom_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                sendHandler.position(mapHandler.SOUTH);
                 if(mapHandler.botSet()){
+                    sendHandler.position(mapHandler.SOUTH);
+                    updateStatusText(status_turning);
                     mapHandler.setDirection(mapHandler.SOUTH);
                 }
             }
@@ -324,7 +334,32 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //init auto switch
+        update_map_btn = (Button) findViewById(R.id.btn_request_map);
+        update_map_btn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if(!auto_enabled){
+                    map_requested = true;
+                    sendHandler.requestMapData();
+                }
+            }
+        });
+
         auto_switch = (Switch) findViewById(R.id.auto_switch);
+        auto_switch.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if(auto_switch.isChecked()){
+                    auto_enabled = true;
+                    //disable update map
+                    update_map_btn.setEnabled(false);
+                    map_requested = false;
+                }
+                else{
+                    auto_enabled = false;
+                    update_map_btn.setEnabled(true);
+                    map_requested = false;
+                }
+            }
+        });
 
         //init receiveHandler & sendHandler
         receiveHandler = new ReceiveHandler(MainActivity.this);
@@ -422,7 +457,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy(){
         super.onDestroy();
-
+        if(MainApplication.getBTConnection().isConnected()){
+            MainApplication.getBTConnection().closeConnection();
+        }
         Log.d(TAG, "destroy: MainActivity");
     }
 

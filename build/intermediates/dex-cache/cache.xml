@@ -7,6 +7,8 @@
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
+        sha1="438c28d7dd3124dcf388b606d6a641384e725ddb">
+        <dex dex="D:\AndroidGitProject\MDP\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_223649db88e6810430b7f0f781b4cedb29ced96d\classes.dex" />
         sha1="c82741bc129dd5f99f11a4ab8666ae24262053b6">
         <dex dex="/Users/Amandaaa/Desktop/MDP_Android/MDP/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_77473ba8dc971c0cb691b681ee8d3ac5b66ae07c/classes.dex" />
     </item>
