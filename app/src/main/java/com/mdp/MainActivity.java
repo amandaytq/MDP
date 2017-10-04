@@ -139,13 +139,13 @@ public class MainActivity extends AppCompatActivity {
 
         //define variables
         final GridView mapgv = (GridView) findViewById(R.id.mapgv);
-        mapgv.setAdapter(new MapImageAdapter(this));
+        mapgv.setAdapter(new ImageAdapter(this));
 
         final GridView pathgv = (GridView) findViewById(R.id.pathgv);
-        pathgv.setAdapter(new ImageAdapter(this));
+        pathgv.setAdapter(new MapImageAdapter(this));
 
         final GridView obsgv = (GridView) findViewById(R.id.obsgv);
-        obsgv.setAdapter(new ImageAdapter(this));
+        obsgv.setAdapter(new ImageObsAdapter(this));
 
         final GridView robotgv = (GridView) findViewById(R.id.robotgv);
         robotgv.setAdapter(new ImageAdapter(this));
@@ -240,24 +240,6 @@ public class MainActivity extends AppCompatActivity {
         if(MainApplication.getBTConnection() == null){
             MainApplication.initializeBTConnection(MainActivity.this);
         }
-
-        Button set_obs = (Button) findViewById(R.id.set_obs);
-        set_obs.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                int x = Integer.parseInt(((EditText)findViewById(R.id.obsx)).getText().toString());
-                int y = Integer.parseInt(((EditText)findViewById(R.id.obsy)).getText().toString());
-                mapHandler.setObs(x,y);
-            }
-        });
-
-        Button rmv_obs = (Button) findViewById(R.id.rmv_obs);
-        rmv_obs.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                int x = Integer.parseInt(((EditText)findViewById(R.id.obsx)).getText().toString());
-                int y = Integer.parseInt(((EditText)findViewById(R.id.obsy)).getText().toString());
-                mapHandler.removeObs(x,y);
-            }
-        });
 
         final Button setwp_btn = (Button)findViewById(R.id.set_wp);
         final Button setsp_btn = (Button)findViewById(R.id.set_sp);
@@ -371,19 +353,22 @@ public class MainActivity extends AppCompatActivity {
                 js.drawStick(arg1);
                 if(arg1.getAction() == MotionEvent.ACTION_DOWN
                         || arg1.getAction() == MotionEvent.ACTION_MOVE) {
-                    test++;
-                    int direction = js.get4Direction();
-                    if(direction == JoyStickClass.STICK_UP) {
-                        //upwards
-                        //sendHandler.move("forward");
-                        if(test%5 == 0)
-                            mapHandler.move(mapHandler.UP);
 
-                    } else if(direction == JoyStickClass.STICK_DOWN) {
-                       //downwards
-                       // sendHandler.move("back");
-                        if(test%5 == 0)
-                            mapHandler.move(mapHandler.DOWN);
+                    if(mapHandler.botSet()) {
+                        test++;
+                        int direction = js.get4Direction();
+                        if (direction == JoyStickClass.STICK_UP) {
+                            //upwards
+                            //sendHandler.move("forward");
+                            if (test % 5 == 0)
+                                mapHandler.move(mapHandler.UP);
+
+                        } else if (direction == JoyStickClass.STICK_DOWN) {
+                            //downwards
+                            // sendHandler.move("back");
+                            if (test % 5 == 0)
+                                mapHandler.move(mapHandler.DOWN);
+                        }
                     }
 
                 } else if(arg1.getAction() == MotionEvent.ACTION_UP) {
