@@ -36,18 +36,22 @@ public class MainActivity extends AppCompatActivity {
     private Button turn_left_btn;
     private Button turn_right_btn;
 
-
-
     private TextView status_text;
-    private boolean isExploring = false;
+    //ROBOT STATUS
+    public static final String status_idle = "idle";
+    public static final String status_moving = "moving";
+    public static final String status_turning = "turning";
 
     private Button f1_call;
     private Button f2_call;
 
+    private Button explore_btn;
+    private Button shortest_path_btn;
+
     private Switch auto_switch;
     public static MapHandler mapHandler;
-    private ReceiveHandler receiveHandler;
-    private SendHandler sendHandler;
+    public ReceiveHandler receiveHandler;
+    public SendHandler sendHandler;
 
     private BroadcastReceiver bluetoothReceiver = new BroadcastReceiver() {
         @Override
@@ -146,42 +150,78 @@ public class MainActivity extends AppCompatActivity {
         forward_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 sendHandler.move("forward");
+                //move bot on android device
+                if(mapHandler.botSet()){
+                    mapHandler.moveFront();
+                }
             }
         });
+        back_btn = (Button) findViewById(R.id.btn_back);
+        back_btn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                sendHandler.move("back");
+                //move bot on android device
+                if(mapHandler.botSet()){
+                    //mapHandler.moveBack();
+                }
+            }
+        });
+
         turn_left_btn = (Button) findViewById(R.id.btn_turn_left);
         turn_left_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 sendHandler.turn("left");
+                //move bot on android device
+                if(mapHandler.botSet()){
+                    mapHandler.setRotatedDirection(mapHandler.LEFT);
+                }
             }
         });
         turn_right_btn = (Button) findViewById(R.id.btn_turn_right);
         turn_right_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 sendHandler.turn("right");
+                //move bot on android device
+                if(mapHandler.botSet()){
+                    mapHandler.setRotatedDirection(mapHandler.RIGHT);
+                }
             }
         });
         left_btn = (Button) findViewById(R.id.btn_left);
         left_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 sendHandler.position(mapHandler.WEST);
+                if(mapHandler.botSet()){
+                    mapHandler.setDirection(mapHandler.WEST);
+                }
             }
         });
         right_btn = (Button) findViewById(R.id.btn_right);
         right_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 sendHandler.position(mapHandler.EAST);
+                if(mapHandler.botSet()){
+                    mapHandler.setDirection(mapHandler.EAST);
+                }
+
             }
         });
         top_btn = (Button) findViewById(R.id.btn_top);
         top_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 sendHandler.position(mapHandler.NORTH);
+                if(mapHandler.botSet()){
+                    mapHandler.setDirection(mapHandler.NORTH);
+                }
             }
         });
         bottom_btn = (Button) findViewById(R.id.btn_btm);
         bottom_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 sendHandler.position(mapHandler.SOUTH);
+                if(mapHandler.botSet()){
+                    mapHandler.setDirection(mapHandler.SOUTH);
+                }
             }
         });
 
@@ -262,7 +302,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //setup function buttons
-
         f1_call = (Button) findViewById(R.id.f1_call);
         f1_call.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -276,6 +315,20 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 sendHandler.sendFunction(2);
+            }
+        });
+
+        //setup explore & SP buttons
+        explore_btn = (Button) findViewById(R.id.explore);
+        explore_btn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                sendHandler.beginExplore();
+            }
+        });
+        shortest_path_btn = (Button) findViewById(R.id.shortest_path);
+        shortest_path_btn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                sendHandler.beginShortestPath();
             }
         });
 
@@ -375,25 +428,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void enableControls(){
         Log.d(TAG, "enableControls: called");
-        //enable only if it is not exploring
-        if(!isExploring){
-
-        }
     }
     public void disableControls(){
         Log.d(TAG, "disableControls: called");
-    }
-
-    public void setExploring(Boolean b){
-        isExploring = b;
-        if (!b){
-            enableControls();
-        }
-    }
-
-    public void overrideControl(){
-        //force back control of controls
-        isExploring = false;
-        enableControls();
     }
 }

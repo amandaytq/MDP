@@ -43,13 +43,37 @@
                         android:id="@+id/f2_call"
                         android:text="Call F2"/>
 
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/explore"
+                        android:text="Start Explore"/>
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/shortest_path"
+                        android:text="Start SP"/>
+
                 </LinearLayout>
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/auto_switch"
+                    android:layout_alignEnd="@+id/linearLayout"
+                    android:id="@+id/btn_request_map"
+                    android:layout_marginBottom="16dp"
+                    android:text="Update Map"
+                    />
+
                 <Switch
                     android:id="@+id/auto_switch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_above="@+id/text_movement"
-                    android:layout_alignEnd="@+id/linearLayout"
+                    android:layout_marginLeft="16dp"
+
                     android:text="Auto" />
 
                 <TextView
@@ -57,7 +81,7 @@
                     android:layout_height="wrap_content"
                     android:text="Movement"
                     android:layout_above="@+id/btn_forward"
-                    android:layout_alignEnd="@+id/linearLayout"
+                    android:layout_marginLeft="16dp"
                     android:id="@+id/text_movement"/>
 
                 <Button

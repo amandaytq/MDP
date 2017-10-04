@@ -44,6 +44,7 @@ public class MapHandler {
     private static final int BLUE = 1;
     private static final int YELLOW = 2;
     private static final int BLACK = 3;
+    private static final int RED = 4;
 
     public static final int SETWP = 1;
     public static final int SETSP = 2;
@@ -220,6 +221,11 @@ public class MapHandler {
         startpoint = newstartpoint;
         robotPos = newstartpoint;
         direction = EAST;
+
+        //send info to algorithm
+        MainActivity main = (MainActivity) context;
+        main.sendHandler.sendStartPoint(x, y);
+
         setBot();
     }
 
@@ -244,6 +250,10 @@ public class MapHandler {
             }
         }
         endpoint = newendpoint;
+
+        //send info to algorithm
+        MainActivity main = (MainActivity) context;
+        main.sendHandler.sendEndPoint(x, y);
     }
 
     public void setObs(int x, int y){
@@ -295,7 +305,7 @@ public class MapHandler {
                 if(arr[y][x] == 1) {
                     ImageView v = (ImageView) pathgv.getChildAt(getPos(x, y));
                     v.setImageResource(R.drawable.blue);
-                    changeColor(v, BLACK);
+                    changeColor(v, RED);
                     pathArrayList.add(getPos(x, y));
                 }
             }
@@ -391,6 +401,8 @@ public class MapHandler {
 
     public void setWayPoint(Button setwp_btn, Button setsp_btn){
         ImageView newWPv= (ImageView)mapgv.getChildAt(poswp);
+
+
         boolean overlapped = false;
 
         for (int i=0; i<startpoint.length;i++){
@@ -411,6 +423,10 @@ public class MapHandler {
             setwp_btn.setEnabled(false);
             changeColor(newWPv, YELLOW);
             lastwp = poswp;
+
+            int [] coordinates = getCoordinates(poswp);
+            MainActivity main = (MainActivity) context;
+            main.sendHandler.sendWayPoint(coordinates[0], coordinates[1]);
 
         }else{
             Log.i("res", "yes");
@@ -439,6 +455,9 @@ public class MapHandler {
                 break;
             case BLACK:
                 v.setColorFilter(Color.BLACK);
+                break;
+            case RED:
+                v.setColorFilter(Color.RED);
                 break;
         }
     }
@@ -473,5 +492,25 @@ public class MapHandler {
         }
 
         return difference*90;
+    }
+
+    public int determineDirection(int angle, int wise){
+        int arrayDir = 0;
+        for(int i = 0; i < dirArray.length; i++){
+            if(dirArray[i] == direction){
+                arrayDir = i;
+            }
+        }
+        int steps = angle/90;
+        int arrayMovement = 0;
+        if(wise == 1){
+            arrayMovement = 1;
+        }
+        else{
+            arrayMovement = -1;
+        }
+
+        arrayDir = arrayDir + (arrayMovement * steps);
+        return dirArray[arrayDir];
     }
 }
