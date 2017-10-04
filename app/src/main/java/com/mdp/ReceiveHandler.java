@@ -37,7 +37,7 @@ public class ReceiveHandler {
                 case move_protocol:
                     //move forward
                     if(ma.mapHandler.botSet()){
-                        ma.mapHandler.moveFront();
+                        ma.mapHandler.move(ma.mapHandler.UP);
                     }
                     break;
                 case turn_protocol:

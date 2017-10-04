@@ -2,6 +2,7 @@ package com.mdp;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.database.DataSetObserver;
 import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -77,34 +78,44 @@ public class MapHandler {
         context = con;
     }
 
-    public void moveFront(){
-        int distance = 0;
-        switch (direction){
-            case NORTH:
-                distance = -20;
-                break;
-            case SOUTH:
-                distance = 20;
-                break;
-            case EAST:
-                distance = 1;
-                break;
-            case WEST:
-                distance = -1;
-                break;
-        }
-
-        int[] point1 = getCoordinates(robotPos[0]+distance);
-
-        if(point1[0] < 0 || point1[0] > 12 || point1[1] < 0 || point1[1] > 17){
-            Toast.makeText(context, "Boundary reached!",Toast.LENGTH_SHORT).show();
-        }else{
-            for (int i=0; i<robotPos.length;i++){
-                ImageView oldv = (ImageView)robotgv.getChildAt(robotPos[i]);
-                oldv.setImageResource(0);
-                robotPos[i] += distance;
+    public void move(int dir){
+        if(botSet()){
+            int val = 1;
+            if (dir == UP){
+                val = 1;
+            }else if(dir == DOWN){
+                val = -1;
             }
-            setBot();
+            int distance = 0;
+            switch (direction) {
+                case NORTH:
+                    distance = -20*val;
+                    break;
+                case SOUTH:
+                    distance = 20*val;
+                    break;
+                case EAST:
+                    distance = 1*val;
+                    break;
+                case WEST:
+                    distance = -1*val;
+                    break;
+            }
+
+            int[] point1 = getCoordinates(robotPos[0] + distance);
+
+            if (point1[0] < 0 || point1[0] > 12 || point1[1] < 0 || point1[1] > 17) {
+                Toast.makeText(context, "Boundary reached!", Toast.LENGTH_SHORT).show();
+            } else {
+                for (int i = 0; i < robotPos.length; i++) {
+                    ImageView oldv = (ImageView) robotgv.getChildAt(robotPos[i]);
+                    oldv.setImageResource(0);
+                    robotPos[i] += distance;
+                }
+                setBot();
+            }
+        }else{
+            Toast.makeText(context, "Robot have not been set yet", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -206,24 +217,33 @@ public class MapHandler {
         if (startpoint.length<9){
             for (int i=0; i<newstartpoint.length;i++){
                 ImageView v= (ImageView)mapgv.getChildAt(newstartpoint[i]);
+                v.setImageResource(R.drawable.blue);
                 changeColor(v,YELLOW);
             }
         }else if(newstartpoint[0] != startpoint[0]){
             for (int i=0; i<mapgv.getChildCount();i++){
                 ImageView v1= (ImageView)mapgv.getChildAt(i);
                 ImageView v2= (ImageView)robotgv.getChildAt(i);
+                ImageView v3= (ImageView)obsgv.getChildAt(i);
+                ImageView v4= (ImageView)pathgv.getChildAt(i);
                 v2.setImageResource(0);
+                v3.setImageResource(0);
+                v4.setImageResource(0);
+                v1.setImageResource(0);
                 changeColor(v1,BLUE);
             }
 
             for (int i=0; i<newstartpoint.length;i++){
                 ImageView v= (ImageView)mapgv.getChildAt(newstartpoint[i]);
+                v.setImageResource(R.drawable.blue);
                 changeColor(v,YELLOW);
             }
         }
         startpoint = newstartpoint;
         robotPos = newstartpoint;
         direction = EAST;
+
+        Toast.makeText(context, "Start point have successfully been set", Toast.LENGTH_SHORT).show();
 
         //send info to algorithm
         MainActivity main = (MainActivity) context;
@@ -239,39 +259,56 @@ public class MapHandler {
         if (startpoint.length<9){
             for (int i=0; i<newendpoint.length;i++){
                 ImageView v= (ImageView)mapgv.getChildAt(newendpoint[i]);
+                v.setImageResource(R.drawable.blue);
                 changeColor(v,YELLOW);
             }
         }else if(newendpoint[0] != startpoint[0]){
             for (int i=0; i<endpoint.length;i++){
                 ImageView v1= (ImageView)mapgv.getChildAt(i);
+                v1.setImageResource(R.drawable.blue);
                 changeColor(v1,BLUE);
             }
 
             for (int i=0; i<newendpoint.length;i++){
                 ImageView v= (ImageView)mapgv.getChildAt(newendpoint[i]);
+                v.setImageResource(R.drawable.blue);
                 changeColor(v,YELLOW);
             }
         }
         endpoint = newendpoint;
-
+        Toast.makeText(context, "End point have successfully been set", Toast.LENGTH_SHORT).show();
         //send info to algorithm
         MainActivity main = (MainActivity) context;
         main.sendHandler.sendEndPoint(x, y);
     }
 
     public void setObs(int x, int y){
-        ImageView v = (ImageView)obsgv.getChildAt(getPos(x,y));
-        v.setImageResource(R.drawable.blue);
-        changeColor(v, BLACK);
-        obsArrayList.add(getPos(x,y));
+        if (obsArrayList.contains(getPos(x,y))){
+            Toast.makeText(context, "Obstacles already exist", Toast.LENGTH_SHORT).show();
+        }else {
+            obsArrayList.add(getPos(x, y));
+
+            for (int i = 0; i<obsArrayList.size();i++){
+                ImageView v = (ImageView)obsgv.getChildAt(obsArrayList.get(i));
+                v.setImageResource(R.drawable.blue);
+                changeColor(v, BLACK);
+            }
+        }
+
+        Toast.makeText(context, "Obstacles have successfully been set", Toast.LENGTH_SHORT).show();
     }
 
     public void removeObs(int x, int y){
-        int index = obsArrayList.indexOf(getPos(x, y));
-        ImageView v = (ImageView)obsgv.getChildAt(getPos(x,y));
-        v.setImageResource(0);
-        if(index >=0)
-            obsArrayList.remove(index);
+        if(obsArrayList.contains(getPos(x,y))) {
+            int index = obsArrayList.indexOf(getPos(x, y));
+            ImageView v = (ImageView) obsgv.getChildAt(getPos(x, y));
+            v.setImageResource(0);
+            if (index >= 0)
+                obsArrayList.remove(index);
+            Toast.makeText(context, "Obstacle have successfully been removed", Toast.LENGTH_SHORT).show();
+        }else {
+            Toast.makeText(context, "Obstacle not found", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void setObsArr(int[][] arr) {
@@ -329,39 +366,50 @@ public class MapHandler {
         }
     }
 
-    public boolean isObstructed(){
-        ArrayList<Integer> range = new ArrayList<>();
-        switch (direction){
-            case NORTH:
-                range.add(robotPos[0]-20);
-                range.add(robotPos[1]-20);
-                range.add(robotPos[2]-20);
-                break;
+    public boolean isObstructed(int dir){
+        if(botSet()){
+            int val= 1;
+            if (dir == UP){
+                val = 1;
+            }else if(dir == DOWN){
+                val = -1;
+            }
+            ArrayList<Integer> range = new ArrayList<>();
+            switch (direction){
+                case NORTH:
+                    range.add(robotPos[0]-20*val);
+                    range.add(robotPos[1]-20*val);
+                    range.add(robotPos[2]-20*val);
+                    break;
 
-            case SOUTH:
-                range.add(robotPos[6]+20);
-                range.add(robotPos[7]+20);
-                range.add(robotPos[8]+20);
-                break;
+                case SOUTH:
+                    range.add(robotPos[6]+20*val);
+                    range.add(robotPos[7]+20*val);
+                    range.add(robotPos[8]+20*val);
+                    break;
 
-            case EAST:
-                range.add(robotPos[2]+1);
-                range.add(robotPos[5]+1);
-                range.add(robotPos[8]+1);
-                break;
+                case EAST:
+                    range.add(robotPos[2]+1*val);
+                    range.add(robotPos[5]+1*val);
+                    range.add(robotPos[8]+1*val);
+                    break;
 
-            case WEST:
-                range.add(robotPos[0]-1);
-                range.add(robotPos[4]-1);
-                range.add(robotPos[6]-1);
-                break;
-        }
+                case WEST:
+                    range.add(robotPos[0]-1*val);
+                    range.add(robotPos[4]-1*val);
+                    range.add(robotPos[6]-1*val);
+                    break;
+            }
 
-        if(obsArrayList.containsAll(range)){
-            return true;
+            if(obsArrayList.containsAll(range)){
+                return true;
+            }else{
+                return false;
+            }
         }else{
-            return false;
+            Toast.makeText(context, "Robot have not been set yet", Toast.LENGTH_SHORT).show();
         }
+        return false;
     }
 
     public void alertView(final Button btn1,final Button btn2, String title, String message, boolean choice, final int mode) {
