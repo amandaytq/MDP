@@ -78,6 +78,39 @@ public class MapHandler {
         context = con;
     }
 
+    public void updateInfo(int[][] obsarr, int[][] patharr, int robotposx, int robotposy){
+        //for robot
+        int pos = getPos(robotposx, robotposy);
+        int[] newrobotpos = {pos-21,pos-20,pos-19,pos-1,pos,pos+1,pos+19,pos+20,pos+21};
+        robotPos = newrobotpos;
+
+        obsArrayList.clear();
+        setObsArr(obsarr);
+
+        pathArrayList.clear();
+        setPath(patharr);
+    }
+
+    public void updateMapUI(){
+        //setting robot position on the map
+        if(botSet())
+            setBot();
+
+        //setting of obstacles based on information in the obsArrayList
+        for (int i = 0; i<obsArrayList.size();i++){
+            ImageView v = (ImageView)obsgv.getChildAt(obsArrayList.get(i));
+            v.setImageResource(R.drawable.blue);
+            changeColor(v, BLACK);
+        }
+
+        //setting of explored path for the map in pathArrayList
+        for (int i = 0; i<pathArrayList.size();i++){
+            ImageView v = (ImageView)pathgv.getChildAt(pathArrayList.get(i));
+            v.setImageResource(R.drawable.blue);
+            changeColor(v, GREEN);
+        }
+    }
+    
     public void move(int dir){
         if(botSet()){
             int val = 1;
@@ -287,14 +320,8 @@ public class MapHandler {
             Toast.makeText(context, "Obstacles already exist", Toast.LENGTH_SHORT).show();
         }else {
             obsArrayList.add(getPos(x, y));
-
-            for (int i = 0; i<obsArrayList.size();i++){
-                ImageView v = (ImageView)obsgv.getChildAt(obsArrayList.get(i));
-                v.setImageResource(R.drawable.blue);
-                changeColor(v, BLACK);
-            }
+            updateMapUI();
         }
-
         Toast.makeText(context, "Obstacles have successfully been set", Toast.LENGTH_SHORT).show();
     }
 
@@ -315,9 +342,9 @@ public class MapHandler {
         for (int y = 0; y < arr.length; y++) {
             for (int x = 0; x < arr[y].length; x++) {
                 if(arr[y][x] == 1) {
-                    ImageView v = (ImageView) obsgv.getChildAt(getPos(x, y));
-                    v.setImageResource(R.drawable.blue);
-                    changeColor(v, BLACK);
+//                    ImageView v = (ImageView) obsgv.getChildAt(getPos(x, y));
+//                    v.setImageResource(R.drawable.blue);
+//                    changeColor(v, BLACK);
                     obsArrayList.add(getPos(x, y));
                 }
             }
@@ -343,9 +370,9 @@ public class MapHandler {
         for (int y = 0; y < arr.length; y++) {
             for (int x = 0; x < arr[y].length; x++) {
                 if(arr[y][x] == 1) {
-                    ImageView v = (ImageView) pathgv.getChildAt(getPos(x, y));
-                    v.setImageResource(R.drawable.blue);
-                    changeColor(v, GREEN);
+//                    ImageView v = (ImageView) pathgv.getChildAt(getPos(x, y));
+//                    v.setImageResource(R.drawable.blue);
+//                    changeColor(v, GREEN);
                     pathArrayList.add(getPos(x, y));
                 }
             }
