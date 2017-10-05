@@ -18,6 +18,12 @@
         revision="25.0.2"
         sha1="c82741bc129dd5f99f11a4ab8666ae24262053b6">
         <dex dex="D:\AndroidGitProject\MDP\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_c396a56431477e904a8a4b41d12fd89e2811292a\classes.dex" />
+        jar="/Users/Amandaaa/Desktop/MDP_Android/MDP/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="fafcdb92f832aee83c47de4d5f9716b0101d9852">
+        <dex dex="/Users/Amandaaa/Desktop/MDP_Android/MDP/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_7a73371e11e97fa34c62445221caab9cb8b18cbc/classes.dex" />
     </item>
 
 </items>
