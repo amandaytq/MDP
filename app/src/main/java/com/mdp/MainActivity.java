@@ -337,6 +337,7 @@ public class MainActivity extends AppCompatActivity {
 
         //init auto switch
         update_map_btn = (Button) findViewById(R.id.btn_request_map);
+        update_map_btn.setEnabled(false);
         update_map_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if(!auto_enabled){
@@ -346,6 +347,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         auto_switch = (Switch) findViewById(R.id.auto_switch);
+        auto_switch.setChecked(true);
+        auto_enabled = true;
         auto_switch.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if(auto_switch.isChecked()){

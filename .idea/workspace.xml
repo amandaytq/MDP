@@ -14,17 +14,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="de05e47a-9830-4a81-a614-39a54a1329df" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/fileHashes.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/fileSnapshots.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/taskArtifacts.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/taskArtifacts.lock" afterPath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/taskArtifacts.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/3.3/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.bin" afterPath="$PROJECT_DIR$/.gradle/3.3/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/3.3/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.lock" afterPath="$PROJECT_DIR$/.gradle/3.3/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/3.3/tasks/_app_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.lock" afterPath="$PROJECT_DIR$/.gradle/3.3/tasks/_app_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/mdp/MainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/mdp/MainActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/mdp/MapHandler.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/mdp/MapHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" afterPath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/mdp/SettingsActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/mdp/SettingsActivity.java" />
     </list>
     <ignored path="MDP.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -60,18 +50,22 @@
       <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/mdp/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1050">
-              <caret line="63" column="0" selection-start-line="63" selection-start-column="0" selection-end-line="63" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="-2065">
+              <caret line="349" column="28" selection-start-line="349" selection-start-column="28" selection-end-line="349" selection-end-column="28" />
+              <folding>
+                <element signature="e#13357#13871#0" expanded="true" />
+                <element signature="e#13870#13871#0" expanded="true" />
+                <marker date="1507173848000" expanded="false" signature="14828:14922" ph="(arg0, arg1) → {" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MapHandler.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="MapHandler.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/mdp/MapHandler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="278">
-              <caret line="112" column="4" selection-start-line="112" selection-start-column="4" selection-end-line="112" selection-end-column="4" />
+            <state relative-caret-position="-232">
+              <caret line="315" column="5" selection-start-line="315" selection-start-column="5" selection-end-line="315" selection-end-column="5" />
               <folding>
                 <element signature="e#1622#1631#0" expanded="true" />
                 <element signature="e#1708#1717#0" expanded="true" />
@@ -92,16 +86,87 @@
                 <element signature="method#removePath#0;class#MapHandler#0" expanded="false" />
                 <element signature="method#isObstructed#0;class#MapHandler#0" expanded="false" />
                 <element signature="method#alertView#0;class#MapHandler#0" expanded="false" />
-                <element signature="e#15230#16331#0" expanded="true" />
-                <element signature="e#16330#16331#0" expanded="true" />
-                <element signature="e#16401#16583#0" expanded="true" />
-                <element signature="e#16582#16583#0" expanded="true" />
+                <element signature="e#15226#16327#0" expanded="true" />
+                <element signature="e#16326#16327#0" expanded="true" />
+                <element signature="e#16397#16579#0" expanded="true" />
+                <element signature="e#16578#16579#0" expanded="true" />
                 <element signature="method#setWayPoint#0;class#MapHandler#0" expanded="false" />
                 <element signature="method#getCoordinates#0;class#MapHandler#0" expanded="false" />
                 <element signature="method#changeColor#0;class#MapHandler#0" expanded="false" />
                 <element signature="method#determineTurn#0;class#MapHandler#0" expanded="false" />
                 <element signature="method#determineDirection#0;class#MapHandler#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ReceiveHandler.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/mdp/ReceiveHandler.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1860">
+              <caret line="166" column="33" selection-start-line="166" selection-start-column="33" selection-end-line="166" selection-end-column="33" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SettingsActivity.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/mdp/SettingsActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="239">
+              <caret line="78" column="67" selection-start-line="78" selection-start-column="67" selection-end-line="78" selection-end-column="67" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="activity_main.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="189">
+              <caret line="133" column="0" selection-start-line="133" selection-start-column="0" selection-end-line="133" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+          <provider editor-type-id="android-designer2">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="fragment_calibration.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_calibration.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="90">
+              <caret line="35" column="38" selection-start-line="35" selection-start-column="38" selection-end-line="35" selection-end-column="38" />
+              <folding />
+            </state>
+          </provider>
+          <provider editor-type-id="android-designer2">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="fragment_obstacles.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_obstacles.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="105">
+              <caret line="7" column="4" selection-start-line="7" selection-start-column="4" selection-end-line="79" selection-end-column="19" />
+              <folding>
+                <element signature="e#299#3074#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+          <provider editor-type-id="android-designer2">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CalibrationFragment.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/mdp/CalibrationFragment.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="195">
+              <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -1930,14 +1995,16 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/mdp/JoyStickClass.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/mdp/ReceiveHandler.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_coordinates.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/mdp/SettingsActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_obstacles.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/mdp/ImageObsAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/mdp/MapImageAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/mdp/ObstaclesFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/mdp/MapHandler.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/mdp/CalibrationFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_calibration.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/mdp/MainActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/mdp/SettingsActivity.java" />
       </list>
     </option>
   </component>
@@ -2457,59 +2524,15 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/mdp/MapHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="952">
-          <caret line="67" column="30" selection-start-line="67" selection-start-column="30" selection-end-line="67" selection-end-column="30" />
-          <folding>
-            <element signature="e#1622#1631#0" expanded="true" />
-            <element signature="e#1708#1717#0" expanded="true" />
-            <element signature="method#MapHandler#0;class#MapHandler#0" expanded="false" />
-            <element signature="method#updateInfo#0;class#MapHandler#0" expanded="false" />
-            <element signature="method#updateMapUI#0;class#MapHandler#0" expanded="false" />
-            <element signature="method#move#0;class#MapHandler#0" expanded="false" />
-            <element signature="method#setRotatedDirection#0;class#MapHandler#0" expanded="false" />
-            <element signature="method#setDirection#0;class#MapHandler#0" expanded="false" />
-            <element signature="method#setBot#0;class#MapHandler#0" expanded="false" />
-            <element signature="method#setStartPoint#0;class#MapHandler#0" expanded="false" />
-            <element signature="method#setEndPoint#0;class#MapHandler#0" expanded="false" />
-            <element signature="method#setObs#0;class#MapHandler#0" expanded="false" />
-            <element signature="method#removeObs#0;class#MapHandler#0" expanded="false" />
-            <element signature="method#setObsArr#0;class#MapHandler#0" expanded="false" />
-            <element signature="method#removeObsArr#0;class#MapHandler#0" expanded="false" />
-            <element signature="method#setPath#0;class#MapHandler#0" expanded="false" />
-            <element signature="method#removePath#0;class#MapHandler#0" expanded="false" />
-            <element signature="method#isObstructed#0;class#MapHandler#0" expanded="false" />
-            <element signature="method#alertView#0;class#MapHandler#0" expanded="false" />
-            <element signature="e#15230#16331#0" expanded="true" />
-            <element signature="e#16330#16331#0" expanded="true" />
-            <element signature="e#16401#16583#0" expanded="true" />
-            <element signature="e#16582#16583#0" expanded="true" />
-            <element signature="method#setWayPoint#0;class#MapHandler#0" expanded="false" />
-            <element signature="method#getCoordinates#0;class#MapHandler#0" expanded="false" />
-            <element signature="method#changeColor#0;class#MapHandler#0" expanded="false" />
-            <element signature="method#determineTurn#0;class#MapHandler#0" expanded="false" />
-            <element signature="method#determineDirection#0;class#MapHandler#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1462">
-          <caret line="86" column="0" selection-start-line="86" selection-start-column="0" selection-end-line="86" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/mdp/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1545">
           <caret line="123" column="56" selection-start-line="123" selection-start-column="31" selection-end-line="123" selection-end-column="56" />
-          <folding />
+          <folding>
+            <element signature="e#13357#13871#0" expanded="true" />
+            <element signature="e#13870#13871#0" expanded="true" />
+            <marker date="1507173848000" expanded="false" signature="14828:14922" ph="(arg0, arg1) → {" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -2537,10 +2560,10 @@
             <element signature="method#removePath#0;class#MapHandler#0" expanded="false" />
             <element signature="method#isObstructed#0;class#MapHandler#0" expanded="false" />
             <element signature="method#alertView#0;class#MapHandler#0" expanded="false" />
-            <element signature="e#15230#16331#0" expanded="true" />
-            <element signature="e#16330#16331#0" expanded="true" />
-            <element signature="e#16401#16583#0" expanded="true" />
-            <element signature="e#16582#16583#0" expanded="true" />
+            <element signature="e#15226#16327#0" expanded="true" />
+            <element signature="e#16326#16327#0" expanded="true" />
+            <element signature="e#16397#16579#0" expanded="true" />
+            <element signature="e#16578#16579#0" expanded="true" />
             <element signature="method#setWayPoint#0;class#MapHandler#0" expanded="false" />
             <element signature="method#getCoordinates#0;class#MapHandler#0" expanded="false" />
             <element signature="method#changeColor#0;class#MapHandler#0" expanded="false" />
@@ -2591,7 +2614,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2025">
           <caret line="155" column="58" selection-start-line="155" selection-start-column="58" selection-end-line="155" selection-end-column="58" />
-          <folding />
+          <folding>
+            <element signature="e#13357#13871#0" expanded="true" />
+            <element signature="e#13870#13871#0" expanded="true" />
+            <marker date="1507173848000" expanded="false" signature="14828:14922" ph="(arg0, arg1) → {" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -2619,10 +2646,10 @@
             <element signature="method#removePath#0;class#MapHandler#0" expanded="false" />
             <element signature="method#isObstructed#0;class#MapHandler#0" expanded="false" />
             <element signature="method#alertView#0;class#MapHandler#0" expanded="false" />
-            <element signature="e#15230#16331#0" expanded="true" />
-            <element signature="e#16330#16331#0" expanded="true" />
-            <element signature="e#16401#16583#0" expanded="true" />
-            <element signature="e#16582#16583#0" expanded="true" />
+            <element signature="e#15226#16327#0" expanded="true" />
+            <element signature="e#16326#16327#0" expanded="true" />
+            <element signature="e#16397#16579#0" expanded="true" />
+            <element signature="e#16578#16579#0" expanded="true" />
             <element signature="method#setWayPoint#0;class#MapHandler#0" expanded="false" />
             <element signature="method#getCoordinates#0;class#MapHandler#0" expanded="false" />
             <element signature="method#changeColor#0;class#MapHandler#0" expanded="false" />
@@ -2736,6 +2763,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="762">
           <caret line="108" column="21" selection-start-line="108" selection-start-column="21" selection-end-line="108" selection-end-column="21" />
+          <folding>
+            <element signature="e#4188#4189#0" expanded="false" />
+            <element signature="e#4246#4247#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -2882,37 +2913,10 @@
         <state relative-caret-position="6007">
           <caret line="599" column="4" selection-start-line="599" selection-start-column="4" selection-end-line="599" selection-end-column="4" />
           <folding>
-            <element signature="imports" expanded="true" />
             <element signature="method#BluetoothFragment#0;class#BluetoothFragment#0" expanded="false" />
             <element signature="method#onCreateView#0;class#BluetoothFragment#0" expanded="false" />
-            <element signature="method#onDestroy#0;class#BluetoothFragment#0" expanded="false" />
-            <element signature="method#startBTConnection#0;class#BluetoothFragment#0" expanded="false" />
-            <element signature="class#connectDeviceDialogFragment#0;class#BluetoothFragment#0" expanded="false" />
-            <element signature="method#updateListViews#0;class#BluetoothFragment#0" expanded="false" />
-            <element signature="method#disableUI#0;class#BluetoothFragment#0" expanded="false" />
-            <element signature="method#enableUI#0;class#BluetoothFragment#0" expanded="false" />
-            <element signature="method#reenableList#0;class#BluetoothFragment#0" expanded="false" />
           </folding>
         </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/mdp/SettingsActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="825">
-          <caret line="74" column="65" selection-start-line="74" selection-start-column="65" selection-end-line="74" selection-end-column="65" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_obstacles.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-279">
-          <caret line="40" column="43" selection-start-line="40" selection-start-column="43" selection-end-line="40" selection-end-column="43" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/mdp/CoordinatesFragment.java">
@@ -2931,26 +2935,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/mdp/ReceiveHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-176">
-          <caret line="89" column="9" selection-start-line="89" selection-start-column="9" selection-end-line="89" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/mdp/ImageObsAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/mdp/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1050">
-          <caret line="63" column="0" selection-start-line="63" selection-start-column="0" selection-end-line="63" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -2961,6 +2949,38 @@
           <caret line="44" column="52" selection-start-line="44" selection-start-column="52" selection-end-line="44" selection-end-column="52" />
           <folding />
         </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/mdp/CalibrationFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_obstacles.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="4" selection-start-line="7" selection-start-column="4" selection-end-line="79" selection-end-column="19" />
+          <folding>
+            <element signature="e#299#3074#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_calibration.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="35" column="38" selection-start-line="35" selection-start-column="38" selection-end-line="35" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
@@ -2974,10 +2994,30 @@
         <state />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/mdp/ReceiveHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1860">
+          <caret line="166" column="33" selection-start-line="166" selection-start-column="33" selection-end-line="166" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/mdp/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2065">
+          <caret line="349" column="28" selection-start-line="349" selection-start-column="28" selection-end-line="349" selection-end-column="28" />
+          <folding>
+            <element signature="e#13357#13871#0" expanded="true" />
+            <element signature="e#13870#13871#0" expanded="true" />
+            <marker date="1507173848000" expanded="false" signature="14828:14922" ph="(arg0, arg1) → {" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/mdp/MapHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="278">
-          <caret line="112" column="4" selection-start-line="112" selection-start-column="4" selection-end-line="112" selection-end-column="4" />
+        <state relative-caret-position="-232">
+          <caret line="315" column="5" selection-start-line="315" selection-start-column="5" selection-end-line="315" selection-end-column="5" />
           <folding>
             <element signature="e#1622#1631#0" expanded="true" />
             <element signature="e#1708#1717#0" expanded="true" />
@@ -2998,16 +3038,24 @@
             <element signature="method#removePath#0;class#MapHandler#0" expanded="false" />
             <element signature="method#isObstructed#0;class#MapHandler#0" expanded="false" />
             <element signature="method#alertView#0;class#MapHandler#0" expanded="false" />
-            <element signature="e#15230#16331#0" expanded="true" />
-            <element signature="e#16330#16331#0" expanded="true" />
-            <element signature="e#16401#16583#0" expanded="true" />
-            <element signature="e#16582#16583#0" expanded="true" />
+            <element signature="e#15226#16327#0" expanded="true" />
+            <element signature="e#16326#16327#0" expanded="true" />
+            <element signature="e#16397#16579#0" expanded="true" />
+            <element signature="e#16578#16579#0" expanded="true" />
             <element signature="method#setWayPoint#0;class#MapHandler#0" expanded="false" />
             <element signature="method#getCoordinates#0;class#MapHandler#0" expanded="false" />
             <element signature="method#changeColor#0;class#MapHandler#0" expanded="false" />
             <element signature="method#determineTurn#0;class#MapHandler#0" expanded="false" />
             <element signature="method#determineDirection#0;class#MapHandler#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/mdp/SettingsActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="239">
+          <caret line="78" column="67" selection-start-line="78" selection-start-column="67" selection-end-line="78" selection-end-column="67" />
+          <folding />
         </state>
       </provider>
     </entry>
