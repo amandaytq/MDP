@@ -395,13 +395,13 @@ public class MainActivity extends AppCompatActivity {
                         if (direction == JoyStickClass.STICK_UP) {
                             //upwards
                             //sendHandler.move("forward");
-                            if (count % 2 == 0)
+                            if (count / 5 == 0)
                                 mapHandler.move(mapHandler.UP);
 
                         } else if (direction == JoyStickClass.STICK_DOWN) {
                             //downwards
                             // sendHandler.move("back");
-                            if (count % 2 == 0)
+                            if (count / 2 == 0)
                                 mapHandler.move(mapHandler.DOWN);
                         }
                     }

@@ -12,6 +12,11 @@ public class ReceiveHandler {
     private static final String move_protocol = "1";
     private static final String turn_protocol = "2";
 
+    private static final int north_protocol = 1;
+    private static final int east_protocol = 2;
+    private static final int south_protocol = 3;
+    private static final int west_protocol = 4;
+
     private static final String command_completed = "-2";
 
     private static final String map_protocol = "map";
@@ -93,11 +98,31 @@ public class ReceiveHandler {
         String map1 = s[0];
         String map2 = s[1];
 
+        int robot_x = Integer.parseInt(s[2]);
+        int robot_y = Integer.parseInt(s[3]);
+        int robot_orientation = Integer.parseInt(s[4]);
+
+        switch(robot_orientation){
+            case north_protocol:
+                robot_orientation = ma.mapHandler.NORTH;
+                break;
+            case east_protocol:
+                robot_orientation = ma.mapHandler.EAST;
+                break;
+            case south_protocol:
+                robot_orientation = ma.mapHandler.SOUTH;
+                break;
+            case west_protocol:
+                robot_orientation = ma.mapHandler.WEST;
+                break;
+            default:
+                break;
+        }
+
+        ma.mapHandler.direction= robot_orientation;
+
         String map1_s = hexToBinaryString(map1);
         String map2_s = hexToBinaryString(map2);
-
-        Log.d(TAG, "map1_s: " + map1_s);
-        Log.d(TAG, "map2_s: " + map2_s);
 
         int[][] scouted_arr = new int[20][15];
         int[][] obs_arr = new int[20][15];
@@ -131,8 +156,13 @@ public class ReceiveHandler {
             }
         }
 
-        ma.mapHandler.setObsArr(obs_arr);
-        ma.mapHandler.setPath(scouted_arr);
+        //update info
+        //ma.mapHandler.updateInfo(obs_arr, scouted_arr, robot_x, robot_y);
+        //update orientation
+
+
+        //ma.mapHandler.setObsArr(obs_arr);
+        //ma.mapHandler.setPath(scouted_arr);
 
         ma.map_requested = false;
     }

@@ -3,6 +3,21 @@
 
     <item
         is-multidex="true"
+        jar="D:\AndroidGitProject\MDP\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="3fb9826946fb3e42efdda3851b25d63c93fefe1a">
+        <dex dex="D:\AndroidGitProject\MDP\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_223649db88e6810430b7f0f781b4cedb29ced96d\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\AndroidGitProject\MDP\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="c82741bc129dd5f99f11a4ab8666ae24262053b6">
+        <dex dex="D:\AndroidGitProject\MDP\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_c396a56431477e904a8a4b41d12fd89e2811292a\classes.dex" />
         jar="/Users/Amandaaa/Desktop/MDP_Android/MDP/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
         jumboMode="true"
         optimize="true"
