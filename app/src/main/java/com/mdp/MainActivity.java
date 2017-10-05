@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
     public ReceiveHandler receiveHandler;
     public SendHandler sendHandler;
 
-    private int test = 0;
+    private int count = 0;
 
     //for Joy stick
     RelativeLayout layout_joystick;
@@ -390,18 +390,18 @@ public class MainActivity extends AppCompatActivity {
                         || arg1.getAction() == MotionEvent.ACTION_MOVE) {
 
                     if(mapHandler.botSet()) {
-                        test++;
+                        count++;
                         int direction = js.get4Direction();
                         if (direction == JoyStickClass.STICK_UP) {
                             //upwards
                             //sendHandler.move("forward");
-                            if (test % 5 == 0)
+                            if (count / 5 == 0)
                                 mapHandler.move(mapHandler.UP);
 
                         } else if (direction == JoyStickClass.STICK_DOWN) {
                             //downwards
                             // sendHandler.move("back");
-                            if (test % 5 == 0)
+                            if (count / 2 == 0)
                                 mapHandler.move(mapHandler.DOWN);
                         }
                     }
@@ -409,7 +409,7 @@ public class MainActivity extends AppCompatActivity {
                 } else if(arg1.getAction() == MotionEvent.ACTION_UP) {
                     //when it leaves up
                     js.stickOriginalPos();
-                    test = 0;
+                    count = 0;
 
 
                 }
