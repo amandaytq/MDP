@@ -119,8 +119,6 @@ public class ReceiveHandler {
                 break;
         }
 
-        ma.mapHandler.direction= robot_orientation;
-
         String map1_s = hexToBinaryString(map1);
         String map2_s = hexToBinaryString(map2);
 
@@ -157,10 +155,12 @@ public class ReceiveHandler {
         }
 
         //update info
-        //ma.mapHandler.updateInfo(obs_arr, scouted_arr, robot_x, robot_y);
-        //update orientation
+        ma.mapHandler.updateInfo(obs_arr, scouted_arr, robot_x, robot_y);
+        ma.mapHandler.direction= robot_orientation;
 
-
+        if(ma.auto_enabled){
+            ma.mapHandler.updateMapUI();
+        }
         //ma.mapHandler.setObsArr(obs_arr);
         //ma.mapHandler.setPath(scouted_arr);
 

@@ -33,8 +33,8 @@ public class MainActivity extends AppCompatActivity {
     private Button back_btn;
     private Button top_btn;
     private Button bottom_btn;
-    private Button left_btn;
-    private Button right_btn;
+    //private Button left_btn;
+    //private Button right_btn;
 
     private Button turn_left_btn;
     private Button turn_right_btn;
@@ -200,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-        left_btn = (Button) findViewById(R.id.btn_left);
+        /*left_btn = (Button) findViewById(R.id.btn_left);
         left_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
@@ -222,14 +222,15 @@ public class MainActivity extends AppCompatActivity {
                 }
 
             }
-        });
+        });*/
         top_btn = (Button) findViewById(R.id.btn_top);
         top_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
                 if(mapHandler.botSet()){
-                    sendHandler.position(mapHandler.NORTH);
-                    mapHandler.setDirection(mapHandler.NORTH);
+                    sendHandler.move("forward");
+                    //sendHandler.position(mapHandler.NORTH);
+                    //mapHandler.setDirection(mapHandler.NORTH);
                 }
             }
         });
@@ -237,9 +238,10 @@ public class MainActivity extends AppCompatActivity {
         bottom_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if(mapHandler.botSet()){
-                    sendHandler.position(mapHandler.SOUTH);
-                    updateStatusText(status_turning);
-                    mapHandler.setDirection(mapHandler.SOUTH);
+                    sendHandler.move("back");
+                    //sendHandler.position(mapHandler.SOUTH);
+                    //updateStatusText(status_turning);
+                    //mapHandler.setDirection(mapHandler.SOUTH);
                 }
             }
         });
@@ -338,8 +340,7 @@ public class MainActivity extends AppCompatActivity {
         update_map_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if(!auto_enabled){
-                    map_requested = true;
-                    sendHandler.requestMapData();
+                    mapHandler.updateMapUI();
                 }
             }
         });
@@ -395,14 +396,16 @@ public class MainActivity extends AppCompatActivity {
                         if (direction == JoyStickClass.STICK_UP) {
                             //upwards
                             //sendHandler.move("forward");
-                            if (count / 5 == 0)
-                                mapHandler.move(mapHandler.UP);
+                            if (count % 3 == 0)
+                                //mapHandler.move(mapHandler.UP);
+                                sendHandler.move("forward");
 
                         } else if (direction == JoyStickClass.STICK_DOWN) {
                             //downwards
                             // sendHandler.move("back");
-                            if (count / 2 == 0)
-                                mapHandler.move(mapHandler.DOWN);
+                            if (count % 3 == 0)
+                                sendHandler.move("forward");
+                                //mapHandler.move(mapHandler.DOWN);
                         }
                     }
 
