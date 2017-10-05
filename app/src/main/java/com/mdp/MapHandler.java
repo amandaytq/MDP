@@ -110,7 +110,7 @@ public class MapHandler {
             changeColor(v, GREEN);
         }
     }
-    
+
     public void move(int dir){
         if(botSet()){
             int val = 1;
