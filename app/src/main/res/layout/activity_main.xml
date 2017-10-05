@@ -228,7 +228,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Direction"
+                    android:text="Alternate Controls"
                     android:layout_alignParentBottom="true"
                     android:layout_marginLeft="32dp"
                     android:layout_marginBottom="156dp"
@@ -254,7 +254,7 @@
                     android:layout_marginBottom="64dp"
                     android:background="@drawable/ic_keyboard_arrow_up_black_24dp" />
 
-                <Button
+                <!--<Button
                     style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
@@ -273,7 +273,7 @@
                     android:id="@+id/btn_right"
                     android:layout_marginLeft="16dp"
                     android:layout_marginBottom="32dp"
-                    android:background="@drawable/ic_keyboard_arrow_right_black_24dp" />
+                    android:background="@drawable/ic_keyboard_arrow_right_black_24dp" />-->
 
                 <Button
                     style="@style/Widget.AppCompat.Button.Borderless"

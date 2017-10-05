@@ -32,6 +32,10 @@ public class SendHandler {
 
     private static final String command_turn_angle = "2";
 
+    private static final String command_calibrate_right = "5";
+    private static final String command_calibrate_left = "6";
+    private static final String command_calibrate_front = "7";
+
     private MainActivity ma;
 
     public SendHandler(MainActivity a){
@@ -120,6 +124,20 @@ public class SendHandler {
         //Toast.makeText(getBaseContext(), "Sending F"+function+" Command: "+ functionText).show();
 
         sendCommand("", functionText);
+    }
+
+    public void sendCalibration(String direction){
+        switch(direction){
+            case "front":
+                sendCommand(ard_protocol, command_calibrate_front);
+                break;
+            case "left":
+                sendCommand(ard_protocol, command_calibrate_left);
+                break;
+            case "right":
+                sendCommand(ard_protocol, command_calibrate_right);
+                break;
+        }
     }
 
     private void sendCommand(String protocol, String command){
