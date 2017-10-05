@@ -76,7 +76,7 @@ public class SettingsActivity extends AppCompatActivity {
                 ft.replace(R.id.fragment, new ObstaclesFragment());
                 break;
             case 4:
-                ft.replace(R.id.fragment, new ObstaclesFragment());
+                ft.replace(R.id.fragment, new CalibrationFragment());
                 break;
         }
 
