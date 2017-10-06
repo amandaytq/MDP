@@ -36,7 +36,6 @@ public class BluetoothConnectionService {
 
     private String deviceName = "";
 
-    private AcceptThread mInsecureAcceptThread;
     private ConnectThread mConnectThread;
     private BluetoothDevice mmDevice;
     private UUID deviceUUID;
@@ -50,7 +49,6 @@ public class BluetoothConnectionService {
         mContext = context;
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         mConnectThread = null;
-        mInsecureAcceptThread = null;
         start();
     }
 
@@ -70,58 +68,6 @@ public class BluetoothConnectionService {
 
     public String getDeviceName(){
         return deviceName;
-    }
-
-    /* This Thread runs while listening for inconming connections. */
-    private class AcceptThread extends Thread {
-        //The local Server Socket
-        private final BluetoothServerSocket mmServerSocket;
-
-        public AcceptThread(){
-            BluetoothServerSocket tmp = null;
-
-            //Create a new listening server socket
-            try{
-                tmp = mBluetoothAdapter.listenUsingInsecureRfcommWithServiceRecord(appName, uuid);
-
-                Log.d(TAG, "AcceptThread: Setting up Server using: " + uuid);
-            }catch(IOException e){
-
-            }
-
-            mmServerSocket = tmp;
-        }
-
-        public void run(){
-            Log.d(TAG, "run: AcceptThread Running.");
-
-            BluetoothSocket socket = null;
-
-            try{
-                //This is a blocking call and will only return on a
-                //successful connection or an exception
-                Log.d(TAG, "run: RFCOM server socket start...");
-                socket = mmServerSocket.accept();
-            }catch(IOException e){
-                Log.d(TAG, "AcceptThread: IOException " + e.getMessage());
-            }
-
-            if(socket != null){
-                connected(socket, mmDevice);
-            }
-
-            Log.i(TAG, "END mAcceptThread");
-        }
-
-        public void cancel() {
-            Log.d(TAG, "cencel: Cancelling AcceptThread");
-
-            try {
-                mmServerSocket.close();
-            }catch(IOException e){
-                Log.d(TAG, "cancel: Close of AcceptThread ServerSocket failed. " + e.getMessage());
-            }
-        }
     }
 
     /* This thread runs while attempting to make an outgoing connection with a device */

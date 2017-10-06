@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.database.DataSetObserver;
 import android.graphics.Color;
+import android.graphics.Interpolator;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.widget.Button;
@@ -79,19 +80,36 @@ public class MapHandler {
     }
 
     public void updateInfo(int[][] obsarr, int[][] patharr, int robotposx, int robotposy){
-        //for robot
-        int pos = getPos(robotposx, robotposy);
-        int[] newrobotpos = {pos-21,pos-20,pos-19,pos-1,pos,pos+1,pos+19,pos+20,pos+21};
-        robotPos = newrobotpos;
+        if(robotposx != -1 && robotposy != -1){
+            //for robot
+            int pos = getPos(robotposx, robotposy);
+            int[] newrobotpos = {pos-21,pos-20,pos-19,pos-1,pos,pos+1,pos+19,pos+20,pos+21};
+            robotPos = newrobotpos;
+        }
 
-        obsArrayList.clear();
-        setObsArr(obsarr);
+        if(obsarr != null){
+            obsArrayList.clear();
+            setObsArr(obsarr);
+        }
 
-        pathArrayList.clear();
-        setPath(patharr);
+        if(patharr != null){
+            pathArrayList.clear();
+            setPath(patharr);
+        }
+
     }
 
     public void updateMapUI(){
+        for (int i = 0; i<mapgv.getChildCount();i++){
+            ImageView v1 = (ImageView)obsgv.getChildAt(i);
+            ImageView v2 = (ImageView)pathgv.getChildAt(i);
+            ImageView v3 = (ImageView)robotgv.getChildAt(i);
+            v1.setImageResource(0);
+            v3.setImageResource(0);
+            v2.setImageResource(R.drawable.blue);
+            changeColor(v1, BLUE);
+            changeColor(v2, BLUE);
+        }
         //setting robot position on the map
         if(botSet())
             setBot();
@@ -261,8 +279,9 @@ public class MapHandler {
                 ImageView v4= (ImageView)pathgv.getChildAt(i);
                 v2.setImageResource(0);
                 v3.setImageResource(0);
-                v4.setImageResource(0);
                 v1.setImageResource(0);
+                v4.setImageResource(R.drawable.blue);
+                changeColor(v4, BLUE);
                 changeColor(v1,BLUE);
             }
 
@@ -289,7 +308,7 @@ public class MapHandler {
         int pos = getPos(x,y);
         int[] newendpoint = {pos-21,pos-20,pos-19,pos-1,pos,pos+1,pos+19,pos+20,pos+21};
 
-        if (startpoint.length<9){
+        if (endpoint.length<9){
             for (int i=0; i<newendpoint.length;i++){
                 ImageView v= (ImageView)mapgv.getChildAt(newendpoint[i]);
                 v.setImageResource(R.drawable.blue);
@@ -297,7 +316,7 @@ public class MapHandler {
             }
         }else if(newendpoint[0] != startpoint[0]){
             for (int i=0; i<endpoint.length;i++){
-                ImageView v1= (ImageView)mapgv.getChildAt(i);
+                ImageView v1= (ImageView)mapgv.getChildAt(endpoint[i]);
                 v1.setImageResource(R.drawable.blue);
                 changeColor(v1,BLUE);
             }
