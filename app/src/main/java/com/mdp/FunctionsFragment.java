@@ -46,6 +46,8 @@ public class FunctionsFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        view.setClickable(true);
+
         //setup function buttons
         mPref = getContext().getSharedPreferences("sendCommand", 0);
         mEditor = mPref.edit();

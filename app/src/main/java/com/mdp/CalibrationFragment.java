@@ -30,6 +30,8 @@ public class CalibrationFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        view.setClickable(true);
+
         calibrate_front = (Button) view.findViewById(R.id.cali_front);
         calibrate_left = (Button) view.findViewById(R.id.cali_left);
         calibrate_right = (Button) view.findViewById(R.id.cali_right);

@@ -239,6 +239,8 @@ public class BluetoothFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        view.setClickable(true);
+
         //initializing
         v = view;
         discover_button = (Button) v.findViewById(R.id.btn_discover1);
