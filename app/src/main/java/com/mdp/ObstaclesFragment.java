@@ -21,7 +21,6 @@ public class ObstaclesFragment extends Fragment {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -32,6 +31,8 @@ public class ObstaclesFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        view.setClickable(true);
 
         v = view;
         x_txt = (EditText) v.findViewById(R.id.x_obs);

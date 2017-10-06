@@ -30,6 +30,8 @@ public class CoordinatesFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        view.setClickable(true);
+
         Button setSP = (Button) getView().findViewById(R.id.setSP);
         setSP.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

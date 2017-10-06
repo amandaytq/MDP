@@ -1,5 +1,6 @@
 package com.mdp;
 
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
@@ -61,22 +62,27 @@ public class SettingsActivity extends AppCompatActivity {
     private void selectFrag(int pos){
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction ft = manager.beginTransaction();
+        BluetoothFragment f1 = new BluetoothFragment();
+        CoordinatesFragment f2 = new CoordinatesFragment();
+        FunctionsFragment f3 = new FunctionsFragment();
+        ObstaclesFragment f4 = new ObstaclesFragment();
+        CalibrationFragment f5 = new CalibrationFragment();
 
         switch (pos){
             case 0:
-                ft.replace(R.id.fragment, new BluetoothFragment());
+                ft.replace(R.id.fragment, f1);
                 break;
             case 1:
-                ft.replace(R.id.fragment, new CoordinatesFragment());
+                ft.replace(R.id.fragment, f2);
                 break;
             case 2:
-                ft.replace(R.id.fragment, new FunctionsFragment());
+                ft.replace(R.id.fragment, f3);
                 break;
             case 3:
-                ft.replace(R.id.fragment, new ObstaclesFragment());
+                ft.replace(R.id.fragment, f4);
                 break;
             case 4:
-                ft.replace(R.id.fragment, new CalibrationFragment());
+                ft.replace(R.id.fragment, f5);
                 break;
         }
 
