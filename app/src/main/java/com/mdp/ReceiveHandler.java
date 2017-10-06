@@ -12,14 +12,16 @@ public class ReceiveHandler {
     private static final String move_protocol = "1";
     private static final String turn_protocol = "2";
 
-    private static final int north_protocol = 1;
-    private static final int east_protocol = 2;
-    private static final int south_protocol = 3;
-    private static final int west_protocol = 4;
+    private static final int north_protocol = 4;
+    private static final int east_protocol = 1;
+    private static final int south_protocol = 2;
+    private static final int west_protocol = 3;
 
     private static final String command_completed = "-2";
 
     private static final String map_protocol = "map";
+    private static final String position_protocol = "position";
+    private static final String orientation_protocol = "orientation";
 
     private MainActivity ma;
 
@@ -82,42 +84,22 @@ public class ReceiveHandler {
             case map_protocol:
                 updateMap(s[1]);
                 break;
+            case position_protocol:
+                updatePosition(s[1]);
+                break;
+            case orientation_protocol:
+                updateOrientation(s[1]);
+                break;
             default:
                 break;
         }
     }
 
     private void updateMap(String hexa){
-        if(!ma.auto_enabled) {
-            if (!ma.map_requested) {
-                return;
-            }
-        }
         //split map string into 2 required values
         String[] s = hexa.split(";;");
-        String map1 = s[0];
-        String map2 = s[1];
-
-        int robot_x = Integer.parseInt(s[2]);
-        int robot_y = Integer.parseInt(s[3]);
-        int robot_orientation = Integer.parseInt(s[4]);
-
-        switch(robot_orientation){
-            case north_protocol:
-                robot_orientation = ma.mapHandler.NORTH;
-                break;
-            case east_protocol:
-                robot_orientation = ma.mapHandler.EAST;
-                break;
-            case south_protocol:
-                robot_orientation = ma.mapHandler.SOUTH;
-                break;
-            case west_protocol:
-                robot_orientation = ma.mapHandler.WEST;
-                break;
-            default:
-                break;
-        }
+        String map1 = s[0].toUpperCase();
+        String map2 = s[1].toUpperCase();
 
         String map1_s = hexToBinaryString(map1);
         String map2_s = hexToBinaryString(map2);
@@ -155,16 +137,56 @@ public class ReceiveHandler {
         }
 
         //update info
-        ma.mapHandler.updateInfo(obs_arr, scouted_arr, robot_x, robot_y);
-        ma.mapHandler.direction= robot_orientation;
+        ma.mapHandler.updateInfo(obs_arr, scouted_arr, -1, -1);
+
 
         if(ma.auto_enabled){
             ma.mapHandler.updateMapUI();
         }
         //ma.mapHandler.setObsArr(obs_arr);
         //ma.mapHandler.setPath(scouted_arr);
+    }
 
-        ma.map_requested = false;
+    private void updatePosition(String position){
+        //split map string into 2 required values
+        String[] s = position.split(";;");
+        int robot_x = Integer.parseInt(s[0]);
+        int robot_y = Integer.parseInt(s[1]);
+
+        //update info
+        ma.mapHandler.updateInfo(null, null, robot_x, robot_y);
+        if(ma.auto_enabled){
+            ma.mapHandler.updateMapUI();
+        }
+    }
+
+    private void updateOrientation(String orientation){
+        int robot_orientation = Integer.parseInt(orientation);
+
+        switch(robot_orientation){
+            case north_protocol:
+                robot_orientation = ma.mapHandler.NORTH;
+                break;
+            case east_protocol:
+                robot_orientation = ma.mapHandler.EAST;
+                break;
+            case south_protocol:
+                robot_orientation = ma.mapHandler.SOUTH;
+                break;
+            case west_protocol:
+                robot_orientation = ma.mapHandler.WEST;
+                break;
+            default:
+                break;
+        }
+
+        ma.mapHandler.direction= robot_orientation;
+
+        //update info
+        ma.mapHandler.updateInfo(null, null, -1, -1);
+        if(ma.auto_enabled){
+            ma.mapHandler.updateMapUI();
+        }
     }
 
     //converts hexadecimal string into a binary string

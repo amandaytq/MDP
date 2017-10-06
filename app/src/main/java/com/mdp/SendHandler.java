@@ -30,6 +30,9 @@ public class SendHandler {
     private static final String command_send_startpoint = "startpoint";
     private static final String command_send_endpoint = "endpoint";
 
+    private static final String command_forward_joy = "o";
+    private static final String command_stop_joy = "p";
+
     private static final String command_turn_angle = "2";
 
     private static final String command_calibrate_right = "5";
@@ -52,6 +55,22 @@ public class SendHandler {
             case "back":
                 //move backwards
                 sendCommand(ard_protocol, command_back);
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void moveJoy(String movement){
+
+        switch(movement){
+            case "move":
+                //move forward
+                sendCommand(ard_protocol, command_forward_joy);
+                break;
+            case "stop":
+                //move backwards
+                sendCommand(ard_protocol, command_stop_joy);
                 break;
             default:
                 break;
@@ -105,15 +124,15 @@ public class SendHandler {
     }
 
     public void sendWayPoint(int x, int y) {
-        sendCommand(alg_protocol, command_send_waypoint + ":x:y");
+        sendCommand(alg_protocol, command_send_waypoint + ":"+x+":"+y);
     }
 
     public void sendStartPoint(int x, int y) {
-        sendCommand(alg_protocol, command_send_startpoint + ":x:y");
+        sendCommand(alg_protocol, command_send_startpoint + ":"+x+":"+y);
     }
 
     public void sendEndPoint(int x, int y) {
-        sendCommand(alg_protocol, command_send_endpoint + ":x:y");
+        sendCommand(alg_protocol, command_send_endpoint + ":"+x+":"+y);
     }
 
     public void sendFunction(int function){

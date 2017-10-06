@@ -19,7 +19,6 @@ public class MainApplication extends Application {
     public static final String receiveCommand = "com.mdp.RECEIVECOMMAND";
     public static final String connectionSuccessCommand = "com.mdp.CONNECTIONSUCCESSFUL";
     public static final String connectionFailCommand = "com.mdp.CONNECTIONFAIL";
-    public static final String disconnectedCommand = "com.mdp.DISCONNECTED";
     public static final String reconnectedCommand = "com.mdp.RECONNECTED";
 
     private static MainApplication sInstance;

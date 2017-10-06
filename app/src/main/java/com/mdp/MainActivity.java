@@ -57,8 +57,8 @@ public class MainActivity extends AppCompatActivity {
     public boolean map_requested = false;
 
     public static MapHandler mapHandler;
-    public ReceiveHandler receiveHandler;
-    public SendHandler sendHandler;
+    public static ReceiveHandler receiveHandler;
+    public static SendHandler sendHandler;
 
     private int count = 0;
 
@@ -96,14 +96,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     };
-
-    //broadcast receiver to handle disconnection
-    /*private BroadcastReceiver disconnectReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-
-        }
-    };*/
 
     private BroadcastReceiver disconnectReceiver = new BroadcastReceiver() {
         @Override
@@ -401,20 +393,15 @@ public class MainActivity extends AppCompatActivity {
                             //sendHandler.move("forward");
                             if (count % 3 == 0)
                                 //mapHandler.move(mapHandler.UP);
-                                sendHandler.move("forward");
+                                sendHandler.moveJoy("move");
 
-                        } else if (direction == JoyStickClass.STICK_DOWN) {
-                            //downwards
-                            // sendHandler.move("back");
-                            if (count % 3 == 0)
-                                sendHandler.move("forward");
-                                //mapHandler.move(mapHandler.DOWN);
                         }
                     }
 
                 } else if(arg1.getAction() == MotionEvent.ACTION_UP) {
                     //when it leaves up
                     js.stickOriginalPos();
+                    sendHandler.moveJoy("stop");
                     count = 0;
 
 

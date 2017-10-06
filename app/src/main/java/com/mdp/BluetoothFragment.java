@@ -46,12 +46,9 @@ import java.util.UUID;
 public class BluetoothFragment extends Fragment {
 
     private static final String TAG = BluetoothActivity.class.getSimpleName();
-    protected static final int SUCCESS_CONNECT = 10;
-    protected static final int MESSAGE_READ = 11;
 
     private Switch bluetooth_toggle;
     private BluetoothAdapter mBluetoothAdapter;
-    private static int REQUEST_ENABLE_BT = 1;
 
     //unpaired device list
     private ArrayAdapter<String> deviceArrayAdapter;
@@ -71,18 +68,17 @@ public class BluetoothFragment extends Fragment {
     private static final UUID uuid = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
     private static final int DEVICEPAIRED = 0;
     private static final int CONNECTIONSUCCESS = 1;
-    private static final int CONNECTIONFAILED = 2;
+    private static final int DISCONNECTED = 2;
     private static final int PAIRED_LIST = 3;
     private static final int DEVICE_LIST = 4;
     private static final int CONNECTED_LIST = 5;
 
     private Button discover_button;
-    private Button test_send;
-    private EditText test_text;
 
     BluetoothDevice mBTDevice;
 
     private boolean manualConnecting = false;
+    private boolean madeConnection = false;
 
     View v;
 
@@ -100,6 +96,8 @@ public class BluetoothFragment extends Fragment {
                     case BluetoothAdapter.STATE_TURNING_OFF:
                         bluetooth_toggle.setChecked(false);
                         disableUI();
+                        madeConnection = false;
+                        manualConnecting = false;
                         break;
                     case BluetoothAdapter.STATE_ON:
                         bluetooth_toggle.setChecked(true);
@@ -174,6 +172,7 @@ public class BluetoothFragment extends Fragment {
                 String id = intent.getStringExtra("deviceId");
                 Toast.makeText(getContext(), "Connection Successful", Toast.LENGTH_SHORT).show();
                 manualConnecting = false;
+                madeConnection = true;
                 updateListViews(id, CONNECTIONSUCCESS);
             }
             //when connection failed
@@ -188,11 +187,16 @@ public class BluetoothFragment extends Fragment {
             if(BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)){
                 Log.d(TAG, "ACTION_ACL_DISCONNECT : Received Disconnect Notice");
                 //if user is just manual connecting to a device, do not handle disconnection
+                Log.d(TAG, "manualConnecting: " + String.valueOf(manualConnecting));
                 if(!manualConnecting){
-                    Toast.makeText(getContext(), "Device disconnected, attempting to reconnect....", Toast.LENGTH_SHORT).show();
-                    MainApplication.handleDisconnect();
+                    //if connection was made before, attempt to reconnect to device
+                    if(madeConnection){
+                        Toast.makeText(getContext(), "Device disconnected, attempting to reconnect....", Toast.LENGTH_SHORT).show();
+                        updateListViews(null, DISCONNECTED);
+                        getContext().registerReceiver(reconnectedReceiver, new IntentFilter(MainApplication.reconnectedCommand));
+                        MainApplication.handleDisconnect();
+                    }
                 }
-                Log.d(TAG, "Connection Lost");
             }
         }
 
@@ -206,7 +210,7 @@ public class BluetoothFragment extends Fragment {
             if (action.equals(MainApplication.reconnectedCommand)) {
                 Log.d(TAG, "reconnectedReceiver: Reconnected");
 
-                connected_list.setEnabled(true);
+                //re-add device back
 
                 //unregister receiver
                 try{
@@ -311,6 +315,9 @@ public class BluetoothFragment extends Fragment {
             }
             if(listItem != null){
                 //update connected_list
+                if(connectedArray.size() > 0){
+                    connectedArray.remove(0);
+                }
                 connectedArray.add(listItem);
                 connectedArrayAdapter.notifyDataSetChanged();
             }
@@ -344,6 +351,7 @@ public class BluetoothFragment extends Fragment {
         IntentFilter BTConnectFilter = new IntentFilter();
         BTConnectFilter.addAction(MainApplication.connectionSuccessCommand);
         BTConnectFilter.addAction(MainApplication.connectionFailCommand);
+        BTConnectFilter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
         getContext().registerReceiver(BTConnectReceiver, BTConnectFilter);
 
         bluetooth_toggle = (Switch) v.findViewById(R.id.bt_switch);
@@ -472,12 +480,11 @@ public class BluetoothFragment extends Fragment {
         MainApplication.getBTConnection().startClient(device, uuid);
     }
 
-    public boolean createBond(BluetoothDevice btDevice)
+    public void createBond(BluetoothDevice btDevice)
             throws Exception {
         Class class1 = Class.forName("android.bluetooth.BluetoothDevice");
         Method createBondMethod = class1.getMethod("createBond");
         Boolean returnValue = (Boolean) createBondMethod.invoke(btDevice);
-        return returnValue.booleanValue();
     }
 
     public static class connectDeviceDialogFragment extends android.support.v4.app.DialogFragment {
@@ -534,11 +541,22 @@ public class BluetoothFragment extends Fragment {
                         pairedArrayAdapter.notifyDataSetChanged();
                     }
                 }
+
                 if(connectedArray.size() > 0){
                     //remove previous list item if there is 1 device already
                     connectedArray.clear();
                 }
                 connectedArray.add(targetString);
+                connectedArrayAdapter.notifyDataSetChanged();
+                break;
+            case DISCONNECTED:
+                String current_connected = connectedArray.get(0);
+
+                //move connected device back to paired
+                pairedArray.add(current_connected);
+                pairedArrayAdapter.notifyDataSetChanged();
+
+                connectedArray.clear();
                 connectedArrayAdapter.notifyDataSetChanged();
                 break;
             default:
@@ -643,6 +661,8 @@ public class BluetoothFragment extends Fragment {
 
         pairedArray.add(listItem);
         pairedArrayAdapter.notifyDataSetChanged();
+
+        madeConnection = false;
 
         Toast.makeText(getContext(), "Disconnected", Toast.LENGTH_SHORT).show();
     }
