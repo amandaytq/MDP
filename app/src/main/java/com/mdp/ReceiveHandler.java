@@ -1,6 +1,7 @@
 package com.mdp;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import java.math.BigInteger;
 
@@ -9,13 +10,13 @@ public class ReceiveHandler {
 
     private static final String status_protocol = "status";
     private static final String explore_protocol = "explore";
-    private static final String move_protocol = "1";
     private static final String turn_protocol = "2";
+    private static final String calibrate_done_protocol = "1";
 
-    private static final int north_protocol = 4;
-    private static final int east_protocol = 1;
-    private static final int south_protocol = 2;
-    private static final int west_protocol = 3;
+    private static final int north_protocol = 3;
+    private static final int east_protocol = 0;
+    private static final int south_protocol = 1;
+    private static final int west_protocol = 2;
 
     private static final String command_completed = "-2";
 
@@ -36,17 +37,12 @@ public class ReceiveHandler {
         if(s.length > 1){
             parameters = s[1];
         }
+        parameters = parameters.split("\n")[0];
         //Arduino Protocol handling
         if(Character.isDigit(protocol.charAt(0))){
             String [] ard = protocol.split(",");
             String ard_protocol = ard[0];
             switch(ard_protocol){
-                case move_protocol:
-                    //move forward
-                    if(ma.mapHandler.botSet()){
-                        ma.mapHandler.move(ma.mapHandler.UP);
-                    }
-                    break;
                 case turn_protocol:
                     //turn robot
                     if(ma.mapHandler.botSet()){
@@ -58,40 +54,46 @@ public class ReceiveHandler {
                         }
                     }
                     break;
+                case calibrate_done_protocol:
+                    ma.updateStatusText(ma.status_idle);
+                    Toast.makeText(ma.getBaseContext(), "Calibration Completed", Toast.LENGTH_SHORT).show();
                 default:
                     break;
             }
         }
+        else {
 
-        switch(protocol){
-            case status_protocol:
-                //update status and perform the required actions
-                String [] s2 = parameters.split("//");
-                String status = s2[0];
-                Log.d(TAG, status);
 
-                ma.updateStatusText(status);
-                switch(status){
-                    default:
-                        //update status text only
-                        break;
-                }
-                break;
-            case command_completed:
-                ma.enableControls();
-                ma.updateStatusText(ma.status_idle);
-                break;
-            case map_protocol:
-                updateMap(s[1]);
-                break;
-            case position_protocol:
-                updatePosition(s[1]);
-                break;
-            case orientation_protocol:
-                updateOrientation(s[1]);
-                break;
-            default:
-                break;
+            switch (protocol) {
+                case status_protocol:
+                    //update status and perform the required actions
+                    String[] s2 = parameters.split("//");
+                    String status = s2[0];
+                    Log.d(TAG, status);
+
+                    ma.updateStatusText(status);
+                    switch (status) {
+                        default:
+                            //update status text only
+                            break;
+                    }
+                    break;
+                case command_completed:
+                    Log.d(TAG, "command_completed");
+                    ma.updateStatusText(ma.status_idle);
+                    break;
+                case map_protocol:
+                    updateMap(s[1]);
+                    break;
+                case position_protocol:
+                    updatePosition(s[1]);
+                    break;
+                case orientation_protocol:
+                    updateOrientation(s[1]);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -137,7 +139,7 @@ public class ReceiveHandler {
         }
 
         //update info
-        ma.mapHandler.updateInfo(obs_arr, scouted_arr, -1, -1);
+        ma.mapHandler.updateInfo(hexa, obs_arr, scouted_arr, -1, -1);
 
 
         if(ma.auto_enabled){
@@ -150,43 +152,60 @@ public class ReceiveHandler {
     private void updatePosition(String position){
         //split map string into 2 required values
         String[] s = position.split(";;");
-        int robot_x = Integer.parseInt(s[0]);
-        int robot_y = Integer.parseInt(s[1]);
-
-        //update info
-        ma.mapHandler.updateInfo(null, null, robot_x, robot_y);
-        if(ma.auto_enabled){
-            ma.mapHandler.updateMapUI();
+        Log.d(TAG, s[0]);
+        try {
+            int robot_x = Integer.parseInt(s[0]);
+            int robot_y = Integer.parseInt(s[1].replace("\n", ""));
+            //update info
+            ma.mapHandler.updateInfo(null, null, null, robot_x, robot_y);
+            if(ma.auto_enabled) {
+                ma.mapHandler.updateMapUI();
+            }
+        }
+        catch(Exception e){
+            return;
         }
     }
 
     private void updateOrientation(String orientation){
-        int robot_orientation = Integer.parseInt(orientation);
+        try{
+            int robot_orientation = Integer.parseInt(orientation.replace("\n", ""));
+            int old_direction = ma.mapHandler.direction;
 
-        switch(robot_orientation){
-            case north_protocol:
-                robot_orientation = ma.mapHandler.NORTH;
-                break;
-            case east_protocol:
-                robot_orientation = ma.mapHandler.EAST;
-                break;
-            case south_protocol:
-                robot_orientation = ma.mapHandler.SOUTH;
-                break;
-            case west_protocol:
-                robot_orientation = ma.mapHandler.WEST;
-                break;
-            default:
-                break;
+            switch(robot_orientation){
+                case north_protocol:
+                    ma.mapHandler.direction = ma.mapHandler.NORTH;
+                    break;
+                case east_protocol:
+                    ma.mapHandler.direction = ma.mapHandler.EAST;
+                    break;
+                case south_protocol:
+                    ma.mapHandler.direction = ma.mapHandler.SOUTH;
+                    break;
+                case west_protocol:
+                    ma.mapHandler.direction = ma.mapHandler.WEST;
+                    break;
+                default:
+                    break;
+            }
+
+            if(ma.mapHandler.direction != old_direction){
+                Log.d(TAG, "Setting Turning Status");
+                ma.updateStatusText(ma.status_turning);
+            }
+
+            //ma.mapHandler.direction= robot_orientation;
+
+            //update info
+            ma.mapHandler.updateInfo(null, null, null, -1, -1);
+            if(ma.auto_enabled){
+                ma.mapHandler.updateMapUI();
+            }
+        }
+        catch(Exception e){
+            return;
         }
 
-        ma.mapHandler.direction= robot_orientation;
-
-        //update info
-        ma.mapHandler.updateInfo(null, null, -1, -1);
-        if(ma.auto_enabled){
-            ma.mapHandler.updateMapUI();
-        }
     }
 
     //converts hexadecimal string into a binary string
@@ -248,4 +267,5 @@ public class ReceiveHandler {
 
         return returnString;
     }
+
 }

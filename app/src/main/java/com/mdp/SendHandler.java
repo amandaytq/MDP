@@ -18,13 +18,9 @@ public class SendHandler {
     private static final String command_turn_left = "a";
     private static final String command_back = "s";
 
-    private static final String command_request_map = "map";
-
     private static final String command_explore = "exploration";
-    private static final String command_stop_explore = "stopexploration";
 
     private static final String command_shortest_path = "shortestpath";
-    private static final String command_stop_shortest_path = "stopshortestpath";
 
     private static final String command_send_waypoint = "waypoint";
     private static final String command_send_startpoint = "startpoint";
@@ -59,6 +55,7 @@ public class SendHandler {
             default:
                 break;
         }
+        ma.updateStatusText(ma.status_moving);
     }
 
     public void moveJoy(String movement){
@@ -67,14 +64,18 @@ public class SendHandler {
             case "move":
                 //move forward
                 sendCommand(ard_protocol, command_forward_joy);
+                ma.updateStatusText(ma.status_moving);
                 break;
             case "stop":
                 //move backwards
                 sendCommand(ard_protocol, command_stop_joy);
+                ma.updateStatusText(ma.status_idle);
+
                 break;
             default:
                 break;
         }
+        ma.updateStatusText(ma.status_moving);
     }
 
     public void turn(String direction){
@@ -90,6 +91,7 @@ public class SendHandler {
             default:
                 break;
         }
+        ma.updateStatusText(ma.status_turning);
     }
 
     public void position(int position){
@@ -105,22 +107,12 @@ public class SendHandler {
         sendCommand(ard_protocol, command_turn_angle + "," + turn + "," + wise);
     }
 
-    public void requestMapData(){
-        sendCommand(alg_protocol, command_request_map);
-    }
-
     public void beginExplore(){
         sendCommand(alg_protocol, command_explore);
-    }
-    public void stopExplore(){
-        sendCommand(alg_protocol, command_stop_explore);
     }
 
     public void beginShortestPath(){
         sendCommand(alg_protocol, command_shortest_path);
-    }
-    public void stopShortestPath(){
-        sendCommand(alg_protocol, command_stop_shortest_path);
     }
 
     public void sendWayPoint(int x, int y) {
@@ -157,6 +149,7 @@ public class SendHandler {
                 sendCommand(ard_protocol, command_calibrate_right);
                 break;
         }
+        ma.updateStatusText("Calibrating");
     }
 
     private void sendCommand(String protocol, String command){

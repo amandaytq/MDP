@@ -304,27 +304,6 @@ public class BluetoothFragment extends Fragment {
         connectedArrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, connectedArray);
         connected_list.setAdapter(connectedArrayAdapter);
 
-        //if device is currently connected, display deice on the connected device list
-        if(MainApplication.getBTConnection().isConnected()){
-            String deviceName = MainApplication.getBTConnection().getDeviceName();
-            String listItem = null;
-            for(int i = 0; i < pairedArray.size(); i++){
-                if(pairedArray.get(i).contains(deviceName)){
-                    listItem = pairedArray.get(i);
-                    pairedArray.remove(i);
-                    pairedArrayAdapter.notifyDataSetChanged();
-                }
-            }
-            if(listItem != null){
-                //update connected_list
-                if(connectedArray.size() > 0){
-                    connectedArray.remove(0);
-                }
-                connectedArray.add(listItem);
-                connectedArrayAdapter.notifyDataSetChanged();
-            }
-        }
-
         connected_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
