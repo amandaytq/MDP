@@ -4,8 +4,10 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -47,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
 
     private Button f1_call;
     private Button f2_call;
+
+    private Button display_map_string;
 
     private Button explore_btn;
     private Button shortest_path_btn;
@@ -158,6 +162,7 @@ public class MainActivity extends AppCompatActivity {
 //                //move bot on android device
 //                if(mapHandler.botSet()){
 //                    mapHandler.moveFront();
+//
 //                }
 //            }
 //        });
@@ -310,6 +315,37 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 sendHandler.sendFunction(2);
+            }
+        });
+
+        //set-up display Map String Button
+        display_map_string = (Button) findViewById(R.id.display_map_string);
+        display_map_string.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if(mapHandler.map_string != null){
+                    AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+                    alertDialog.setTitle("Map String");
+                    alertDialog.setMessage("Map String: " + mapHandler.map_string);
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    alertDialog.show();
+                }
+                else{
+                    AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+                    alertDialog.setTitle("Map String");
+                    alertDialog.setMessage("Map String is empty.");
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    alertDialog.show();
+                }
             }
         });
 

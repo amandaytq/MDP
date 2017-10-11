@@ -67,6 +67,8 @@ public class MapHandler {
     private static final ArrayList<Integer> obsArrayList = new ArrayList<Integer>();
     private static final ArrayList<Integer> pathArrayList = new ArrayList<Integer>();
 
+    public String map_string = null;
+
     public MapHandler(GridView omapgv, GridView opathgv, GridView oobsgv, GridView orobotgv, Context con){
         //mapgv to store items that are static such as start point, way point and end point.
         //pathgv to store path that are explored
@@ -79,12 +81,24 @@ public class MapHandler {
         context = con;
     }
 
-    public void updateInfo(int[][] obsarr, int[][] patharr, int robotposx, int robotposy){
+    public void updateInfo(String newMapString, int[][] obsarr, int[][] patharr, int robotposx, int robotposy){
+        if(newMapString != null){
+            map_string = newMapString;
+        }
         if(robotposx != -1 && robotposy != -1){
             //for robot
             int pos = getPos(robotposx, robotposy);
+            //if robot moved
+            if(pos != robotPos[4]){
+                MainActivity main = (MainActivity) context;
+                Log.d("Status", "Updating Status to Moving");
+                main.updateStatusText(main.status_moving);
+            }
+
             int[] newrobotpos = {pos-21,pos-20,pos-19,pos-1,pos,pos+1,pos+19,pos+20,pos+21};
             robotPos = newrobotpos;
+
+
         }
 
         if(obsarr != null){
@@ -101,13 +115,13 @@ public class MapHandler {
 
     public void updateMapUI(){
         for (int i = 0; i<mapgv.getChildCount();i++){
-            ImageView v1 = (ImageView)obsgv.getChildAt(i);
+           ImageView v1 = (ImageView)obsgv.getChildAt(i);
             ImageView v2 = (ImageView)pathgv.getChildAt(i);
             ImageView v3 = (ImageView)robotgv.getChildAt(i);
             v1.setImageResource(0);
             v3.setImageResource(0);
             v2.setImageResource(R.drawable.blue);
-            changeColor(v1, BLUE);
+           changeColor(v1, BLUE);
             changeColor(v2, BLUE);
         }
         //setting robot position on the map
@@ -115,18 +129,35 @@ public class MapHandler {
             setBot();
 
         //setting of obstacles based on information in the obsArrayList
-        for (int i = 0; i<obsArrayList.size();i++){
-            ImageView v = (ImageView)obsgv.getChildAt(obsArrayList.get(i));
-            v.setImageResource(R.drawable.blue);
-            changeColor(v, BLACK);
+        for (int i = 0; i<obsArrayList.size();i++) {
+            ImageView v1 = (ImageView) obsgv.getChildAt(obsArrayList.get(i));
+            v1.setImageResource(R.drawable.blue);
+            changeColor(v1, BLACK);
+
+            ImageView v2 = (ImageView) pathgv.getChildAt(pathArrayList.get(i));
+            v2.setImageResource(R.drawable.blue);
+            changeColor(v2, GREEN);
         }
 
-        //setting of explored path for the map in pathArrayList
         for (int i = 0; i<pathArrayList.size();i++){
-            ImageView v = (ImageView)pathgv.getChildAt(pathArrayList.get(i));
-            v.setImageResource(R.drawable.blue);
-            changeColor(v, GREEN);
+            ImageView v2 = (ImageView)pathgv.getChildAt(pathArrayList.get(i));
+            v2.setImageResource(R.drawable.blue);
+            changeColor(v2, GREEN);
+//
+//            ImageView v3 = (ImageView)pathgv.getChildAt(startpoint[i]);
+//            v3.setImageResource(R.drawable.blue);
+//            changeColor(v3, YELLOW);
+//
+//            ImageView v4 = (ImageView)pathgv.getChildAt(endpoint[i]);
+//            v4.setImageResource(R.drawable.blue);
+//            changeColor(v3, YELLOW);
+//
+//            ImageView v5 = (ImageView)pathgv.getChildAt(poswp);
+//            v5.setImageResource(R.drawable.blue);
+//            changeColor(v5, YELLOW);
         }
+
+
     }
 
     public void move(int dir){
@@ -499,7 +530,6 @@ public class MapHandler {
     public void setWayPoint(Button setwp_btn, Button setsp_btn){
         ImageView newWPv= (ImageView)mapgv.getChildAt(poswp);
 
-
         boolean overlapped = false;
 
         for (int i=0; i<startpoint.length;i++){
@@ -518,6 +548,7 @@ public class MapHandler {
             setwp_btn.setText("Set WP");
             setwp_btn.setActivated(false);
             setwp_btn.setEnabled(false);
+            newWPv.setImageResource(R.drawable.blue);
             changeColor(newWPv, YELLOW);
             lastwp = poswp;
 

@@ -205,9 +205,16 @@
                     <Button
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:id="@+id/display_map_string"
+                        android:layout_marginTop="15dp"
+                        android:text="Display Map" />
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:id="@+id/f1_call"
                         android:text="Call F1"
-                        android:layout_marginTop="50dp"/>
+                        />
 
                     <Button
                         android:layout_width="match_parent"
