@@ -20,6 +20,7 @@ public class MainApplication extends Application {
     public static final String connectionSuccessCommand = "com.mdp.CONNECTIONSUCCESSFUL";
     public static final String connectionFailCommand = "com.mdp.CONNECTIONFAIL";
     public static final String reconnectedCommand = "com.mdp.RECONNECTED";
+    public static final String nextCalibration = "com.mdp.NEXTCALIBRATION";
 
     private static MainApplication sInstance;
 
