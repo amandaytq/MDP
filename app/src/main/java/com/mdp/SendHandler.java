@@ -63,7 +63,7 @@ public class SendHandler {
     }
 
     public void moveJoy(String movement){
-
+        /*
         switch(movement){
             case "move":
                 //move forward
@@ -80,6 +80,7 @@ public class SendHandler {
                 break;
         }
         ma.updateStatusText(ma.status_moving);
+        */
     }
 
     public void turn(String direction){

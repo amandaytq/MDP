@@ -459,17 +459,15 @@ public class MainActivity extends AppCompatActivity {
                 js.drawStick(arg1);
                 if(arg1.getAction() == MotionEvent.ACTION_DOWN
                         || arg1.getAction() == MotionEvent.ACTION_MOVE) {
-
                     if(mapHandler.botSet()) {
                         count++;
                         int direction = js.get4Direction();
                         if (direction == JoyStickClass.STICK_UP) {
                             //upwards
-                            //sendHandler.move("forward");
+                            sendHandler.move("forward");
                             if (count % 3 == 0)
                                 //mapHandler.move(mapHandler.UP);
                                 sendHandler.moveJoy("move");
-
                         }
                     }
 
@@ -478,8 +476,6 @@ public class MainActivity extends AppCompatActivity {
                     js.stickOriginalPos();
                     sendHandler.moveJoy("stop");
                     count = 0;
-
-
                 }
                 return true;
             }
@@ -567,12 +563,5 @@ public class MainActivity extends AppCompatActivity {
 
     public boolean isAuto(){
         return auto_switch.isChecked();
-    }
-
-    public void enableControls(){
-        Log.d(TAG, "enableControls: called");
-    }
-    public void disableControls(){
-        Log.d(TAG, "disableControls: called");
     }
 }
