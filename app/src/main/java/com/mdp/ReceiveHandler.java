@@ -1,5 +1,6 @@
 package com.mdp;
 
+import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -9,8 +10,6 @@ public class ReceiveHandler {
     private static final String TAG = ReceiveHandler.class.getSimpleName();
 
     private static final String status_protocol = "status";
-    private static final String explore_protocol = "explore";
-    private static final String turn_protocol = "2";
     private static final String calibrate_done_protocol = "1";
 
     private static final int north_protocol = 3;
@@ -38,23 +37,20 @@ public class ReceiveHandler {
             parameters = s[1];
         }
         parameters = parameters.split("\n")[0];
+        protocol = protocol.replace("\n", "");
+        protocol = protocol.replace("\r", "");
         //Arduino Protocol handling
         if(Character.isDigit(protocol.charAt(0))){
+
             String [] ard = protocol.split(",");
             String ard_protocol = ard[0];
             switch(ard_protocol){
-                case turn_protocol:
-                    //turn robot
-                    if(ma.mapHandler.botSet()){
-                        int angle = Integer.parseInt(ard[1]);
-                        int wise = Integer.parseInt(ard[2]);
-                        if(ma.mapHandler.botSet()){
-                            int direction = ma.mapHandler.determineDirection(angle, wise);
-                            ma.mapHandler.setDirection(direction);
-                        }
-                    }
-                    break;
                 case calibrate_done_protocol:
+                    if(ma.isManualCalibrating){
+                        Intent intent = new Intent();
+                        intent.setAction(MainApplication.nextCalibration);
+                        ma.sendBroadcast(intent);
+                    }
                     ma.updateStatusText(ma.status_idle);
                     Toast.makeText(ma.getBaseContext(), "Calibration Completed", Toast.LENGTH_SHORT).show();
                 default:
@@ -62,8 +58,6 @@ public class ReceiveHandler {
             }
         }
         else {
-
-
             switch (protocol) {
                 case status_protocol:
                     //update status and perform the required actions
@@ -79,6 +73,11 @@ public class ReceiveHandler {
                     }
                     break;
                 case command_completed:
+                    if(ma.isManualCalibrating){
+                        Intent intent = new Intent();
+                        intent.setAction(MainApplication.nextCalibration);
+                        ma.sendBroadcast(intent);
+                    }
                     Log.d(TAG, "command_completed");
                     ma.updateStatusText(ma.status_idle);
                     break;

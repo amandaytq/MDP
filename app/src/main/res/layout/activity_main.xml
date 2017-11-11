@@ -30,7 +30,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:gravity="center"
-                    android:layout_marginTop="50dp"
+                    android:layout_marginTop="30dp"
                     android:id="@+id/linearLayout">
 
                     <Button
@@ -48,12 +48,18 @@
                     <Button
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:id="@+id/calibrate"
+                        android:text="Calibrate"/>
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_above="@+id/auto_switch"
                         android:layout_alignEnd="@+id/linearLayout"
                         android:id="@+id/btn_request_map"
                         android:layout_marginBottom="16dp"
                         android:text="Update Map"
-                        android:layout_marginTop="50dp"
+                        android:layout_marginTop="30dp"
                         />
                     <Switch
                         android:id="@+id/auto_switch"
