@@ -51,7 +51,12 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.UUID;
-
+/*
+* MDP Team 13
+* @version 1.0
+* @author Amanda Chan	<achan016@e.ntu.edu.sg>
+* @author Tan Peng Hian <ptan023@e.ntu.edu.sg>
+*/
 public class BluetoothActivity extends AppCompatActivity {
 
     private static final String TAG = BluetoothActivity.class.getSimpleName();

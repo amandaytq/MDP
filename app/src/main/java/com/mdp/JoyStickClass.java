@@ -8,11 +8,12 @@ import android.graphics.Paint;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-
-/**
- * Created by Amandaaa on 4/10/17.
- */
-
+/*
+* MDP Team 13
+* @version 1.0
+* @author Amanda Chan	<achan016@e.ntu.edu.sg>
+* @author Tan Peng Hian <ptan023@e.ntu.edu.sg>
+*/
 public class JoyStickClass {
     public static final int STICK_NONE = 0;
     public static final int STICK_UP = 1;

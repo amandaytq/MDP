@@ -17,11 +17,12 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.util.UUID;
-
-/**
- * Created by dorae on 9/12/2017.
- */
-
+/*
+* MDP Team 13
+* @version 1.0
+* @author Amanda Chan	<achan016@e.ntu.edu.sg>
+* @author Tan Peng Hian <ptan023@e.ntu.edu.sg>
+*/
 public class BluetoothConnectionService {
     private static final String TAG = "BluetoothConnectionServ";
 

@@ -1,16 +1,17 @@
 package com.mdp;
 
-/**
- * Created by Amandaaa on 21/9/17.
- */
-
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
-
+/*
+* MDP Team 13
+* @version 1.0
+* @author Amanda Chan	<achan016@e.ntu.edu.sg>
+* @author Tan Peng Hian <ptan023@e.ntu.edu.sg>
+*/
 public class ImageObsAdapter extends BaseAdapter {
     private Context mContext;
     private int numCol = 300;

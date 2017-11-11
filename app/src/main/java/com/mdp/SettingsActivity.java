@@ -18,7 +18,12 @@ import android.widget.ListView;
 import android.widget.Switch;
 
 import java.util.ArrayList;
-
+/*
+* MDP Team 13
+* @version 1.0
+* @author Amanda Chan	<achan016@e.ntu.edu.sg>
+* @author Tan Peng Hian <ptan023@e.ntu.edu.sg>
+*/
 public class SettingsActivity extends AppCompatActivity {
 
     private ArrayList<String> listArr = new ArrayList<String>();

@@ -15,12 +15,12 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-
-/**
- * Created by Amandaaa on 21/9/17.
- */
-
-
+/*
+* MDP Team 13
+* @version 1.0
+* @author Amanda Chan	<achan016@e.ntu.edu.sg>
+* @author Tan Peng Hian <ptan023@e.ntu.edu.sg>
+*/
 public class MapHandler {
     private GridView gv;
     private GridView mgv;

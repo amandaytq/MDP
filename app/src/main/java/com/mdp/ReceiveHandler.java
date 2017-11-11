@@ -5,7 +5,12 @@ import android.util.Log;
 import android.widget.Toast;
 
 import java.math.BigInteger;
-
+/*
+* MDP Team 13
+* @version 1.0
+* @author Amanda Chan	<achan016@e.ntu.edu.sg>
+* @author Tan Peng Hian <ptan023@e.ntu.edu.sg>
+*/
 public class ReceiveHandler {
     private static final String TAG = ReceiveHandler.class.getSimpleName();
 

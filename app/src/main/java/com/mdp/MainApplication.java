@@ -9,11 +9,12 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.util.Log;
-
-/**
- * Created by dorae on 9/14/2017.
- */
-
+/*
+* MDP Team 13
+* @version 1.0
+* @author Amanda Chan	<achan016@e.ntu.edu.sg>
+* @author Tan Peng Hian <ptan023@e.ntu.edu.sg>
+*/
 public class MainApplication extends Application {
     private static final String TAG = MainApplication.class.getSimpleName();;
     public static final String receiveCommand = "com.mdp.RECEIVECOMMAND";

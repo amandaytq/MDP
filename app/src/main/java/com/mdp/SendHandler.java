@@ -6,7 +6,12 @@ import android.util.Log;
 import android.widget.Toast;
 
 import java.nio.charset.Charset;
-
+/*
+* MDP Team 13
+* @version 1.0
+* @author Amanda Chan	<achan016@e.ntu.edu.sg>
+* @author Tan Peng Hian <ptan023@e.ntu.edu.sg>
+*/
 public class SendHandler {
 
     private static final String alg_protocol = "A";
