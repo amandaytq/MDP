@@ -3,6 +3,8 @@ package com.mdp;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -54,6 +56,9 @@ public class MainActivity extends AppCompatActivity {
 
     private Button explore_btn;
     private Button shortest_path_btn;
+    private Button calibrate;
+    public boolean isManualCalibrating = false;
+    private int calibrationCount = 0;
 
     private Switch auto_switch;
     private Button update_map_btn;
@@ -118,11 +123,29 @@ public class MainActivity extends AppCompatActivity {
     };
 
     //broadcast receiver to handle when reconnection is done
+    private BroadcastReceiver calibrationReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (action.equals(MainApplication.nextCalibration)) {
+                calibrationCount++;
+                boolean notDone = sendHandler.calibrationProcess(calibrationCount);
+                if(!notDone){
+                    calibrate.setEnabled(true);
+                    isManualCalibrating = false;
+                    Toast.makeText(getBaseContext(), "Calibration Process Completed", Toast.LENGTH_SHORT).show();
+                    unregisterReceiver(calibrationReceiver);
+                }
+            }
+        }
+    };
+
+    //broadcast receiver to handle calibation process
     private BroadcastReceiver reconnectedReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            if (action.equals(MainApplication.reconnectedCommand)) {
+            if (action.equals(MainApplication.nextCalibration)) {
                 Log.d(TAG, "reconnectedReceiver: Reconnected");
 
                 //unregister receiver
@@ -324,8 +347,11 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(mapHandler.map_string != null){
                     AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+                    ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                    ClipData clip = ClipData.newPlainText("mapText", mapHandler.map_string);
+                    clipboard.setPrimaryClip(clip);
                     alertDialog.setTitle("Map String");
-                    alertDialog.setMessage("Map String: " + mapHandler.map_string);
+                    alertDialog.setMessage("Copied to Clipboard: " + mapHandler.map_string);
                     alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
@@ -370,6 +396,19 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(!auto_enabled){
                     mapHandler.updateMapUI();
+                }
+            }
+        });
+
+        calibrate = (Button) findViewById(R.id.calibrate);
+        calibrate.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if(MainApplication.getBTConnection().isConnected()){
+                    calibrate.setEnabled(false);
+                    isManualCalibrating = true;
+                    calibrationCount = 0;
+                    sendHandler.calibrationProcess(0);
+                    registerReceiver(calibrationReceiver, new IntentFilter(MainApplication.nextCalibration));
                 }
             }
         });
@@ -420,17 +459,15 @@ public class MainActivity extends AppCompatActivity {
                 js.drawStick(arg1);
                 if(arg1.getAction() == MotionEvent.ACTION_DOWN
                         || arg1.getAction() == MotionEvent.ACTION_MOVE) {
-
                     if(mapHandler.botSet()) {
                         count++;
                         int direction = js.get4Direction();
                         if (direction == JoyStickClass.STICK_UP) {
                             //upwards
-                            //sendHandler.move("forward");
+                            sendHandler.move("forward");
                             if (count % 3 == 0)
                                 //mapHandler.move(mapHandler.UP);
                                 sendHandler.moveJoy("move");
-
                         }
                     }
 
@@ -439,8 +476,6 @@ public class MainActivity extends AppCompatActivity {
                     js.stickOriginalPos();
                     sendHandler.moveJoy("stop");
                     count = 0;
-
-
                 }
                 return true;
             }
@@ -528,12 +563,5 @@ public class MainActivity extends AppCompatActivity {
 
     public boolean isAuto(){
         return auto_switch.isChecked();
-    }
-
-    public void enableControls(){
-        Log.d(TAG, "enableControls: called");
-    }
-    public void disableControls(){
-        Log.d(TAG, "disableControls: called");
     }
 }

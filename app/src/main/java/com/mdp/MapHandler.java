@@ -542,6 +542,7 @@ public class MapHandler {
         if(!overlapped) {
             if (lastwp != -1) {
                 ImageView lastWPv= (ImageView)mapgv.getChildAt(lastwp);
+                lastWPv.setImageResource(0);
                 changeColor(lastWPv, BLUE);
             }
 

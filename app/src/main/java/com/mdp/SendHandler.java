@@ -18,6 +18,8 @@ public class SendHandler {
     private static final String command_turn_left = "a";
     private static final String command_back = "s";
 
+    private static final String command_turn_back = "2,180,1";
+
     private static final String command_explore = "exploration";
 
     private static final String command_shortest_path = "shortestpath";
@@ -34,6 +36,8 @@ public class SendHandler {
     private static final String command_calibrate_right = "5";
     private static final String command_calibrate_left = "6";
     private static final String command_calibrate_front = "7";
+
+    private static final String [] calibrate_process = {"turn", "front", "turn", "right"};
 
     private MainActivity ma;
 
@@ -59,7 +63,7 @@ public class SendHandler {
     }
 
     public void moveJoy(String movement){
-
+        /*
         switch(movement){
             case "move":
                 //move forward
@@ -76,6 +80,7 @@ public class SendHandler {
                 break;
         }
         ma.updateStatusText(ma.status_moving);
+        */
     }
 
     public void turn(String direction){
@@ -87,6 +92,10 @@ public class SendHandler {
             case "right":
                 //turn right
                 sendCommand(ard_protocol, command_turn_right);
+                break;
+            case "back":
+                //turn back
+                sendCommand(ard_protocol, command_turn_back);
                 break;
             default:
                 break;
@@ -150,6 +159,26 @@ public class SendHandler {
                 break;
         }
         ma.updateStatusText("Calibrating");
+    }
+
+    public boolean calibrationProcess(int sequence){
+        if (sequence > calibrate_process.length - 1){
+            return false;
+        }
+
+        switch(calibrate_process[sequence]){
+            case "turn":
+                sendCommand(ard_protocol, command_turn_back);
+                break;
+            case "front":
+                sendCommand(ard_protocol, command_calibrate_front);
+                break;
+            case "right":
+                sendCommand(ard_protocol, command_calibrate_right);
+                break;
+        }
+
+        return true;
     }
 
     private void sendCommand(String protocol, String command){
